@@ -144,36 +144,58 @@ export default function Home() {
       <div className="page">
         <header className="brand">
           <img src="/logo.svg" alt="PertoDaqui" />
+          <a
+            className="cta-link"
+            href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span aria-hidden="true" className="cta-icon">
+              <svg viewBox="0 0 24 24" role="presentation">
+                <path
+                  d="M12 5v14M5 12h14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            Quero divulgar meu comércio
+          </a>
         </header>
 
-        <section className="distance-band">
-          <div className="distance-content">
-            <span className="distance-label">{distance}km</span>
-            <p>Qual a distância que está querendo percorrer?</p>
-            <input
-              type="range"
-              min="3"
-              max="600"
-              step="1"
-              value={distance}
-              onChange={(event) => setDistance(Number(event.target.value))}
-              aria-label="Distância em quilômetros"
-              style={{
-                "--range-progress": `${((distance - 3) / 597) * 100}%`
-              }}
-            />
-            {!userCoords && (
-              <div className="location-status">
-                <button type="button" onClick={requestLocation}>
-                  Ativar localização
-                </button>
-                {geoError && <span>{geoError}</span>}
-              </div>
-            )}
-          </div>
-        </section>
+        <div className="band-stack">
+          <section className="distance-band">
+            <div className="distance-content">
+              <span className="distance-label">{distance}km</span>
+              <p>Qual a distância que está querendo percorrer?</p>
+              <input
+                type="range"
+                min="3"
+                max="600"
+                step="1"
+                value={distance}
+                onChange={(event) => setDistance(Number(event.target.value))}
+                aria-label="Distância em quilômetros"
+                style={{
+                  "--range-progress": `${((distance - 3) / 597) * 100}%`
+                }}
+              />
+              {!userCoords && (
+                <div className="location-status">
+                  <button type="button" onClick={requestLocation}>
+                    Ativar localização
+                  </button>
+                  {geoError && <span>{geoError}</span>}
+                </div>
+              )}
+            </div>
+          </section>
 
-        <div className="accent-bar" aria-hidden="true" />
+          <div className="accent-bar" aria-hidden="true" />
+        </div>
 
         <section className="section">
           <div className="category-tabs">
@@ -195,21 +217,6 @@ export default function Home() {
 
         {activeCategory === "tours" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M5 20h14M7 18l2-9 6-5 2 5 2 1-2 4-5-1-3 5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              Passeios
-            </h2>
             <div className="grid">
               {filteredTours.map((tour) => (
                 <article className="card" key={tour.id}>
@@ -249,21 +256,6 @@ export default function Home() {
 
         {activeCategory === "hotels" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M4 19V9l8-4 8 4v10M9 19v-5h6v5M4 19h16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              Hospedagens
-            </h2>
             <div className="grid">
               {filteredStays.map((stay) => (
                 <article className="card" key={stay.id}>
@@ -303,22 +295,7 @@ export default function Home() {
 
         {activeCategory === "nature" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M12 3l2 4 4 .5-3 3 1 4.5-4-2-4 2 1-4.5-3-3 4-.5 2-4z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-            </span>
-            Natureza
-          </h2>
-          <div className="grid">
+            <div className="grid">
               {filteredNature.map((item) => (
                 <article className="card" key={item.id}>
                   <div className="card-media">
@@ -367,22 +344,7 @@ export default function Home() {
 
         {activeCategory === "parks" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M4 19V9l8-4 8 4v10M4 19h16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-            </span>
-            Parques
-          </h2>
-          <div className="grid">
+            <div className="grid">
               {filteredParks.map((item) => (
                 <article className="card" key={item.id}>
                   <div className="card-media">
@@ -431,22 +393,7 @@ export default function Home() {
 
         {activeCategory === "restaurants" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M3 12h18M5 7h14M7 17h10"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-            </span>
-            Restaurantes
-          </h2>
-          <div className="grid">
+            <div className="grid">
               {filteredRestaurants.map((item) => (
                 <article className="card" key={item.id}>
                   <div className="card-media">
@@ -495,22 +442,7 @@ export default function Home() {
 
         {activeCategory === "cafes" && (
           <section className="section">
-            <h2 className="section-title">
-              <span className="title-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M5 8h10a4 4 0 0 1 0 8H5V8zM15 8h2a3 3 0 0 1 0 6h-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-            </span>
-            Café
-          </h2>
-          <div className="grid">
+            <div className="grid">
               {filteredCafes.map((item) => (
                 <article className="card" key={item.id}>
                   <div className="card-media">
