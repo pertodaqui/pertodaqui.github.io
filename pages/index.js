@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
+import bars from "../data/bars";
 import cafes from "../data/cafes";
 import hotels from "../data/hotels";
 import nature from "../data/nature";
@@ -55,6 +56,9 @@ const getParksByDistance = (maxDistance, origin) =>
 const getRestaurantsByDistance = (maxDistance, origin) =>
   getItemsByDistance(restaurants, maxDistance, origin);
 
+const getBarsByDistance = (maxDistance, origin) =>
+  getItemsByDistance(bars, maxDistance, origin);
+
 const getCafesByDistance = (maxDistance, origin) =>
   getItemsByDistance(cafes, maxDistance, origin);
 
@@ -62,12 +66,41 @@ const getMapsUrl = (item) =>
   `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
 
 const categories = [
-  { key: "tours", label: "Passeios" },
-  { key: "hotels", label: "Hospedagens" },
-  { key: "nature", label: "Natureza" },
-  { key: "parks", label: "Parques" },
-  { key: "restaurants", label: "Restaurantes" },
-  { key: "cafes", label: "Café" }
+  {
+    key: "tours",
+    label: "Passeios e Guias",
+    icon: "/icons/tours.png"
+  },
+  {
+    key: "hotels",
+    label: "Hospedagens",
+    icon: "/icons/hotels.png"
+  },
+  {
+    key: "nature",
+    label: "Natureza",
+    icon: "/icons/nature.png"
+  },
+  {
+    key: "parks",
+    label: "Parques",
+    icon: "/icons/parks.png"
+  },
+  {
+    key: "restaurants",
+    label: "Restaurantes",
+    icon: "/icons/restaurants.png"
+  },
+  {
+    key: "bars",
+    label: "Bares",
+    icon: "/icons/bars.png"
+  },
+  {
+    key: "cafes",
+    label: "Café",
+    icon: "/icons/cafes.png"
+  }
 ];
 
 export default function Home() {
@@ -121,6 +154,10 @@ export default function Home() {
     () => getRestaurantsByDistance(distance, userCoords),
     [distance, userCoords]
   );
+  const filteredBars = useMemo(
+    () => getBarsByDistance(distance, userCoords),
+    [distance, userCoords]
+  );
   const filteredCafes = useMemo(
     () => getCafesByDistance(distance, userCoords),
     [distance, userCoords]
@@ -153,7 +190,7 @@ export default function Home() {
             <span aria-hidden="true" className="cta-icon">
               <svg viewBox="0 0 24 24" role="presentation">
                 <path
-                  d="M12 5v14M5 12h14"
+                  d="M3 11v2l10 3V8L3 11zm10-3 5 2v4l-5 2m0-8v8M7 16v3m0-14v3"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"
@@ -162,27 +199,34 @@ export default function Home() {
                 />
               </svg>
             </span>
-            Quero divulgar meu comércio
+            Divulgue seu negócio aqui
           </a>
         </header>
 
         <div className="band-stack">
           <section className="distance-band">
             <div className="distance-content">
-              <span className="distance-label">{distance}km</span>
-              <p>Qual a distância que está querendo percorrer?</p>
-              <input
-                type="range"
-                min="3"
-                max="600"
-                step="1"
-                value={distance}
-                onChange={(event) => setDistance(Number(event.target.value))}
-                aria-label="Distância em quilômetros"
-                style={{
-                  "--range-progress": `${((distance - 3) / 597) * 100}%`
-                }}
-              />
+            <p>Até onde você quer ir?</p>
+            <input
+              type="range"
+              min="3"
+              max="600"
+              step="1"
+              value={distance}
+              onChange={(event) => setDistance(Number(event.target.value))}
+              aria-label="Distância em quilômetros"
+              style={{
+                "--range-progress": `${((distance - 3) / 597) * 100}%`
+              }}
+            />
+            <div
+              className="range-tooltip"
+              style={{
+                "--range-progress": `${((distance - 3) / 597) * 100}%`
+              }}
+              data-value={`${distance} km`}
+            >
+            </div>
               {!userCoords && (
                 <div className="location-status">
                   <button type="button" onClick={requestLocation}>
@@ -194,7 +238,6 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="accent-bar" aria-hidden="true" />
         </div>
 
         <section className="section">
@@ -209,6 +252,9 @@ export default function Home() {
                 aria-pressed={activeCategory === category.key}
                 onClick={() => setActiveCategory(category.key)}
               >
+                <span className="category-icon" aria-hidden="true">
+                  <img src={category.icon} alt="" />
+                </span>
                 {category.label}
               </button>
             ))}
@@ -345,11 +391,11 @@ export default function Home() {
         {activeCategory === "parks" && (
           <section className="section">
             <div className="grid">
-              {filteredParks.map((item) => (
-                <article className="card" key={item.id}>
-                  <div className="card-media">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
+            {filteredParks.map((item) => (
+              <article className="card" key={item.id}>
+                <div className="card-media">
+                  <img src={item.image} alt={item.title} loading="lazy" />
+                </div>
                   <div className="card-body">
                     <h3>{item.title}</h3>
                     <p>{item.meta}</p>
@@ -368,26 +414,26 @@ export default function Home() {
                   </div>
                 </article>
               ))}
-          </div>
-          {filteredParks.length === 0 && (
-            <p className="empty-state">
-              <span className="empty-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              {getEmptyStateText(
-                "Nenhum parque nesse raio. Aumente a distância."
-              )}
-            </p>
-          )}
+            </div>
+            {filteredParks.length === 0 && (
+              <p className="empty-state">
+                <span className="empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path
+                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                {getEmptyStateText(
+                  "Nenhum parque nesse raio. Aumente a distância."
+                )}
+              </p>
+            )}
           </section>
         )}
 
@@ -417,26 +463,73 @@ export default function Home() {
                   </div>
                 </article>
               ))}
-          </div>
-          {filteredRestaurants.length === 0 && (
-            <p className="empty-state">
-              <span className="empty-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              {getEmptyStateText(
-                "Nenhum restaurante nesse raio. Aumente a distância."
-              )}
-            </p>
-          )}
+            </div>
+            {filteredRestaurants.length === 0 && (
+              <p className="empty-state">
+                <span className="empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path
+                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                {getEmptyStateText(
+                  "Nenhum restaurante nesse raio. Aumente a distância."
+                )}
+              </p>
+            )}
+          </section>
+        )}
+
+        {activeCategory === "bars" && (
+          <section className="section">
+            <div className="grid">
+              {filteredBars.map((item) => (
+                <article className="card" key={item.id}>
+                  <div className="card-media">
+                    <img src={item.image} alt={item.title} loading="lazy" />
+                  </div>
+                  <div className="card-body">
+                    <h3>{item.title}</h3>
+                    <p>{item.meta}</p>
+                    <span className="card-location">{item.location}</span>
+                  </div>
+                  <div className="card-footer">
+                    <span className="card-distance">{item.distanceKm} km</span>
+                    <a
+                      className="card-link"
+                      href={getMapsUrl(item)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Iniciar rota
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+            {filteredBars.length === 0 && (
+              <p className="empty-state">
+                <span className="empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path
+                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                {getEmptyStateText("Nenhum bar nesse raio. Aumente a distância.")}
+              </p>
+            )}
           </section>
         )}
 
@@ -466,26 +559,26 @@ export default function Home() {
                   </div>
                 </article>
               ))}
-          </div>
-          {filteredCafes.length === 0 && (
-            <p className="empty-state">
-              <span className="empty-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              {getEmptyStateText(
-                "Nenhum café nesse raio. Aumente a distância."
-              )}
-            </p>
-          )}
+            </div>
+            {filteredCafes.length === 0 && (
+              <p className="empty-state">
+                <span className="empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path
+                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                {getEmptyStateText(
+                  "Nenhum café nesse raio. Aumente a distância."
+                )}
+              </p>
+            )}
           </section>
         )}
       </div>

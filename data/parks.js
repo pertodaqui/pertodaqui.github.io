@@ -28,7 +28,19 @@ const parks = [
       "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
     lat: -22.9347,
     lng: -43.2319
-  }
+  },
+  {
+    id: "park-3",
+    title: "Parque da Cidade",
+    meta: "Vista panorâmica",
+    location: "Pindamonhangaba, SP, Brasil",
+    image:
+      "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSx3KuIwrzYIP-PTB8zqAswlV4KjfbJFKCwR0-W2f0NiQmH6kFMm0mdNK6XiVTkoH6DxPNhRboPF8NTauNhRqE_QsEGUXh7iomgNgTR5nDCttJ6bRgP3E8doTu36NH92cHxwqiA5=w408-h306-k-no",
+    lat: -22.93546471580711,
+    lng: -45.44629697717618
+  },
+
+  
 ];
 
 export default parks;
