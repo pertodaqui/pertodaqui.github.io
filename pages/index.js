@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
-import bars from "../data/bars";
 import cafes from "../data/cafes";
 import hotels from "../data/hotels";
 import nature from "../data/nature";
@@ -9,6 +8,7 @@ import restaurants from "../data/restaurants";
 import tours from "../data/tours";
 
 const EARTH_RADIUS_KM = 6371;
+const QUICK_DISTANCES = [1, 5, 10, 25];
 
 const toRadians = (value) => (value * Math.PI) / 180;
 
@@ -41,27 +41,6 @@ const getItemsByDistance = (items, maxDistance, origin) => {
     .filter((item) => item.distanceKm <= maxDistance);
 };
 
-const getToursByDistance = (maxDistance, origin) =>
-  getItemsByDistance(tours, maxDistance, origin);
-
-const getStaysByDistance = (maxDistance, origin) =>
-  getItemsByDistance(hotels, maxDistance, origin);
-
-const getNatureByDistance = (maxDistance, origin) =>
-  getItemsByDistance(nature, maxDistance, origin);
-
-const getParksByDistance = (maxDistance, origin) =>
-  getItemsByDistance(parks, maxDistance, origin);
-
-const getRestaurantsByDistance = (maxDistance, origin) =>
-  getItemsByDistance(restaurants, maxDistance, origin);
-
-const getBarsByDistance = (maxDistance, origin) =>
-  getItemsByDistance(bars, maxDistance, origin);
-
-const getCafesByDistance = (maxDistance, origin) =>
-  getItemsByDistance(cafes, maxDistance, origin);
-
 const getMapsUrl = (item) =>
   `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
 
@@ -69,37 +48,97 @@ const categories = [
   {
     key: "tours",
     label: "Passeios e Guias",
-    icon: "/icons/tours.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M6 20h12M7.5 17.5l2-8 5-4 2 4 2 1-2 3.5-4-1-2.5 4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
   },
   {
     key: "hotels",
     label: "Hospedagens",
-    icon: "/icons/hotels.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M4 19V9l8-4 8 4v10M9 19v-5h6v5M4 19h16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
   },
   {
     key: "nature",
     label: "Natureza",
-    icon: "/icons/nature.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M12 3l2 4 4 .5-3 3 1 4.5-4-2-4 2 1-4.5-3-3 4-.5 2-4z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
   },
   {
     key: "parks",
     label: "Parques",
-    icon: "/icons/parks.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M4 19h16M8 19v-6M16 19v-6M6 13l6-7 6 7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
   },
   {
     key: "restaurants",
     label: "Restaurantes",
-    icon: "/icons/restaurants.png"
-  },
-  {
-    key: "bars",
-    label: "Bares",
-    icon: "/icons/bars.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M4 6h16M6 6v12M10 6v12M14 6v12M18 6v12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+      </svg>
+    )
   },
   {
     key: "cafes",
     label: "Café",
-    icon: "/icons/cafes.png"
+    icon: (
+      <svg viewBox="0 0 24 24" role="presentation">
+        <path
+          d="M5 8h10a4 4 0 0 1 0 8H5V8zM15 8h2a3 3 0 0 1 0 6h-2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
   }
 ];
 
@@ -135,37 +174,54 @@ export default function Home() {
   }, []);
 
   const filteredTours = useMemo(
-    () => getToursByDistance(distance, userCoords),
+    () => getItemsByDistance(tours, distance, userCoords),
     [distance, userCoords]
   );
-  const filteredStays = useMemo(
-    () => getStaysByDistance(distance, userCoords),
+  const filteredHotels = useMemo(
+    () => getItemsByDistance(hotels, distance, userCoords),
     [distance, userCoords]
   );
   const filteredNature = useMemo(
-    () => getNatureByDistance(distance, userCoords),
+    () => getItemsByDistance(nature, distance, userCoords),
     [distance, userCoords]
   );
   const filteredParks = useMemo(
-    () => getParksByDistance(distance, userCoords),
+    () => getItemsByDistance(parks, distance, userCoords),
     [distance, userCoords]
   );
   const filteredRestaurants = useMemo(
-    () => getRestaurantsByDistance(distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredBars = useMemo(
-    () => getBarsByDistance(distance, userCoords),
+    () => getItemsByDistance(restaurants, distance, userCoords),
     [distance, userCoords]
   );
   const filteredCafes = useMemo(
-    () => getCafesByDistance(distance, userCoords),
+    () => getItemsByDistance(cafes, distance, userCoords),
     [distance, userCoords]
   );
-  const getEmptyStateText = (fallbackText) =>
-    userCoords
-      ? fallbackText
-      : "Ative a localização do navegador para ver sugestões próximas.";
+
+  const activeItems = useMemo(() => {
+    switch (activeCategory) {
+      case "hotels":
+        return filteredHotels;
+      case "nature":
+        return filteredNature;
+      case "parks":
+        return filteredParks;
+      case "restaurants":
+        return filteredRestaurants;
+      case "cafes":
+        return filteredCafes;
+      default:
+        return filteredTours;
+    }
+  }, [
+    activeCategory,
+    filteredCafes,
+    filteredHotels,
+    filteredNature,
+    filteredParks,
+    filteredRestaurants,
+    filteredTours
+  ]);
 
   return (
     <>
@@ -173,414 +229,176 @@ export default function Home() {
         <title>PertoDaqui - Descubra perto de você</title>
         <meta
           name="description"
-          content="Descubra passeios e hospedagens perto de você com curadoria local."
+          content="Descubra passeios, hospedagens e experiências perto de você."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <div className="page">
-        <header className="brand">
-          <img src="/logo.svg" alt="PertoDaqui" />
+        <header className="site-header">
+          <div className="site-header-inner">
+            <img src="/logo.svg" alt="PertoDaqui" className="logo" />
           <a
             className="cta-link"
             href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Divulgue seu negócio"
+            title="Divulgue seu negócio"
           >
             <span aria-hidden="true" className="cta-icon">
-              <svg viewBox="0 0 24 24" role="presentation">
-                <path
-                  d="M3 11v2l10 3V8L3 11zm10-3 5 2v4l-5 2m0-8v8M7 16v3m0-14v3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <img src="/icons/business.svg" alt="" />
             </span>
-            Divulgue seu negócio aqui
+            <span className="cta-text">Divulgue seu negócio aqui</span>
           </a>
+          </div>
         </header>
 
-        <div className="band-stack">
-          <section className="distance-band">
-            <div className="distance-content">
-            <p>Até onde você quer ir?</p>
-            <input
-              type="range"
-              min="3"
-              max="600"
-              step="1"
-              value={distance}
-              onChange={(event) => setDistance(Number(event.target.value))}
-              aria-label="Distância em quilômetros"
-              style={{
-                "--range-progress": `${((distance - 3) / 597) * 100}%`
-              }}
-            />
-            <div
-              className="range-tooltip"
-              style={{
-                "--range-progress": `${((distance - 3) / 597) * 100}%`
-              }}
-              data-value={`${distance} km`}
-            >
+        <main className="content">
+          <section className="hero-card">
+            <h1>Descubra o melhor perto de você</h1>
+            <p>Ajuste a distância para sua busca.</p>
+            <div className="distance-wrap">
+              <span className="distance-label">Raio: {distance} km</span>
+              <input
+                type="range"
+                min="1"
+                max="90"
+                step="1"
+                value={distance}
+                onChange={(event) => setDistance(Number(event.target.value))}
+                aria-label="Raio em quilômetros"
+                style={{
+                  "--range-progress": `${((distance - 1) / 89) * 100}%`
+                }}
+              />
             </div>
-              {!userCoords && (
-                <div className="location-status">
-                  <button type="button" onClick={requestLocation}>
-                    Ativar localização
-                  </button>
-                  {geoError && <span>{geoError}</span>}
-                </div>
-              )}
+            <div className="quick-buttons">
+              {QUICK_DISTANCES.map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={value === distance ? "active" : ""}
+                  onClick={() => setDistance(value)}
+                >
+                  {value} km
+                </button>
+              ))}
             </div>
+            {!userCoords && (
+              <div className="location-hint">
+                <p>{geoError || "Ative a localização para sugestões próximas."}</p>
+                <button type="button" onClick={requestLocation}>
+                  Ativar localização
+                </button>
+              </div>
+            )}
           </section>
 
-        </div>
-
-        <section className="section">
-          <div className="category-tabs">
+          <section className="category-grid">
             {categories.map((category) => (
               <button
                 key={category.key}
                 type="button"
-                className={`category-tab${
+                className={`category-card${
                   activeCategory === category.key ? " active" : ""
                 }`}
-                aria-pressed={activeCategory === category.key}
                 onClick={() => setActiveCategory(category.key)}
               >
-                <span className="category-icon" aria-hidden="true">
-                  <img src={category.icon} alt="" />
-                </span>
-                {category.label}
+                <span className="category-icon">{category.icon}</span>
+                <span className="category-label">{category.label}</span>
               </button>
             ))}
-          </div>
-        </section>
+          </section>
 
-        {activeCategory === "tours" && (
-          <section className="section">
-            <div className="grid">
-              {filteredTours.map((tour) => (
-                <article className="card" key={tour.id}>
-                  <div className="card-media">
-                    <img src={tour.image} alt={tour.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{tour.title}</h3>
-                    <p>{tour.meta}</p>
-                    <span className="card-location">{tour.location}</span>
-                  </div>
-                  <span className="card-distance">{tour.distanceKm} km</span>
-                </article>
-              ))}
-            </div>
-            {filteredTours.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
+          <div className="divider" aria-hidden="true" />
+
+          <section className="results">
+            {activeItems.length > 0 ? (
+              <div className="cards-grid">
+                {activeItems.map((item) => (
+                  <article className="place-card" key={item.id}>
+                    <div className="place-media">
+                      <img src={item.image} alt={item.title} loading="lazy" />
+                    </div>
+                    <div className="place-body">
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.meta}</p>
+                      </div>
+                      <span className="place-location">{item.location}</span>
+                    </div>
+                    <div className="place-footer">
+                      <span>{item.distanceKm} km</span>
+                      <a
+                        className="route-link"
+                        href={getMapsUrl(item)}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Iniciar rota"
+                        title="Iniciar rota"
+                      >
+                        <svg viewBox="0 0 24 24" role="presentation">
+                          <path
+                            d="M12 2c-3.3 0-6 2.7-6 6 0 4.1 6 12 6 12s6-7.9 6-12c0-3.3-2.7-6-6-6zm0 8.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 5.5 12 5.5s2.5 1.1 2.5 2.5S13.4 10.5 12 10.5z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state">
+                <div className="empty-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 160 120" role="presentation">
                     <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                      d="M12 88l36-34 40 20 36-26 24 40-28 12-52 2-36-8-20-6z"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.6"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                  </svg>
-                </span>
-                {getEmptyStateText(
-                  "Nenhum passeio encontrado nesse raio. Aumente a distância."
-                )}
-              </p>
-            )}
-          </section>
-        )}
-
-        {activeCategory === "hotels" && (
-          <section className="section">
-            <div className="grid">
-              {filteredStays.map((stay) => (
-                <article className="card" key={stay.id}>
-                  <div className="card-media">
-                    <img src={stay.image} alt={stay.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{stay.title}</h3>
-                    <p>{stay.meta}</p>
-                    <span className="card-location">{stay.location}</span>
-                  </div>
-                  <span className="card-distance">{stay.distanceKm} km</span>
-                </article>
-              ))}
-            </div>
-            {filteredStays.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
-                    <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                    <circle
+                      cx="96"
+                      cy="48"
+                      r="18"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.6"
+                      strokeWidth="3"
+                    />
+                    <path
+                      d="M108 60l18 18"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="4"
                       strokeLinecap="round"
-                      strokeLinejoin="round"
                     />
                   </svg>
-                </span>
-                {getEmptyStateText(
-                  "Nenhuma hospedagem encontrada nesse raio. Aumente a distância."
-                )}
-              </p>
-            )}
-          </section>
-        )}
-
-        {activeCategory === "nature" && (
-          <section className="section">
-            <div className="grid">
-              {filteredNature.map((item) => (
-                <article className="card" key={item.id}>
-                  <div className="card-media">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.meta}</p>
-                    <span className="card-location">{item.location}</span>
-                  </div>
-                  <div className="card-footer">
-                    <span className="card-distance">{item.distanceKm} km</span>
-                    <a
-                      className="card-link"
-                      href={getMapsUrl(item)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Iniciar rota
-                    </a>
-                  </div>
-                </article>
-              ))}
-          </div>
-          {filteredNature.length === 0 && (
-            <p className="empty-state">
-              <span className="empty-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path
-                    d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              {getEmptyStateText(
-                "Nenhuma opção de natureza nesse raio. Aumente a distância."
-              )}
-            </p>
-          )}
-          </section>
-        )}
-
-        {activeCategory === "parks" && (
-          <section className="section">
-            <div className="grid">
-            {filteredParks.map((item) => (
-              <article className="card" key={item.id}>
-                <div className="card-media">
-                  <img src={item.image} alt={item.title} loading="lazy" />
                 </div>
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.meta}</p>
-                    <span className="card-location">{item.location}</span>
-                  </div>
-                  <div className="card-footer">
-                    <span className="card-distance">{item.distanceKm} km</span>
-                    <a
-                      className="card-link"
-                      href={getMapsUrl(item)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Iniciar rota
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-            {filteredParks.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
-                    <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {getEmptyStateText(
-                  "Nenhum parque nesse raio. Aumente a distância."
-                )}
-              </p>
+                <h3>Nada por aqui nesse raio</h3>
+                <p>Aumente a distância ou tente outra categoria.</p>
+                <div className="empty-actions">
+                  <button type="button" onClick={() => setDistance(25)}>
+                    Aumentar para 25 km
+                  </button>
+                  <button
+                    type="button"
+                    className="ghost"
+                    onClick={() => {
+                      setDistance(10);
+                      setActiveCategory("tours");
+                    }}
+                  >
+                    Limpar filtros
+                  </button>
+                </div>
+              </div>
             )}
           </section>
-        )}
-
-        {activeCategory === "restaurants" && (
-          <section className="section">
-            <div className="grid">
-              {filteredRestaurants.map((item) => (
-                <article className="card" key={item.id}>
-                  <div className="card-media">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.meta}</p>
-                    <span className="card-location">{item.location}</span>
-                  </div>
-                  <div className="card-footer">
-                    <span className="card-distance">{item.distanceKm} km</span>
-                    <a
-                      className="card-link"
-                      href={getMapsUrl(item)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Iniciar rota
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-            {filteredRestaurants.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
-                    <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {getEmptyStateText(
-                  "Nenhum restaurante nesse raio. Aumente a distância."
-                )}
-              </p>
-            )}
-          </section>
-        )}
-
-        {activeCategory === "bars" && (
-          <section className="section">
-            <div className="grid">
-              {filteredBars.map((item) => (
-                <article className="card" key={item.id}>
-                  <div className="card-media">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.meta}</p>
-                    <span className="card-location">{item.location}</span>
-                  </div>
-                  <div className="card-footer">
-                    <span className="card-distance">{item.distanceKm} km</span>
-                    <a
-                      className="card-link"
-                      href={getMapsUrl(item)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Iniciar rota
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-            {filteredBars.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
-                    <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {getEmptyStateText("Nenhum bar nesse raio. Aumente a distância.")}
-              </p>
-            )}
-          </section>
-        )}
-
-        {activeCategory === "cafes" && (
-          <section className="section">
-            <div className="grid">
-              {filteredCafes.map((item) => (
-                <article className="card" key={item.id}>
-                  <div className="card-media">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                  <div className="card-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.meta}</p>
-                    <span className="card-location">{item.location}</span>
-                  </div>
-                  <div className="card-footer">
-                    <span className="card-distance">{item.distanceKm} km</span>
-                    <a
-                      className="card-link"
-                      href={getMapsUrl(item)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Iniciar rota
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-            {filteredCafes.length === 0 && (
-              <p className="empty-state">
-                <span className="empty-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" role="presentation">
-                    <path
-                      d="M9 9h.01M15 9h.01M8.5 15c1-1 2-1.5 3.5-1.5S14.5 14 15.5 15M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {getEmptyStateText(
-                  "Nenhum café nesse raio. Aumente a distância."
-                )}
-              </p>
-            )}
-          </section>
-        )}
+        </main>
       </div>
     </>
   );
