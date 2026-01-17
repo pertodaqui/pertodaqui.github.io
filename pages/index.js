@@ -1,5 +1,21 @@
 import Head from "next/head";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Bed,
+  Coffee,
+  Briefcase,
+  ForkKnife,
+  EnvelopeSimple,
+  House,
+  FunnelSimple,
+  Leaf,
+  MagnifyingGlass,
+  MapPinLine,
+  MapTrifold,
+  Broom,
+  PlusCircle,
+  Tree
+} from "@phosphor-icons/react";
 import cafes from "../data/cafes";
 import hotels from "../data/hotels";
 import nature from "../data/nature";
@@ -49,95 +65,42 @@ const categories = [
     key: "tours",
     label: "Passeios e Guias",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M6 20h12M7.5 17.5l2-8 5-4 2 4 2 1-2 3.5-4-1-2.5 4.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <MapTrifold size={24} />
     )
   },
   {
     key: "hotels",
     label: "Hospedagens",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M4 19V9l8-4 8 4v10M9 19v-5h6v5M4 19h16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <Bed size={24} />
     )
   },
   {
     key: "nature",
     label: "Natureza",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M12 3l2 4 4 .5-3 3 1 4.5-4-2-4 2 1-4.5-3-3 4-.5 2-4z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <Leaf size={24} />
     )
   },
   {
     key: "parks",
     label: "Parques",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M4 19h16M8 19v-6M16 19v-6M6 13l6-7 6 7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <Tree size={24} />
     )
   },
   {
     key: "restaurants",
     label: "Restaurantes",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M4 6h16M6 6v12M10 6v12M14 6v12M18 6v12"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-      </svg>
+      <ForkKnife size={24} />
     )
   },
   {
     key: "cafes",
     label: "Café",
     icon: (
-      <svg viewBox="0 0 24 24" role="presentation">
-        <path
-          d="M5 8h10a4 4 0 0 1 0 8H5V8zM15 8h2a3 3 0 0 1 0 6h-2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <Coffee size={24} />
     )
   }
 ];
@@ -145,8 +108,10 @@ const categories = [
 export default function Home() {
   const [distance, setDistance] = useState(10);
   const [userCoords, setUserCoords] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("tours");
+  const [selectedCategories, setSelectedCategories] = useState(["tours"]);
   const [geoError, setGeoError] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef(null);
 
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -171,6 +136,25 @@ export default function Home() {
 
   useEffect(() => {
     requestLocation();
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!filterRef.current) {
+        return;
+      }
+      if (!filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
   }, []);
 
   const filteredTours = useMemo(
@@ -198,30 +182,40 @@ export default function Home() {
     [distance, userCoords]
   );
 
-  const activeItems = useMemo(() => {
-    switch (activeCategory) {
-      case "hotels":
-        return filteredHotels;
-      case "nature":
-        return filteredNature;
-      case "parks":
-        return filteredParks;
-      case "restaurants":
-        return filteredRestaurants;
-      case "cafes":
-        return filteredCafes;
-      default:
-        return filteredTours;
-    }
-  }, [
-    activeCategory,
-    filteredCafes,
-    filteredHotels,
-    filteredNature,
-    filteredParks,
-    filteredRestaurants,
-    filteredTours
-  ]);
+  const filteredByCategory = useMemo(
+    () => ({
+      tours: filteredTours,
+      hotels: filteredHotels,
+      nature: filteredNature,
+      parks: filteredParks,
+      restaurants: filteredRestaurants,
+      cafes: filteredCafes
+    }),
+    [
+      filteredCafes,
+      filteredHotels,
+      filteredNature,
+      filteredParks,
+      filteredRestaurants,
+      filteredTours
+    ]
+  );
+
+  const activeItems = useMemo(
+    () =>
+      selectedCategories.flatMap(
+        (categoryKey) => filteredByCategory[categoryKey] || []
+      ),
+    [filteredByCategory, selectedCategories]
+  );
+
+  const toggleCategory = (categoryKey) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryKey)
+        ? prev.filter((key) => key !== categoryKey)
+        : [...prev, categoryKey]
+    );
+  };
 
   return (
     <>
@@ -237,20 +231,35 @@ export default function Home() {
       <div className="page">
         <header className="site-header">
           <div className="site-header-inner">
-            <img src="/logo.svg" alt="PertoDaqui" className="logo" />
-          <a
-            className="cta-link"
-            href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Divulgue seu negócio"
-            title="Divulgue seu negócio"
-          >
-            <span aria-hidden="true" className="cta-icon">
-              <img src="/icons/business.svg" alt="" />
-            </span>
-            <span className="cta-text">Divulgue seu negócio aqui</span>
-          </a>
+            <a href="/" aria-label="Ir para a pagina inicial">
+              <img src="/logo.svg" alt="PertoDaqui" className="logo" />
+            </a>
+            <div className="header-actions">
+              <a
+                className="cta-link"
+                href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Divulgue seu negócio"
+                title="Divulgue seu negócio"
+              >
+                <span aria-hidden="true" className="cta-icon">
+                  <Briefcase size={20} weight="bold" />
+                </span>
+                <span className="cta-text">Divulgue seu negócio aqui</span>
+              </a>
+              <a className="cta-home" href="/" aria-label="Pagina inicial" title="Inicio">
+                <House size={20} weight="bold" />
+              </a>
+              <a
+                className="cta-contact"
+                href="mailto:contato@pertodaqui.com"
+                aria-label="Enviar email para contato@pertodaqui.com"
+                title="contato@pertodaqui.com"
+              >
+                <EnvelopeSimple size={20} weight="bold" />
+              </a>
+            </div>
           </div>
         </header>
 
@@ -259,19 +268,23 @@ export default function Home() {
             <h1>Descubra o melhor perto de você</h1>
             <p>Ajuste a distância para sua busca.</p>
             <div className="distance-wrap">
-              <span className="distance-label">Raio: {distance} km</span>
-              <input
-                type="range"
-                min="1"
-                max="90"
-                step="1"
-                value={distance}
-                onChange={(event) => setDistance(Number(event.target.value))}
-                aria-label="Raio em quilômetros"
+              <div
+                className="range-wrap"
                 style={{
                   "--range-progress": `${((distance - 1) / 89) * 100}%`
                 }}
-              />
+              >
+                <input
+                  type="range"
+                  min="1"
+                  max="90"
+                  step="1"
+                  value={distance}
+                  onChange={(event) => setDistance(Number(event.target.value))}
+                  aria-label="Raio em quilômetros"
+                />
+                <output className="range-tooltip">{distance} km</output>
+              </div>
             </div>
             <div className="quick-buttons">
               {QUICK_DISTANCES.map((value) => (
@@ -284,6 +297,39 @@ export default function Home() {
                   {value} km
                 </button>
               ))}
+              <details className="filter-dropdown" open={isFilterOpen} ref={filterRef}>
+                <summary
+                  className="filter-button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsFilterOpen((prev) => !prev);
+                  }}
+                >
+                  <FunnelSimple size={16} />
+                  Filtro
+                </summary>
+                <div className="filter-menu">
+                  <span className="filter-menu-title">Categorias</span>
+                  {categories.map((category) => (
+                    <label
+                      key={category.key}
+                      className={`filter-option${
+                        selectedCategories.includes(category.key) ? " active" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category.key)}
+                        onChange={() => toggleCategory(category.key)}
+                      />
+                      <span className="filter-option-icon" aria-hidden="true">
+                        {category.icon}
+                      </span>
+                      <span>{category.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </details>
             </div>
             {!userCoords && (
               <div className="location-hint">
@@ -294,24 +340,6 @@ export default function Home() {
               </div>
             )}
           </section>
-
-          <section className="category-grid">
-            {categories.map((category) => (
-              <button
-                key={category.key}
-                type="button"
-                className={`category-card${
-                  activeCategory === category.key ? " active" : ""
-                }`}
-                onClick={() => setActiveCategory(category.key)}
-              >
-                <span className="category-icon">{category.icon}</span>
-                <span className="category-label">{category.label}</span>
-              </button>
-            ))}
-          </section>
-
-          <div className="divider" aria-hidden="true" />
 
           <section className="results">
             {activeItems.length > 0 ? (
@@ -338,12 +366,7 @@ export default function Home() {
                         aria-label="Iniciar rota"
                         title="Iniciar rota"
                       >
-                        <svg viewBox="0 0 24 24" role="presentation">
-                          <path
-                            d="M12 2c-3.3 0-6 2.7-6 6 0 4.1 6 12 6 12s6-7.9 6-12c0-3.3-2.7-6-6-6zm0 8.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 5.5 12 5.5s2.5 1.1 2.5 2.5S13.4 10.5 12 10.5z"
-                            fill="currentColor"
-                          />
-                        </svg>
+                        <MapPinLine size={18} />
                       </a>
                     </div>
                   </article>
@@ -352,36 +375,13 @@ export default function Home() {
             ) : (
               <div className="empty-state">
                 <div className="empty-illustration" aria-hidden="true">
-                  <svg viewBox="0 0 160 120" role="presentation">
-                    <path
-                      d="M12 88l36-34 40 20 36-26 24 40-28 12-52 2-36-8-20-6z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle
-                      cx="96"
-                      cy="48"
-                      r="18"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                    />
-                    <path
-                      d="M108 60l18 18"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <MagnifyingGlass size={72} />
                 </div>
                 <h3>Nada por aqui nesse raio</h3>
                 <p>Aumente a distância ou tente outra categoria.</p>
                 <div className="empty-actions">
                   <button type="button" onClick={() => setDistance(25)}>
+                    <PlusCircle size={18} weight="bold" />
                     Aumentar para 25 km
                   </button>
                   <button
@@ -389,15 +389,33 @@ export default function Home() {
                     className="ghost"
                     onClick={() => {
                       setDistance(10);
-                      setActiveCategory("tours");
+                      setSelectedCategories(["tours"]);
                     }}
                   >
+                    <Broom size={18} weight="bold" />
                     Limpar filtros
                   </button>
                 </div>
               </div>
             )}
           </section>
+
+          <footer className="site-footer">
+            <div className="footer-inner">
+              <div className="footer-brand">
+                <span className="footer-logo">PertoDaqui</span>
+                <p className="footer-slogan">
+                  Descubra o melhor perto de voce.
+                </p>
+              </div>
+              <nav className="footer-links" aria-label="Links institucionais">
+                <a href="/privacidade">Politica de privacidade</a>
+                <a href="/termos">Termos de uso</a>
+                <a href="/contato">Contato</a>
+              </nav>
+              <span className="footer-copy">© 2026 PertoDaqui</span>
+            </div>
+          </footer>
         </main>
       </div>
     </>
