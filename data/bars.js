@@ -28,15 +28,6 @@ const bars = [
       "https://images.unsplash.com/photo-1485872299829-c673f5194813?auto=format&fit=crop&w=900&q=80",
     lat: -22.9159,
     lng: -43.1852
-  },
-    {
-    "id": "2",
-    "title": "Bar Bosque da Princesa",
-    "meta": "Um refúgio histórico e arborizado às margens do Rio Paraíba do Sul, com árvores centenárias e ambiente relaxante.",
-    "location": "Pindamonhangaba, SP, Brasil",
-    "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyrU99sgUD3lQaWiHF2oeuc6sgXRN4WPc8QfycugDNAKkEubkA39FgbBz8jVLb7Gk87j_phnd5GWQQmKcx5QatY1WHH5JxfqptpIIt5HE1VNImhsGXftWEwDrDLcqNuabcerRY-ZA=s1360-w1360-h1020-rw",
-    "lat": -22.920213066691026, 
-    "lng": -45.46264497707749
   }
 ];
 
