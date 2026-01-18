@@ -52,9 +52,9 @@ const nature = [
     "title": "Cachoeira dos Búfalos",
     "meta": "Acesso pela Estrada das Oliveiras, é um ponto popular para ciclistas e amantes do ecoturismo.",
     "location": "Pindamonhangaba, SP, Brasil",
-    "image": "https://images.unsplash.com/photo-1434725039720-abb26e22fed8?auto=format&fit=crop&w=800&q=80",
-    "lat": -22.8252,
-    "lng": -45.4855
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxg_xmgsiKCRoNCrm87QFP5UjNL0jPd6Q7lmbNNEayl9yT8l-Zcc2lQSy0GoLSDzA0lFB0RLEM5bKdVsHHUIpd_2IVpUW_L7WP7L7cLsq_-Vj5-6xePbFJkENFhiJNxYZoxbPYH=w270-h312-n-k-no",
+    "lat": -22.825990281417898, 
+    "lng": -45.559570049757866
   },
   {
     "id": "cachoeira-do-trabiju",
