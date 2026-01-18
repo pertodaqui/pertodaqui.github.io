@@ -60,7 +60,7 @@ img {
 }
 
 .logo {
-  width: clamp(280px, 39vw, 448px);
+  width: clamp(220px, 30vw, 300px);
 }
 
 .cta-link {
@@ -90,7 +90,6 @@ img {
   width: 100%;
   height: 100%;
 }
-
 
 .cta-text {
   white-space: nowrap;
@@ -162,12 +161,12 @@ input[type="range"] {
   height: 6px;
   border-radius: 999px;
   background: linear-gradient(
-      90deg,
-      var(--pd-blue) 0%,
-      var(--pd-blue) var(--range-progress, 0%),
-      #cfd7e6 var(--range-progress, 0%),
-      #cfd7e6 100%
-    );
+    90deg,
+    var(--pd-blue) 0%,
+    var(--pd-blue) var(--range-progress, 0%),
+    #cfd7e6 var(--range-progress, 0%),
+    #cfd7e6 100%
+  );
   outline: none;
 }
 
@@ -360,7 +359,6 @@ input[type="range"]::-moz-range-track {
   border-radius: 8px;
 }
 
-
 .results {
   display: grid;
   gap: 16px;
@@ -385,6 +383,28 @@ input[type="range"]::-moz-range-track {
   width: 100%;
   height: 160px;
   object-fit: cover;
+}
+
+.place-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.place-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  border: 1px solid var(--pd-border);
+  color: var(--pd-blue);
+}
+
+.place-badge svg {
+  width: 18px;
+  height: 18px;
 }
 
 .place-body {
@@ -417,6 +437,19 @@ input[type="range"]::-moz-range-track {
   justify-content: space-between;
   font-size: 0.85rem;
   color: var(--pd-blue-deep);
+}
+
+.place-temp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pd-blue);
+  font-weight: 600;
+}
+
+.place-temp svg {
+  width: 16px;
+  height: 16px;
 }
 
 .place-footer a {
@@ -505,10 +538,10 @@ input[type="range"]::-moz-range-track {
 }
 
 .footer-inner {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr auto;
-  gap: 16px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
 .footer-brand {
@@ -538,6 +571,9 @@ input[type="range"]::-moz-range-track {
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .footer-copy {
@@ -586,9 +622,9 @@ input[type="range"]::-moz-range-track {
   }
 
   .footer-inner {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     text-align: center;
-    justify-items: center;
+    align-items: center;
   }
 
   .footer-links {

@@ -2,24 +2,29 @@ import Head from "next/head";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bed,
+  BeerStein,
   Coffee,
   Briefcase,
+  Columns,
   ForkKnife,
   EnvelopeSimple,
   House,
   FunnelSimple,
-  Leaf,
   MagnifyingGlass,
   MapPinLine,
   MapTrifold,
   Broom,
   PlusCircle,
-  Tree
+  Thermometer,
+  Tree,
+  Shield,
+  FileText
 } from "@phosphor-icons/react";
+import bars from "../data/bars";
 import cafes from "../data/cafes";
+import culture from "../data/culture";
 import hotels from "../data/hotels";
-import nature from "../data/nature";
-import parks from "../data/parks";
+import parksNature from "../data/parks_nature";
 import restaurants from "../data/restaurants";
 import tours from "../data/tours";
 
@@ -63,7 +68,7 @@ const getMapsUrl = (item) =>
 const categories = [
   {
     key: "tours",
-    label: "Passeios e Guias",
+    label: "Passeios",
     icon: (
       <MapTrifold size={24} />
     )
@@ -76,15 +81,8 @@ const categories = [
     )
   },
   {
-    key: "nature",
+    key: "parks_nature",
     label: "Natureza",
-    icon: (
-      <Leaf size={24} />
-    )
-  },
-  {
-    key: "parks",
-    label: "Parques",
     icon: (
       <Tree size={24} />
     )
@@ -98,20 +96,38 @@ const categories = [
   },
   {
     key: "cafes",
-    label: "Café",
+    label: "Cafés",
     icon: (
       <Coffee size={24} />
+    )
+  },
+  {
+    key: "culture",
+    label: "Cultura",
+    icon: (
+      <Columns size={24} />
+    )
+  },
+  {
+    key: "bars",
+    label: "Bares",
+    icon: (
+      <BeerStein size={24} />
     )
   }
 ];
 
 export default function Home() {
-  const [distance, setDistance] = useState(10);
+  const [distance, setDistance] = useState(80);
   const [userCoords, setUserCoords] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState(["tours"]);
+  const [selectedCategories, setSelectedCategories] = useState(
+    categories.map((category) => category.key)
+  );
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [weatherByCoord, setWeatherByCoord] = useState({});
   const filterRef = useRef(null);
+  const weatherCacheRef = useRef({});
 
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -165,12 +181,8 @@ export default function Home() {
     () => getItemsByDistance(hotels, distance, userCoords),
     [distance, userCoords]
   );
-  const filteredNature = useMemo(
-    () => getItemsByDistance(nature, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredParks = useMemo(
-    () => getItemsByDistance(parks, distance, userCoords),
+  const filteredParksNature = useMemo(
+    () => getItemsByDistance(parksNature, distance, userCoords),
     [distance, userCoords]
   );
   const filteredRestaurants = useMemo(
@@ -181,33 +193,119 @@ export default function Home() {
     () => getItemsByDistance(cafes, distance, userCoords),
     [distance, userCoords]
   );
+  const filteredCulture = useMemo(
+    () => getItemsByDistance(culture, distance, userCoords),
+    [distance, userCoords]
+  );
+  const filteredBars = useMemo(
+    () => getItemsByDistance(bars, distance, userCoords),
+    [distance, userCoords]
+  );
 
   const filteredByCategory = useMemo(
     () => ({
       tours: filteredTours,
       hotels: filteredHotels,
-      nature: filteredNature,
-      parks: filteredParks,
+      parks_nature: filteredParksNature,
       restaurants: filteredRestaurants,
-      cafes: filteredCafes
+      cafes: filteredCafes,
+      bars: filteredBars,
+      culture: filteredCulture
     }),
     [
+      filteredBars,
       filteredCafes,
+      filteredCulture,
       filteredHotels,
-      filteredNature,
-      filteredParks,
+      filteredParksNature,
       filteredRestaurants,
       filteredTours
     ]
   );
 
+  const categoriesByKey = useMemo(
+    () =>
+      categories.reduce((acc, category) => {
+        acc[category.key] = category;
+        return acc;
+      }, {}),
+    []
+  );
+
   const activeItems = useMemo(
     () =>
       selectedCategories.flatMap(
-        (categoryKey) => filteredByCategory[categoryKey] || []
+        (categoryKey) =>
+          (filteredByCategory[categoryKey] || []).map((item) => ({
+            ...item,
+            categoryKey
+          }))
       ),
     [filteredByCategory, selectedCategories]
   );
+
+  const getCoordKey = (item) => `${item.lat},${item.lng}`;
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const pending = activeItems
+      .filter((item) => item.lat != null && item.lng != null)
+      .map((item) => ({
+        key: getCoordKey(item),
+        lat: item.lat,
+        lng: item.lng
+      }))
+      .filter(({ key }) => weatherCacheRef.current[key] === undefined);
+
+    if (pending.length === 0) {
+      return () => {
+        controller.abort();
+      };
+    }
+
+    pending.forEach(({ key }) => {
+      weatherCacheRef.current[key] = "loading";
+    });
+
+    const fetchWeather = async ({ key, lat, lng }) => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) {
+        return null;
+      }
+      const data = await response.json();
+      const temp = data?.current_weather?.temperature;
+      if (typeof temp === "number") {
+        return { key, temp: Math.round(temp) };
+      }
+      return null;
+    };
+
+    Promise.all(pending.map(fetchWeather))
+      .then((results) => {
+        if (!isMounted) {
+          return;
+        }
+        const next = {};
+        results.forEach((result) => {
+          if (result) {
+            next[result.key] = result.temp;
+            weatherCacheRef.current[result.key] = result.temp;
+          }
+        });
+        if (Object.keys(next).length > 0) {
+          setWeatherByCoord((prev) => ({ ...prev, ...next }));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [activeItems]);
 
   const toggleCategory = (categoryKey) => {
     setSelectedCategories((prev) =>
@@ -265,8 +363,8 @@ export default function Home() {
 
         <main className="content">
           <section className="hero-card">
-            <h1>Descubra o melhor perto de você</h1>
-            <p>Ajuste a distância para sua busca.</p>
+            <h1>Descubra atividades perto de você</h1>
+            <p>Escolha o raio de distância e descubra o que explorar...</p>
             <div className="distance-wrap">
               <div
                 className="range-wrap"
@@ -345,7 +443,7 @@ export default function Home() {
             {activeItems.length > 0 ? (
               <div className="cards-grid">
                 {activeItems.map((item) => (
-                  <article className="place-card" key={item.id}>
+                  <article className="place-card" key={`${item.id}-${item.categoryKey}`}>
                     <div className="place-media">
                       <img src={item.image} alt={item.title} loading="lazy" />
                     </div>
@@ -358,16 +456,31 @@ export default function Home() {
                     </div>
                     <div className="place-footer">
                       <span>{item.distanceKm} km</span>
-                      <a
-                        className="route-link"
-                        href={getMapsUrl(item)}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label="Iniciar rota"
-                        title="Iniciar rota"
-                      >
-                        <MapPinLine size={18} />
-                      </a>
+                      <div className="place-actions">
+                        <span
+                          className="place-badge"
+                          title={categoriesByKey[item.categoryKey]?.label}
+                          aria-label={categoriesByKey[item.categoryKey]?.label}
+                        >
+                          {categoriesByKey[item.categoryKey]?.icon}
+                        </span>
+                        <a
+                          className="route-link"
+                          href={getMapsUrl(item)}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label="Iniciar rota"
+                          title="Iniciar rota"
+                        >
+                          <MapPinLine size={18} />
+                        </a>
+                        <span className="place-temp" title="Temperatura atual">
+                          <Thermometer size={16} />
+                          <span>
+                            {weatherByCoord[getCoordKey(item)] ?? "--"}°C
+                          </span>
+                        </span>
+                      </div>
                     </div>
                   </article>
                 ))}
@@ -403,17 +516,26 @@ export default function Home() {
           <footer className="site-footer">
             <div className="footer-inner">
               <div className="footer-brand">
-                <span className="footer-logo">PertoDaqui</span>
+                <span className="footer-logo">PertoDaqui © 2026</span>
                 <p className="footer-slogan">
-                  Descubra o melhor perto de voce.
+                  Descubra atividades perto de você!
                 </p>
               </div>
+
               <nav className="footer-links" aria-label="Links institucionais">
-                <a href="/privacidade">Politica de privacidade</a>
-                <a href="/termos">Termos de uso</a>
-                <a href="/contato">Contato</a>
+                <a href="/privacidade">
+                  <Shield size={18} weight="bold" />
+                  Politica de privacidade
+                </a>
+                <a href="/termos">
+                  <FileText size={18} weight="bold" />
+                  Termos de uso
+                </a>
+                <a href="/contato">
+                  <EnvelopeSimple size={18} weight="bold" />
+                  Contato
+                </a>
               </nav>
-              <span className="footer-copy">© 2026 PertoDaqui</span>
             </div>
           </footer>
         </main>
