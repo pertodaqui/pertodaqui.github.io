@@ -5,26 +5,27 @@ Plataforma web para descobrir passeios, hospedagens, comida e experiências pert
 ## Produto
 
 Principais funcionalidades:
-- Busca por raio (slider de distancia) com sugestoes proximas.
+
+- Busca por raio (slider de distância) com sugestões próximas.
 - Filtros multi-seleção de categorias (dropdown).
 - Cards com imagem, distancia, categoria, rota e temperatura atual.
-- CTA para divulgacao de negocios e contato por email.
+- CTA para divulgação de negócios e contato por email.
 - Páginas legais: Política de Privacidade e Termos de Uso.
 
 ## Stack
 
-- Next.js 14 (export estatico).
+- Next.js 14 (export estático).
 - React 18.
 - Phosphor Icons.
 - CSS global em `styles/globals.css`.
 
 ## Estrutura do projeto
 
-- `pages/index.js`: pagina principal e logica de filtros.
+- `pages/index.js`: página principal e lógica de filtros.
 - `pages/privacidade.js`: política de privacidade.
 - `pages/termos.js`: termos de uso.
 - `data/`: coleções por categoria (ex.: `tours.js`, `hotels.js`, `bars.js`).
-- `data/parks_nature.js`: agregacao de parques + natureza.
+- `data/parks_nature.js`: agregação de parques + natureza.
 - `styles/globals.css`: layout e estilos globais.
 
 ## Dados e APIs
@@ -45,7 +46,7 @@ npm install
 npm run dev
 ```
 
-## Build e export estatico
+## Build e export estático
 
 ```bash
 npm run build
@@ -59,6 +60,7 @@ Os arquivos estáticos ficam em `out/`.
 O workflow de deploy está em `.github/workflows/deploy.yml`, que publica o diretório `out/` via GitHub Actions.
 
 Checklist:
+
 - `Settings > Pages > Build and deployment` -> Source: **GitHub Actions**
 - Branch principal: `main`
 
@@ -73,11 +75,11 @@ Checklist:
 
 - Criar painel para negócios parceiros (cadastro e pagamento).
 - Ordenação por relevância (distância, destaque, avaliação).
-- Dados dinamicos por cidade (CMS ou API).
-- PWA com cache offline para areas com sinal fraco.
-- Eventos e roteiros tematicos.
+- Dados dinâmicos por cidade (CMS ou API).
+- PWA com cache offline para áreas com sinal fraco.
+- Eventos e roteiros temáticos.
 
-## Backlog tecnico
+## Backlog técnico
 
 - Padronizar fontes de dados em um formato único e validar schema.
 - Reduzir duplicidade entre dados agregados (parks + nature).
