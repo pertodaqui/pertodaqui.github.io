@@ -649,6 +649,11 @@ input[type="range"]::-moz-range-track {
     padding: 0 6vw;
   }
 
+  .site-header-inner > a:first-child {
+    display: flex;
+    justify-content: center;
+  }
+
   .cards-grid {
     grid-template-columns: 1fr;
   }
