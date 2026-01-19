@@ -340,6 +340,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 aria-label="Divulgue seu negócio"
                 title="Divulgue seu negócio"
+                onClick={() => {
+                  window.gtag?.("event", "cta_divulgue", {
+                    event_category: "engagement",
+                    event_label: "divulgue_negocio"
+                  });
+                }}
               >
                 <span aria-hidden="true" className="cta-icon">
                   <Briefcase size={20} weight="bold" />
