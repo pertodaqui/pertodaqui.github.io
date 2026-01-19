@@ -1,34 +1,4 @@
 const nature = [
-  {
-    id: "nature-1",
-    title: "Trilha das Águas",
-    meta: "Cachoeiras e mirantes",
-    location: "Rio de Janeiro, RJ, Brasil",
-    image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-    lat: -22.9008,
-    lng: -43.2016
-  },
-  {
-    id: "nature-2",
-    title: "Bosque do Vento",
-    meta: "Caminhada leve",
-    location: "Niterói, RJ, Brasil",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-    lat: -22.8724,
-    lng: -43.2461
-  },
-  {
-    id: "nature-3",
-    title: "Lagoa Cristal",
-    meta: "Área de descanso",
-    location: "Rio de Janeiro, RJ, Brasil",
-    image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
-    lat: -22.9484,
-    lng: -43.1742
-  },
     {
     "id": "2",
     "title": "Bosque da Princesa",
@@ -73,6 +43,42 @@ const nature = [
     "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzBwDtpMaoxnAsHOxqSybh0xdKD-R5jQXch_LgfOXOE3f1zfGz8vPE3gMNAp5NSflVDvfN9cdoYjOK6DepOGg0saEnthZ4OnlVAM_NVwJb1QR5iSWNbUIEITd62vuWowjAGe45d=w408-h306-k-no",
     "lat": -22.80782401483372, 
     "lng": -45.60778400934364
+  },
+    {
+    "id": "cachoeira-do-indio",
+    "title": "Cachoeira do Indio",
+    "meta": "Localizada em área preservada, oferece uma experiência de ecoturismo autêntica.",
+    "location": "Pindamonhangaba, SP, Brasil",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzBwDtpMaoxnAsHOxqSybh0xdKD-R5jQXch_LgfOXOE3f1zfGz8vPE3gMNAp5NSflVDvfN9cdoYjOK6DepOGg0saEnthZ4OnlVAM_NVwJb1QR5iSWNbUIEITd62vuWowjAGe45d=w408-h306-k-no",
+    "lat": -22.80782401483372, 
+    "lng": -45.60778400934364
+  },
+  {
+    "id": "ChIJ6yeu0vr1zJQR38GJRtTQqok",
+    "title": "Cachoeira Curva do Senna",
+    "meta": "Ponto de parada conhecido na região, oferecendo um ambiente tranquilo para banho.",
+    "location": "Pindamonhangaba, SP, Brasil",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSw0fKyCRnNvsgtvfAerSl_BY1jIBLgkRb13gn82rEqMUt15UGVS1EGLCst4g9ive7Hiw7GA8cWFBitenHPFEPmnwTcQUV-pkS4oG2IWfJChBvyYwcZ1ioN-iqkCnih4QkH49MMR=w408-h544-k-no",
+    "lat": -22.844981147457375, 
+    "lng": -45.582372722156094
+  },
+  {
+    "id": "cachoeira-da-onca",
+    "title": "Cachoeira da Onça Pintada",
+    "meta": "Uma queda mais reservada, ideal para quem procura tranquilidade e contato com a Mata Atlântica.",
+    "location": "Estrada Municipal Cap. Avelino, Pindamonhangaba - SP",
+    "image": https://lh3.googleusercontent.com/gps-cs-s/AG0ilSx_QrDhLgNdn-n-XZ41SJABA6ZFypq70yLd8o_V8hzHpIYIaSHOTKrGnGLAus7Nu_HLOAc3ClOWbAgXJiIB_yJ2oOsM6LZoc-vCX-GeEh-2syUX6lazP5laUFe0ck4pvGgW5WzkCg=w408-h544-k-no",
+    "lat": -21.93126275699252, 
+    "lng": -45.65797974972736
+  },
+  {
+    "id": "cachoeira-das-pacas",
+    "title": "Cachoeira das Pacas",
+    "meta": "Um refúgio natural menos explorado entre as montanhas da Serra da Mantiqueira.",
+    "location": "Zona Rural, Pindamonhangaba - SP",
+    "image": "https://s0.wklcdn.com/image_10/312416/20490480/12823803Master.jpg",
+    "lat": -22.767625054619245, 
+    "lng": -45.41616412281976
   }
 ];
 
