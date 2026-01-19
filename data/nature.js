@@ -67,7 +67,7 @@ const nature = [
     "title": "Cachoeira da Onça Pintada",
     "meta": "Uma queda mais reservada, ideal para quem procura tranquilidade e contato com a Mata Atlântica.",
     "location": "Estrada Municipal Cap. Avelino, Pindamonhangaba - SP",
-    "image": https://lh3.googleusercontent.com/gps-cs-s/AG0ilSx_QrDhLgNdn-n-XZ41SJABA6ZFypq70yLd8o_V8hzHpIYIaSHOTKrGnGLAus7Nu_HLOAc3ClOWbAgXJiIB_yJ2oOsM6LZoc-vCX-GeEh-2syUX6lazP5laUFe0ck4pvGgW5WzkCg=w408-h544-k-no",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSx_QrDhLgNdn-n-XZ41SJABA6ZFypq70yLd8o_V8hzHpIYIaSHOTKrGnGLAus7Nu_HLOAc3ClOWbAgXJiIB_yJ2oOsM6LZoc-vCX-GeEh-2syUX6lazP5laUFe0ck4pvGgW5WzkCg=w408-h544-k-no",
     "lat": -21.93126275699252, 
     "lng": -45.65797974972736
   },
