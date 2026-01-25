@@ -27,6 +27,7 @@ import hotels from "../data/hotels";
 import parksNature from "../data/parks_nature";
 import restaurants from "../data/restaurants";
 import tours from "../data/tours";
+import { getRandomSubtitle } from "../utils/textHelpers";
 
 const EARTH_RADIUS_KM = 6371;
 const QUICK_DISTANCES = [1, 5, 10, 25];
@@ -64,6 +65,26 @@ const getItemsByDistance = (items, maxDistance, origin) => {
 
 const getMapsUrl = (item) =>
   `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
+
+const formatLocation = (location) => {
+  if (!location) {
+    return "";
+  }
+
+  const cleaned = location.trim();
+  const hyphenMatch = cleaned.match(/([^,]+?)\s*-\s*([A-Z]{2})\b/);
+
+  if (hyphenMatch) {
+    return `${hyphenMatch[1].trim()} - ${hyphenMatch[2]}`;
+  }
+
+  const parts = cleaned.split(",").map((part) => part.trim());
+  if (parts.length >= 2) {
+    return `${parts[0]} - ${parts[1]}`;
+  }
+
+  return cleaned;
+};
 
 const categories = [
   {
@@ -126,6 +147,9 @@ export default function Home() {
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [weatherByCoord, setWeatherByCoord] = useState({});
+  const [subtitle, setSubtitle] = useState(
+    "Escolha o raio de distância e descubra o que explorar..."
+  );
   const filterRef = useRef(null);
   const weatherCacheRef = useRef({});
 
@@ -152,6 +176,7 @@ export default function Home() {
 
   useEffect(() => {
     requestLocation();
+    setSubtitle(getRandomSubtitle());
   }, []);
 
   useEffect(() => {
@@ -240,7 +265,7 @@ export default function Home() {
             ...item,
             categoryKey
           }))
-      ),
+      ).sort((a, b) => a.distanceKm - b.distanceKm),
     [filteredByCategory, selectedCategories]
   );
 
@@ -370,7 +395,7 @@ export default function Home() {
         <main className="content">
           <section className="hero-card">
             <h1>Descubra atividades perto de você</h1>
-            <p>Escolha o raio de distância e descubra o que explorar...</p>
+            <p>{subtitle}</p>
             <div className="distance-wrap">
               <div
                 className="range-wrap"
@@ -458,7 +483,9 @@ export default function Home() {
                         <h3>{item.title}</h3>
                         <p>{item.meta}</p>
                       </div>
-                      <span className="place-location">{item.location}</span>
+                      <span className="place-location">
+                        {formatLocation(item.location)}
+                      </span>
                     </div>
                     <div className="place-footer">
                       <span>{item.distanceKm} km</span>
