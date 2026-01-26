@@ -43,6 +43,42 @@ const parks = [
     "image": "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSycQyfR-x6q4V66NqPWtcC-l8waE3-u7F98Il6Jyw7Wgauk-LylGsREfQUfe1lcSjXmQmBe5vgaDAlhUF7dPFDfDqkTbUhN1J8iqAt47EAU_cywV_rJtznqAmRaDJptZRITDSes=w408-h272-k-no",
     "lat": -22.770809743377704,
     "lng": -45.46375931680147
+  },
+  {
+    "id": "6",
+    "title": "Igreja Matriz Nossa Senhora do Bom Sucesso",
+    "meta": "Igreja matriz da cidade, marco histórico e religioso de Pindamonhangaba.",
+    "location": "Pindamonhangaba - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerWq-Jf6TO96vY4Mgtbu9Gd_-vMWEfUbitHMjfDLtAyRTaiFfkIBkNGPoqTOnZsZ-wNGjURhX9tWKMIMr9pDtNTGlPtp3gOG9sRWBifjTbXAvGnn3cDZlnnt6qv2xMSJfcK4hHf9g=w408-h725-k-no",
+    "lat": -22.923434011515027, 
+    "lng": -45.46198586148468
+  },
+  {
+    "id": "7",
+    "title": "Praça Monsenhor Marcondes",
+    "meta": "Praça central com áreas de descanso, eventos culturais e convivência.",
+    "location": "Pindamonhangaba - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepbWnIkqPz0D42fQT5wtAv0AJwpPWwlZ6-WAP2l9iDn_hp89SDZSZ3FoQpf4tQdTU538jEF5MI9x-si5stLQ0lvmb7kfoDlZ-js7uzRfSsTSYbEUUADsgwYAGHk083VDj_otmpA=w426-h240-k-no",
+    "lat": -22.92552666034673, 
+    "lng": -45.461817257143686
+  },
+  {
+    "id": "8",
+    "title": "Pórtico de Pindamonhangaba",
+    "meta": "Portal de entrada da cidade, símbolo de boas-vindas e identidade local.",
+    "location": "Pindamonhangaba - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoLb44Imc44gswIoNPcVlfeHCO6coKOWMdSc61OgjShI6skYzK5y4ymOEHKVGQyxxLBF11en_wZCuEaXui3L9xX3DRUGQzskoPqssfgY1x2ID8886mkW67PkXvLADp1hqEUMfPUuoE6GXxK=w408-h306-k-no",
+    "lat": -22.97707455825562, 
+    "lng": -45.46205807740587
+  },
+  {
+    "id": "9",
+    "title": "Praça do Quartel",
+    "meta": "Praça pública revitalizada no centro de Pindamonhangaba, ideal para passeios, eventos, atividades esportivas e culturais.",
+    "location": "Pindamonhangaba - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepyPEseEfQAze9BZjKf0ukXp1qo_l9cITURShR0WuNETZI0MO72TBXNAMURuSMAKCiKPVgel2K7mo96TU0TrGqU46r70ex_gjOFb064hc8-41NwfZ7RtwyK65e7DqFpBDKt1w5M=w408-h288-k-no",
+    "lat": -22.92315476562744, 
+    "lng": -45.46490299097322
   }
 ];
 

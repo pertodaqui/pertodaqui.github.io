@@ -343,7 +343,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PertoDaqui - Descubra perto de você</title>
+        <title>PertoDaqui - Descubra atividades perto de você</title>
         <meta
           name="description"
           content="Descubra passeios, hospedagens e experiências perto de você."
