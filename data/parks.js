@@ -45,15 +45,6 @@ const parks = [
     "lng": -45.46375931680147
   },
   {
-    "id": "6",
-    "title": "Igreja Matriz Nossa Senhora do Bom Sucesso",
-    "meta": "Igreja matriz da cidade, marco histórico e religioso de Pindamonhangaba.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerWq-Jf6TO96vY4Mgtbu9Gd_-vMWEfUbitHMjfDLtAyRTaiFfkIBkNGPoqTOnZsZ-wNGjURhX9tWKMIMr9pDtNTGlPtp3gOG9sRWBifjTbXAvGnn3cDZlnnt6qv2xMSJfcK4hHf9g=w408-h725-k-no",
-    "lat": -22.923434011515027, 
-    "lng": -45.46198586148468
-  },
-  {
     "id": "7",
     "title": "Praça Monsenhor Marcondes",
     "meta": "Praça central com áreas de descanso, eventos culturais e convivência.",
@@ -79,7 +70,16 @@ const parks = [
     "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepyPEseEfQAze9BZjKf0ukXp1qo_l9cITURShR0WuNETZI0MO72TBXNAMURuSMAKCiKPVgel2K7mo96TU0TrGqU46r70ex_gjOFb064hc8-41NwfZ7RtwyK65e7DqFpBDKt1w5M=w408-h288-k-no",
     "lat": -22.92315476562744, 
     "lng": -45.46490299097322
-  }
+  },
+  {
+    "id": "portal-lagoinha",
+    "title": "Portal de Lagoinha",
+    "meta": "Ponto de entrada na cidade, símbolo de boas-vindas e identidade local.",
+    "location": "Lagoinha - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqStHfgT3rvdxqdWCj5lS6QExf85l2D-N3TZblfQvxpsNM3476lXNGLab9VrjvIU_KSsfTwzJ7y35nIzNR7tbjgsF0SlUzpXe8vL_PyeHvH6MgXB3FiGygxHuQdOPqewdxP_J_9Rg=w413-h240-k-no",
+    "lat": -23.10005924440595, 
+    "lng": -45.196849462204675
+  },
 ];
 
 

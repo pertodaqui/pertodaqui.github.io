@@ -17,6 +17,24 @@ const culture = [
     "lat": -22.922752297594513, 
     "lng": -45.46196184744082
   },
+  {
+    "id": "6",
+    "title": "Igreja Matriz Nossa Senhora do Bom Sucesso",
+    "meta": "Igreja matriz da cidade, marco histórico e religioso de Pindamonhangaba.",
+    "location": "Pindamonhangaba - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerWq-Jf6TO96vY4Mgtbu9Gd_-vMWEfUbitHMjfDLtAyRTaiFfkIBkNGPoqTOnZsZ-wNGjURhX9tWKMIMr9pDtNTGlPtp3gOG9sRWBifjTbXAvGnn3cDZlnnt6qv2xMSJfcK4hHf9g=w408-h725-k-no",
+    "lat": -22.923434011515027, 
+    "lng": -45.46198586148468
+  },
+  {
+    "id": "igreja-matriz-imaculada-conceicao",
+    "title": "Igreja Matriz Nossa Senhora da Imaculada Conceição",
+    "meta": "Marco central da cidade, a igreja possui arquitetura clássica e é o ponto de partida das principais festividades religiosas e culturais.",
+    "location": "Lagoinha - SP",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwer6LEjwRrVKTCoAXAFBXtUI-zOfJJxpkF0TbVoxVwCXWgo2v5rBmKFkrsu7-qydTv3H2ZAk3-xeh8NjaXMbsb42gd-IOsmTOY36u3viNvvIsnVqIDujTwyKIvCdNcJ0SAINegw0=w408-h272-k-no",
+    "lat": -23.090275232985682, 
+    "lng": -45.18939933029524
+  }
 ];
 
 export default culture;

@@ -146,6 +146,8 @@ export default function Home() {
   );
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [weatherByCoord, setWeatherByCoord] = useState({});
   const [subtitle, setSubtitle] = useState(
     "Escolha o raio de distância e descubra o que explorar..."
@@ -556,14 +558,22 @@ export default function Home() {
               </div>
 
               <nav className="footer-links" aria-label="Links institucionais">
-                <a href="/privacidade">
+                <button
+                  type="button"
+                  className="footer-link-button"
+                  onClick={() => setIsPrivacyOpen(true)}
+                >
                   <Shield size={18} weight="bold" />
                   Politica de privacidade
-                </a>
-                <a href="/termos">
+                </button>
+                <button
+                  type="button"
+                  className="footer-link-button"
+                  onClick={() => setIsTermsOpen(true)}
+                >
                   <FileText size={18} weight="bold" />
                   Termos de uso
-                </a>
+                </button>
                 <a href="/contato">
                   <EnvelopeSimple size={18} weight="bold" />
                   Contato
@@ -573,6 +583,97 @@ export default function Home() {
           </footer>
         </main>
       </div>
+
+      {isPrivacyOpen && (
+        <div className="modal-overlay" role="dialog" aria-modal="true">
+          <div className="modal-card">
+            <div className="modal-header">
+              <h2>Política de Privacidade</h2>
+              <button
+                type="button"
+                className="modal-close"
+                aria-label="Fechar"
+                onClick={() => setIsPrivacyOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="modal-muted">Última atualização: 2026</p>
+              <p>
+                Esta Política descreve como coletamos, usamos e protegemos suas
+                informações ao usar o PertoDaqui.
+              </p>
+              <h3>Coleta de dados</h3>
+              <p>
+                Podemos coletar dados de localização (com sua permissão), dados de
+                navegação e preferências de filtros para melhorar as sugestões.
+              </p>
+              <h3>Uso dos dados</h3>
+              <p>
+                Usamos os dados para personalizar resultados, aprimorar a
+                plataforma e fornecer informações relevantes.
+              </p>
+              <h3>Compartilhamento</h3>
+              <p>
+                Não vendemos seus dados. Podemos compartilhar informações
+                agregadas para fins de análise.
+              </p>
+              <h3>Seus direitos</h3>
+              <p>
+                Você pode solicitar acesso, correção ou exclusão de dados pelo
+                email contato@pertodaqui.com.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isTermsOpen && (
+        <div className="modal-overlay" role="dialog" aria-modal="true">
+          <div className="modal-card">
+            <div className="modal-header">
+              <h2>Termos de Uso</h2>
+              <button
+                type="button"
+                className="modal-close"
+                aria-label="Fechar"
+                onClick={() => setIsTermsOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="modal-muted">Última atualização: 2026</p>
+              <p>
+                Ao utilizar o PertoDaqui, você concorda com os termos descritos
+                abaixo.
+              </p>
+              <h3>Uso da plataforma</h3>
+              <p>
+                O PertoDaqui é uma plataforma de descoberta de negócios e
+                experiências. Você é responsável pelo uso correto das informações
+                apresentadas.
+              </p>
+              <h3>Conteúdo e disponibilidade</h3>
+              <p>
+                Trabalhamos para manter os dados atualizados, mas não garantimos
+                disponibilidade, preços ou informações de terceiros.
+              </p>
+              <h3>Conduta</h3>
+              <p>
+                Não é permitido usar a plataforma para fins ilegais, abusivos ou
+                que violem direitos de terceiros.
+              </p>
+              <h3>Suporte</h3>
+              <p>
+                Para dúvidas ou suporte, entre em contato pelo email
+                contato@pertodaqui.com.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
