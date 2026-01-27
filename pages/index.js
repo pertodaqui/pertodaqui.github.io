@@ -31,6 +31,7 @@ import { getRandomSubtitle } from "../utils/textHelpers";
 
 const EARTH_RADIUS_KM = 6371;
 const QUICK_DISTANCES = [1, 5, 10, 25];
+const ITEMS_PER_PAGE = 12;
 
 const toRadians = (value) => (value * Math.PI) / 180;
 
@@ -148,6 +149,7 @@ export default function Home() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [weatherByCoord, setWeatherByCoord] = useState({});
   const [subtitle, setSubtitle] = useState(
     "Escolha o raio de distância e descubra o que explorar..."
@@ -271,6 +273,12 @@ export default function Home() {
     [filteredByCategory, selectedCategories]
   );
 
+  const totalPages = Math.max(1, Math.ceil(activeItems.length / ITEMS_PER_PAGE));
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return activeItems.slice(start, start + ITEMS_PER_PAGE);
+  }, [activeItems, currentPage]);
+
   const getCoordKey = (item) => `${item.lat},${item.lng}`;
 
   useEffect(() => {
@@ -341,6 +349,10 @@ export default function Home() {
         : [...prev, categoryKey]
     );
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [distance, selectedCategories, userCoords]);
 
   return (
     <>
@@ -475,7 +487,7 @@ export default function Home() {
           <section className="results">
             {activeItems.length > 0 ? (
               <div className="cards-grid">
-                {activeItems.map((item) => (
+                {paginatedItems.map((item) => (
                   <article className="place-card" key={`${item.id}-${item.categoryKey}`}>
                     <div className="place-media">
                       <img src={item.image} alt={item.title} loading="lazy" />
@@ -547,6 +559,30 @@ export default function Home() {
               </div>
             )}
           </section>
+
+          {activeItems.length > ITEMS_PER_PAGE && (
+            <div className="pagination">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+              <span>
+                Página {currentPage} de {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                }
+                disabled={currentPage === totalPages}
+              >
+                Próxima
+              </button>
+            </div>
+          )}
 
           <footer className="site-footer">
             <div className="footer-inner">

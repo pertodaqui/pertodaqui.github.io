@@ -531,6 +531,31 @@ input[type="range"]::-moz-range-track {
   color: var(--pd-blue-deep);
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--pd-blue-deep);
+}
+
+.pagination button {
+  border: 1px solid var(--pd-border);
+  background: #ffffff;
+  color: var(--pd-blue-deep);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .site-footer {
   margin-top: 32px;
   padding: 24px 0 8px;
