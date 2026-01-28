@@ -1,10 +1,18 @@
-const CACHE_NAME = "pertodaqui-v1";
+const CACHE_NAME = "pertodaqui-v5";
 const CORE_ASSETS = [
   "/",
+  "/index.html",
+  "/privacidade/",
+  "/termos/",
   "/offline.html",
   "/manifest.json",
+  "/logo.svg",
+  "/pwa/splash-logo.png",
   "/pwa/icon-192.png",
-  "/pwa/icon-512.png"
+  "/pwa/icon-256.png",
+  "/pwa/icon-384.png",
+  "/pwa/icon-512.png",
+  "/pwa/apple-touch-icon.png"
 ];
 
 self.addEventListener("install", (event) => {

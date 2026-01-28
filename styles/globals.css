@@ -761,3 +761,69 @@ input[type="range"]::-moz-range-track {
     grid-template-columns: 1fr;
   }
 }
+
+.pwa-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  background: #ffffff;
+  border: 1px solid var(--pd-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--pd-shadow);
+}
+
+.pwa-banner__content {
+  display: grid;
+  gap: 4px;
+  color: var(--pd-ink);
+  font-size: 0.95rem;
+}
+
+.pwa-banner__content strong {
+  color: var(--pd-blue);
+  font-size: 1rem;
+}
+
+.pwa-banner__content span {
+  color: var(--pd-muted);
+  font-size: 0.85rem;
+}
+
+.pwa-banner__actions {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pwa-banner__btn {
+  border: 1px solid var(--pd-blue);
+  background: var(--pd-blue);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pwa-banner__btn--ghost {
+  background: transparent;
+  color: var(--pd-blue);
+}
+
+@media (min-width: 900px) {
+  .pwa-banner {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    max-width: 420px;
+  }
+}
