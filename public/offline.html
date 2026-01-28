@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0e45a9" />
+    <title>PertoDaqui - Offline</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: #f5f7fb;
+        color: #0b1b3a;
+      }
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        background: #ffffff;
+        border: 1px solid #d7e1ef;
+        border-radius: 22px;
+        padding: 36px;
+        max-width: 560px;
+        width: min(92vw, 560px);
+        box-shadow: 0 16px 32px rgba(14, 69, 169, 0.12);
+      }
+      .logo {
+        width: 220px;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        color: #0e45a9;
+      }
+      p {
+        margin: 0 0 16px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .hint {
+        font-size: 14px;
+        color: #5b6a86;
+      }
+      .actions {
+        margin-top: 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #0e45a9;
+        color: #0e45a9;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <img class="logo" src="/logo.svg" alt="PertoDaqui" />
+        <h1>Voce esta offline</h1>
+        <p>Sem conexao no momento. Assim que a internet voltar, recarregue para ver os conteudos mais recentes.</p>
+        <p class="hint">PertoDaqui guarda as paginas que voce ja visitou para acesso rapido.</p>
+        <div class="actions">Atualizar pagina quando voltar</div>
+      </div>
+    </div>
+  </body>
+</html>
