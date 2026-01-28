@@ -13,5 +13,9 @@
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "javascript-obfuscator": "^5.2.1",
+    "webpack-obfuscator": "^3.6.0"
   }
 }
