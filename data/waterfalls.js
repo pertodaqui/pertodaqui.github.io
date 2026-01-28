@@ -1,4 +1,4 @@
-const nature = [
+const waterfalls = [
   {
     "id": "cachoeira-das-borboletas",
     "title": "Cachoeira das Borboletas",
@@ -244,4 +244,4 @@ const nature = [
   }
 ];
 
-export default nature;
+export default waterfalls;

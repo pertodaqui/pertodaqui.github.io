@@ -4,7 +4,6 @@ import {
   Bed,
   BeerStein,
   Coffee,
-  Briefcase,
   Columns,
   ForkKnife,
   EnvelopeSimple,
@@ -24,8 +23,10 @@ import bars from "../data/bars";
 import cafes from "../data/cafes";
 import culture from "../data/culture";
 import hotels from "../data/hotels";
-import parksNature from "../data/parks_nature";
+import parks from "../data/parks";
 import restaurants from "../data/restaurants";
+import waterfalls from "../data/waterfalls";
+import trails from "../data/trails";
 import tours from "../data/tours";
 import { getRandomSubtitle } from "../utils/textHelpers";
 
@@ -103,10 +104,24 @@ const categories = [
     )
   },
   {
-    key: "parks_nature",
-    label: "Natureza",
+    key: "parks",
+    label: "Parques",
     icon: (
       <Tree size={24} />
+    )
+  },
+  {
+    key: "waterfalls",
+    label: "Cachoeiras",
+    icon: (
+      <Tree size={24} />
+    )
+  },
+  {
+    key: "trails",
+    label: "Trilhas",
+    icon: (
+      <MapPinLine size={24} />
     )
   },
   {
@@ -210,8 +225,16 @@ export default function Home() {
     () => getItemsByDistance(hotels, distance, userCoords),
     [distance, userCoords]
   );
-  const filteredParksNature = useMemo(
-    () => getItemsByDistance(parksNature, distance, userCoords),
+  const filteredParks = useMemo(
+    () => getItemsByDistance(parks, distance, userCoords),
+    [distance, userCoords]
+  );
+  const filteredWaterfalls = useMemo(
+    () => getItemsByDistance(waterfalls, distance, userCoords),
+    [distance, userCoords]
+  );
+  const filteredTrails = useMemo(
+    () => getItemsByDistance(trails, distance, userCoords),
     [distance, userCoords]
   );
   const filteredRestaurants = useMemo(
@@ -235,7 +258,9 @@ export default function Home() {
     () => ({
       tours: filteredTours,
       hotels: filteredHotels,
-      parks_nature: filteredParksNature,
+      parks: filteredParks,
+      waterfalls: filteredWaterfalls,
+      trails: filteredTrails,
       restaurants: filteredRestaurants,
       cafes: filteredCafes,
       bars: filteredBars,
@@ -246,7 +271,9 @@ export default function Home() {
       filteredCafes,
       filteredCulture,
       filteredHotels,
-      filteredParksNature,
+      filteredParks,
+      filteredWaterfalls,
+      filteredTrails,
       filteredRestaurants,
       filteredTours
     ]
@@ -372,25 +399,39 @@ export default function Home() {
               <img src="/logo.svg" alt="PertoDaqui" className="logo" />
             </a>
             <div className="header-actions">
-              <a
-                className="cta-link"
-                href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Divulgue seu negócio"
-                title="Divulgue seu negócio"
-                onClick={() => {
-                  window.gtag?.("event", "cta_divulgue", {
-                    event_category: "engagement",
-                    event_label: "divulgue_negocio"
-                  });
-                }}
-              >
-                <span aria-hidden="true" className="cta-icon">
-                  <Briefcase size={20} weight="bold" />
-                </span>
-                <span className="cta-text">Divulgue seu negócio aqui</span>
-              </a>
+              <details className="filter-dropdown" open={isFilterOpen} ref={filterRef}>
+                <summary
+                  className="filter-button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsFilterOpen((prev) => !prev);
+                  }}
+                >
+                  <FunnelSimple size={16} />
+                  Filtrar atividades
+                </summary>
+                <div className="filter-menu">
+                  <span className="filter-menu-title">Categorias</span>
+                  {categories.map((category) => (
+                    <label
+                      key={category.key}
+                      className={`filter-option${
+                        selectedCategories.includes(category.key) ? " active" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category.key)}
+                        onChange={() => toggleCategory(category.key)}
+                      />
+                      <span className="filter-option-icon" aria-hidden="true">
+                        {category.icon}
+                      </span>
+                      <span>{category.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </details>
               <a className="cta-home" href="/" aria-label="Pagina inicial" title="Inicio">
                 <House size={20} weight="bold" />
               </a>
@@ -440,39 +481,6 @@ export default function Home() {
                   {value} km
                 </button>
               ))}
-              <details className="filter-dropdown" open={isFilterOpen} ref={filterRef}>
-                <summary
-                  className="filter-button"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setIsFilterOpen((prev) => !prev);
-                  }}
-                >
-                  <FunnelSimple size={16} />
-                  Filtro
-                </summary>
-                <div className="filter-menu">
-                  <span className="filter-menu-title">Categorias</span>
-                  {categories.map((category) => (
-                    <label
-                      key={category.key}
-                      className={`filter-option${
-                        selectedCategories.includes(category.key) ? " active" : ""
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category.key)}
-                        onChange={() => toggleCategory(category.key)}
-                      />
-                      <span className="filter-option-icon" aria-hidden="true">
-                        {category.icon}
-                      </span>
-                      <span>{category.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </details>
             </div>
             {!userCoords && (
               <div className="location-hint">
