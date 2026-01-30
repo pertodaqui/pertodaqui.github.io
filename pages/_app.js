@@ -92,6 +92,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <meta name="theme-color" content="#0e45a9" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-touch-icon.png" />
         <link
@@ -194,7 +195,7 @@ gtag('config', 'G-4PK6JRYRHV');`}
               className="pwa-banner__btn pwa-banner__btn--ghost"
               onClick={() => setShowInstallPrompt(false)}
             >
-              Agora nao
+              Agora não
             </button>
           </div>
         </div>

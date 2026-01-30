@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bed,
   BeerStein,
+  Binoculars,
   Coffee,
   Columns,
   ForkKnife,
@@ -26,6 +27,7 @@ import hotels from "../data/hotels";
 import parks from "../data/parks";
 import restaurants from "../data/restaurants";
 import waterfalls from "../data/waterfalls";
+import viewpoints from "../data/viewpoints";
 import trails from "../data/trails";
 import tours from "../data/tours";
 import { getRandomSubtitle } from "../utils/textHelpers";
@@ -90,27 +92,6 @@ const formatLocation = (location) => {
 
 const categories = [
   {
-    key: "tours",
-    label: "Passeios",
-    icon: (
-      <MapTrifold size={24} />
-    )
-  },
-  {
-    key: "hotels",
-    label: "Hospedagens",
-    icon: (
-      <Bed size={24} />
-    )
-  },
-  {
-    key: "parks",
-    label: "Parques",
-    icon: (
-      <Tree size={24} />
-    )
-  },
-  {
     key: "waterfalls",
     label: "Cachoeiras",
     icon: (
@@ -122,6 +103,20 @@ const categories = [
     label: "Trilhas",
     icon: (
       <MapPinLine size={24} />
+    )
+  },
+  {
+    key: "viewpoints",
+    label: "Mirantes",
+    icon: (
+      <Binoculars size={24} />
+    )
+  },
+  {
+    key: "parks",
+    label: "Parques",
+    icon: (
+      <Tree size={24} />
     )
   },
   {
@@ -139,6 +134,13 @@ const categories = [
     )
   },
   {
+    key: "bars",
+    label: "Bares",
+    icon: (
+      <BeerStein size={24} />
+    )
+  },
+  {
     key: "culture",
     label: "Cultura",
     icon: (
@@ -146,10 +148,17 @@ const categories = [
     )
   },
   {
-    key: "bars",
-    label: "Bares",
+    key: "hotels",
+    label: "Hospedagens",
     icon: (
-      <BeerStein size={24} />
+      <Bed size={24} />
+    )
+  },
+  {
+    key: "tours",
+    label: "Passeios",
+    icon: (
+      <MapTrifold size={24} />
     )
   }
 ];
@@ -233,6 +242,10 @@ export default function Home() {
     () => getItemsByDistance(waterfalls, distance, userCoords),
     [distance, userCoords]
   );
+  const filteredViewpoints = useMemo(
+    () => getItemsByDistance(viewpoints, distance, userCoords),
+    [distance, userCoords]
+  );
   const filteredTrails = useMemo(
     () => getItemsByDistance(trails, distance, userCoords),
     [distance, userCoords]
@@ -260,6 +273,7 @@ export default function Home() {
       hotels: filteredHotels,
       parks: filteredParks,
       waterfalls: filteredWaterfalls,
+      viewpoints: filteredViewpoints,
       trails: filteredTrails,
       restaurants: filteredRestaurants,
       cafes: filteredCafes,
@@ -273,6 +287,7 @@ export default function Home() {
       filteredHotels,
       filteredParks,
       filteredWaterfalls,
+      filteredViewpoints,
       filteredTrails,
       filteredRestaurants,
       filteredTours
@@ -395,7 +410,7 @@ export default function Home() {
       <div className="page">
         <header className="site-header">
           <div className="site-header-inner">
-            <a href="/" aria-label="Ir para a pagina inicial">
+            <a href="/" aria-label="Ir para a página inicial">
               <img src="/logo.svg" alt="PertoDaqui" className="logo" />
             </a>
             <div className="header-actions">
@@ -432,7 +447,7 @@ export default function Home() {
                   ))}
                 </div>
               </details>
-              <a className="cta-home" href="/" aria-label="Pagina inicial" title="Inicio">
+              <a className="cta-home" href="/" aria-label="Página inicial" title="Início">
                 <House size={20} weight="bold" />
               </a>
               <a
