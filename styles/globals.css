@@ -378,6 +378,12 @@ input[type="range"]::-moz-range-track {
   border: 1px solid var(--pd-border);
   box-shadow: var(--pd-shadow);
   display: grid;
+  overflow: visible;
+  position: relative;
+}
+
+.place-media {
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
 }
 
@@ -442,6 +448,11 @@ input[type="range"]::-moz-range-track {
 }
 
 .place-temp {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -452,6 +463,46 @@ input[type="range"]::-moz-range-track {
 .place-temp svg {
   width: 16px;
   height: 16px;
+}
+
+.place-temp-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.temp-tooltip {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  background: #ffffff;
+  border: 1px solid var(--pd-border);
+  border-radius: 12px;
+  box-shadow: var(--pd-shadow);
+  padding: 12px;
+  min-width: 200px;
+  z-index: 20;
+}
+
+.temp-tooltip strong {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--pd-blue-deep);
+  margin-bottom: 8px;
+}
+
+.temp-tooltip-list {
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--pd-muted);
+}
+
+.temp-tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--pd-blue-deep);
 }
 
 .place-footer a {

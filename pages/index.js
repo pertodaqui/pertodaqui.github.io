@@ -175,11 +175,13 @@ export default function Home() {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [weatherByCoord, setWeatherByCoord] = useState({});
+  const [forecastByCoord, setForecastByCoord] = useState({});
   const [subtitle, setSubtitle] = useState(
     "Escolha o raio de distância e descubra o que explorar..."
   );
   const filterRef = useRef(null);
   const weatherCacheRef = useRef({});
+  const [openTempKey, setOpenTempKey] = useState(null);
 
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -347,17 +349,38 @@ export default function Home() {
     });
 
     const fetchWeather = async ({ key, lat, lng }) => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto`;
       const response = await fetch(url, { signal: controller.signal });
       if (!response.ok) {
         return null;
       }
       const data = await response.json();
+      const timezone =
+        typeof data?.timezone === "string" ? data.timezone : "America/Sao_Paulo";
+      const todayStr = new Intl.DateTimeFormat("en-CA", {
+        timeZone: timezone
+      }).format(new Date());
       const temp = data?.current_weather?.temperature;
+      const daily = data?.daily;
+      const dates = Array.isArray(daily?.time) ? daily.time : [];
+      const maxes = Array.isArray(daily?.temperature_2m_max)
+        ? daily.temperature_2m_max
+        : [];
+      const mins = Array.isArray(daily?.temperature_2m_min)
+        ? daily.temperature_2m_min
+        : [];
+      const forecast = dates
+        .map((date, index) => ({
+          date,
+          max: typeof maxes[index] === "number" ? Math.round(maxes[index]) : null,
+          min: typeof mins[index] === "number" ? Math.round(mins[index]) : null
+        }))
+        .filter((entry) => entry.date >= todayStr)
+        .slice(0, 5);
       if (typeof temp === "number") {
-        return { key, temp: Math.round(temp) };
+        return { key, temp: Math.round(temp), forecast };
       }
-      return null;
+      return { key, temp: null, forecast };
     };
 
     Promise.all(pending.map(fetchWeather))
@@ -366,14 +389,26 @@ export default function Home() {
           return;
         }
         const next = {};
+        const nextForecast = {};
         results.forEach((result) => {
           if (result) {
-            next[result.key] = result.temp;
-            weatherCacheRef.current[result.key] = result.temp;
+            if (typeof result.temp === "number") {
+              next[result.key] = result.temp;
+            }
+            if (Array.isArray(result.forecast)) {
+              nextForecast[result.key] = result.forecast;
+            }
+            weatherCacheRef.current[result.key] = {
+              temp: result.temp,
+              forecast: result.forecast
+            };
           }
         });
         if (Object.keys(next).length > 0) {
           setWeatherByCoord((prev) => ({ ...prev, ...next }));
+        }
+        if (Object.keys(nextForecast).length > 0) {
+          setForecastByCoord((prev) => ({ ...prev, ...nextForecast }));
         }
       })
       .catch(() => {});
@@ -383,6 +418,22 @@ export default function Home() {
       controller.abort();
     };
   }, [activeItems]);
+
+  useEffect(() => {
+    if (!openTempKey) {
+      return;
+    }
+    const handleOutsideClick = (event) => {
+      const wrapper = event.target.closest("[data-temp-key]");
+      if (!wrapper || wrapper.dataset.tempKey !== openTempKey) {
+        setOpenTempKey(null);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [openTempKey]);
 
   const toggleCategory = (categoryKey) => {
     setSelectedCategories((prev) =>
@@ -544,12 +595,56 @@ export default function Home() {
                         >
                           <MapPinLine size={18} />
                         </a>
-                        <span className="place-temp" title="Temperatura atual">
-                          <Thermometer size={16} />
-                          <span>
-                            {weatherByCoord[getCoordKey(item)] ?? "--"}°C
-                          </span>
-                        </span>
+                        <div
+                          className="place-temp-wrap"
+                          data-temp-key={getCoordKey(item)}
+                        >
+                          <button
+                            type="button"
+                            className="place-temp"
+                            title="Temperatura atual"
+                            onClick={() => {
+                              const key = getCoordKey(item);
+                              setOpenTempKey((prev) =>
+                                prev === key ? null : key
+                              );
+                            }}
+                          >
+                            <Thermometer size={16} />
+                            <span>
+                              {weatherByCoord[getCoordKey(item)] ?? "--"}°C
+                            </span>
+                          </button>
+                          {openTempKey === getCoordKey(item) && (
+                            <div className="temp-tooltip" role="dialog">
+                              <strong>Próximos 5 dias</strong>
+                              <div className="temp-tooltip-list">
+                                {(forecastByCoord[getCoordKey(item)] || []).map(
+                                  (day) => (
+                                    <div
+                                      key={`${getCoordKey(item)}-${day.date}`}
+                                      className="temp-tooltip-row"
+                                    >
+                                      <span>
+                                        {new Date(day.date).toLocaleDateString(
+                                          "pt-BR",
+                                          {
+                                            weekday: "short",
+                                            day: "2-digit",
+                                            month: "2-digit"
+                                          }
+                                        )}
+                                      </span>
+                                      <span>
+                                        {day.min ?? "--"}°C / {day.max ?? "--"}°C
+                                      </span>
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </article>
