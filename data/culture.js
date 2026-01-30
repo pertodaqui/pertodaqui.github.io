@@ -189,15 +189,6 @@ const culture = [
     "lng": -45.7147602
   },
   {
-    "id": "museu-ministro-jose-de-moura-resende-cacapava-sp",
-    "title": "Museu Ministro José de Moura Resende",
-    "meta": "Museu em Caçapava, com acervo cultural e histórico da região.",
-    "location": "Caçapava - SP",
-    "image": "",
-    "lat": -23.1019873,
-    "lng": -45.708579
-  },
-  {
     "id": "museu-do-chocolate-nestle-chocotour-visita-cacapava-sp",
     "title": "Museu do Chocolate Nestlé",
     "meta": "Museu em Caçapava, com acervo cultural e histórico da região.",
@@ -211,7 +202,7 @@ const culture = [
     "title": "Museu Caipira",
     "meta": "Museu em Caçapava, com acervo cultural e histórico da região.",
     "location": "Caçapava - SP",
-    "image": "",
+    "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=oewRKbN0Ws368kA9KWtMkw&cb_client=search.gws-prod.gps&w=408&h=240&yaw=266.97736&pitch=0&thumbfov=100",
     "lat": -23.1019873,
     "lng": -45.708579
   },
@@ -241,15 +232,6 @@ const culture = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGY087xgqkJramkENFH30_KV2JV0blmxwqhGgZNr3KYHOh6EeWRLu0r7ALaJerPGzBIdWRiRan6nBg-VWs-_RidM9pQ-eQaowAsmpcl6A2eSMaMe85-BAWaZMucuo8-bQV8-2GAVkhZsyApkQ=s1600-w1600",
     "lat": -23.1120027,
     "lng": -45.7079785
-  },
-  {
-    "id": "fazenda-da-mina-de-carvao-cacapava-sp",
-    "title": "Fazenda da Mina de Carvão",
-    "meta": "Museu em Caçapava, com acervo cultural e histórico da região.",
-    "location": "Caçapava - SP",
-    "image": "",
-    "lat": -23.1880932,
-    "lng": -45.6800386
   },
   {
     "id": "reserva-do-museu-cacapava-sp",

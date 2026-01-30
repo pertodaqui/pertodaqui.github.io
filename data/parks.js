@@ -234,15 +234,6 @@ const parks = [
     "lng": -45.6026888
   },
   {
-    "id": "r-do-bosque-vila-inglesa-campos-do-jordao-sp",
-    "title": "R. do Bosque - Vila Inglesa",
-    "meta": "Área verde em Campos do Jordão, ideal para lazer e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "",
-    "lat": -22.7266156,
-    "lng": -45.5628425
-  },
-  {
     "id": "jardim-dos-pinhais-ecco-parque-santo-antonio-do-pinhal-sp",
     "title": "Jardim dos Pinhais Ecco Parque",
     "meta": "Área verde em Santo Antonio do Pinhal, ideal para lazer e contato com a natureza.",
@@ -340,15 +331,6 @@ const parks = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEKSIfUooCdX23l4l_0DpH4LEcwnG-Qd1Hb4RsDLb29Rd5aEAiBWJOtqhb9pv-F-jL-cUV8PHW-DkZHDifsj9fTEB97CxoO_Ne55eQGeeSq1j2jaPt4SjqKzWFU9J3HboKfoELDpQ6g_tDTfA=s1600-w1600",
     "lat": -22.8258955,
     "lng": -45.66339900000001
-  },
-  {
-    "id": "bosque-das-araucarias-santo-antonio-do-pinhal-sp",
-    "title": "Bosque das Araucárias",
-    "meta": "Área verde em Santo Antonio do Pinhal, ideal para lazer e contato com a natureza.",
-    "location": "Santo Antonio do Pinhal - SP",
-    "image": "",
-    "lat": -22.8275299,
-    "lng": -45.6361504
   },
   {
     "id": "pousada-e-restaurante-recanto-do-pico-santo-antonio-do-pinhal-sp",
@@ -655,7 +637,8 @@ const parks = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEp9RvAD3-p1iD_ccFmGHORy9Xde_wAq7km54wFAXLGD9sgirs5Kz2Ne-j4A2Ev6HA2L2Q7W5ZBDbEUr7wf8vZGseQI2FAxZGb-BrjBkW0uoyig7Y_WtxhBYfW-C2JRYwCqzfxkOq5CF8NB=s1600-w1600",
     "lat": -23.0714073,
     "lng": -45.9333534
-  }
+  },
+
 ];
 
 export default parks;

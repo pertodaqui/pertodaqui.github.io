@@ -388,10 +388,10 @@ const waterfalls = [
   },
   {
     "id": "cachoeira-do-chapeu-km1-sao-luiz-do-paraitinga-sp",
-    "title": "Cachoeira do Chápeu km1",
+    "title": "Cachoeira do Chápeu",
     "meta": "Localizada em São Luiz do Paraitinga, é uma queda d'água procurada para banho e contato com a natureza.",
     "location": "São Luiz do Paraitinga - SP",
-    "image": "",
+    "image": "https://s0.wklcdn.com/image_41/1242845/7770748/53927718.400x300.jpg",
     "lat": -23.2538818,
     "lng": -45.28792910000001
   },
@@ -412,15 +412,6 @@ const waterfalls = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF4YzlLDDgm_ClFiOR1mvzWVzfRvXNrJQLifobjCgciC4pEEKgBhHARg_b8lqgrjaaXWsTL3f-Zr9O0q4VX9ONg3YIsbyENLhvP-Hi81OMyNhcegFXWkrYRFnBD4YWTBg7oZ6pzCz-RLCmhtg=s1600-w1600",
     "lat": -23.2525368,
     "lng": -45.1712061
-  },
-  {
-    "id": "cachoeira-do-salto-grande-sao-luiz-do-paraitinga-sp",
-    "title": "Cachoeira do Salto Grande",
-    "meta": "Localizada em São Luiz do Paraitinga, é uma queda d'água procurada para banho e contato com a natureza.",
-    "location": "São Luiz do Paraitinga - SP",
-    "image": "",
-    "lat": -23.3434601,
-    "lng": -45.1559376
   },
   {
     "id": "cachoeira-do-saltinho-sao-luiz-do-paraitinga-sp",
@@ -571,7 +562,7 @@ const waterfalls = [
     "title": "Cachoeira da macumba",
     "meta": "Localizada em Ubatuba, é uma queda d'água procurada para banho e contato com a natureza.",
     "location": "Ubatuba - SP",
-    "image": "",
+    "image": "https://media-cdn.tripadvisor.com/media/photo-s/11/f6/90/4d/cachoeira-do-pe-da-serra.jpg",
     "lat": -23.4208875,
     "lng": -45.1097054
   },
@@ -637,15 +628,6 @@ const waterfalls = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHXmR_YSX86EysTY5VPAT-097Fk6Ld2bDHrc1g8i-qhtmvAxyMwl-Zq2UWHFVYW5tc9doly6NEwIrs7woNgvY27phMO-uhwVkD26bJyF3eF0oJlgEzvwT3Xc4DoJCaVY94wsB_Ned8CpcsRZribfGhBFA=s1600-w1600",
     "lat": -23.1275279,
     "lng": -45.4116564
-  },
-  {
-    "id": "cachoeira-das-almas-taubate-sp",
-    "title": "Cachoeira das Almas",
-    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "",
-    "lat": -23.1275482,
-    "lng": -45.4115508
   },
   {
     "id": "cachoeira-do-caipira-taubate-sp-taubate-sp",
@@ -783,15 +765,6 @@ const waterfalls = [
     "lng": -45.4401143
   },
   {
-    "id": "cachoeira-da-bela-queda-natividade-da-serra-sp",
-    "title": "Cachoeira da bela queda",
-    "meta": "Localizada em Natividade da Serra, é uma queda d'água procurada para banho e contato com a natureza.",
-    "location": "Natividade da Serra - SP",
-    "image": "",
-    "lat": -23.5397977,
-    "lng": -45.41835649999999
-  },
-  {
     "id": "trilha-da-capelinha-natividade-da-serra-sp-natividade-da-serra-sp",
     "title": "Trilha da Capelinha - Natividade da Serra/SP",
     "meta": "Localizada em Natividade da Serra, é uma queda d'água procurada para banho e contato com a natureza.",
@@ -835,15 +808,6 @@ const waterfalls = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE127EExI-uIeCKCi284rO8wHPLuZ5eaDDv_VzmKfjjlflXzhegNczhB8Mbd_g0zMjbq-vHWse6weeEMuYdGlKLpPzNuoXTrlwIwrNuHcrq67R7KtMlf37hc2ol-RJgnPEy9Ul6V7PmSM9FtcgNt9nU4Q=s1600-w1600",
     "lat": -23.1566265,
     "lng": -46.0509086
-  },
-  {
-    "id": "cachoeira-da-ponte-velha-sao-jose-dos-campos-sp",
-    "title": "Cachoeira da ponte velha",
-    "meta": "Localizada em São José dos Campos, é uma queda d'água procurada para banho e contato com a natureza.",
-    "location": "São José dos Campos - SP",
-    "image": "",
-    "lat": -23.0986129,
-    "lng": -46.0194044
   },
   {
     "id": "cachoeira-da-pedra-rachada-sao-jose-dos-campos-sp",
@@ -1159,15 +1123,6 @@ const waterfalls = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEm06j4vzHFJ_xNdSyXCo4pfg33B5SZDubMRpldlC7rqcKY57tkvHtLPjrcAw1zNZhbR8BzOyl0B4unOdp60nNUnCWMbWpF3Gwx5nL1AmOIXktRn6cKiB5IgE6sftWhRQuiRKpF-wHvTd3SYg=s1600-w958",
     "lat": -22.5342814,
     "lng": -45.1460093
-  },
-  {
-    "id": "cachoeira-piquete-mane-basto-piquete-sp",
-    "title": "Cachoeira piquete Mané Basto",
-    "meta": "Localizada em Piquete, é uma queda d'água procurada para banho e contato com a natureza.",
-    "location": "Piquete - SP",
-    "image": "",
-    "lat": -22.5796751,
-    "lng": -45.1324317
   }
 ];
 
