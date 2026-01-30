@@ -96,4 +96,4 @@ Checklist:
 
 ## Contato
 
-Email: `contato@pertodaqui.com`
+Email: `contato@pertodaqui.app`

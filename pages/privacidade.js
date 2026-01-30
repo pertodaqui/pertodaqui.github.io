@@ -44,9 +44,9 @@ export default function Privacidade() {
               </a>
               <a
                 className="cta-contact"
-                href="mailto:contato@pertodaqui.com"
-                aria-label="Enviar email para contato@pertodaqui.com"
-                title="contato@pertodaqui.com"
+                href="mailto:contato@pertodaqui.app"
+                aria-label="Enviar email para contato@pertodaqui.app"
+                title="contato@pertodaqui.app"
               >
                 <EnvelopeSimple size={20} weight="bold" />
               </a>
@@ -80,7 +80,7 @@ export default function Privacidade() {
             <h2>Seus direitos</h2>
             <p>
               Você pode solicitar acesso, correção ou exclusão de dados pelo
-              email contato@pertodaqui.com.
+              email contato@pertodaqui.app.
             </p>
           </section>
 

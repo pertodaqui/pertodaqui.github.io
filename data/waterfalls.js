@@ -20,6 +20,11 @@ import waterfallsSantoAntonio from "./waterfalls/santoantoniopinhal-sp.js";
 import waterfallsSaoSebastiao from "./waterfalls/saosebastiao-sp.js";
 import waterfallsJambeiro from "./waterfalls/jambeiro-sp.js";
 import waterfallsCaraguata from "./waterfalls/caraguatatuba-sp.js";
+import waterfallsGuarulhos from "./waterfalls/guarulhos-sp.js";
+import waterfallsRibeiraoPires from "./waterfalls/ribeiraopires-sp.js";
+import waterfallsSantoAndré from "./waterfalls/santoandre-sp.js";
+import waterfallsSãoPaulo from "./waterfalls/saopaulo-sp.js";
+import waterfallsSBC from "./waterfalls/sbc-sp.js";
 
 
 const waterfalls = [
@@ -44,7 +49,12 @@ const waterfalls = [
   ...waterfallsSantoAntonio,
   ...waterfallsSaoSebastiao,
   ...waterfallsJambeiro,
-  ...waterfallsCaraguata
+  ...waterfallsCaraguata,
+  ...waterfallsGuarulhos,
+  ...waterfallsRibeiraoPires,
+  ...waterfallsSantoAndré,
+  ...waterfallsSãoPaulo,
+  ...waterfallsSBC
 ];
 
 export default waterfalls;

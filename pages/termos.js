@@ -41,9 +41,9 @@ export default function Termos() {
               </a>
               <a
                 className="cta-contact"
-                href="mailto:contato@pertodaqui.com"
-                aria-label="Enviar email para contato@pertodaqui.com"
-                title="contato@pertodaqui.com"
+                href="mailto:contato@pertodaqui.app"
+                aria-label="Enviar email para contato@pertodaqui.app"
+                title="contato@pertodaqui.app"
               >
                 <EnvelopeSimple size={20} weight="bold" />
               </a>
@@ -78,7 +78,7 @@ export default function Termos() {
             <h2>Suporte</h2>
             <p>
               Para dúvidas ou suporte, entre em contato pelo email
-              contato@pertodaqui.com.
+              contato@pertodaqui.app.
             </p>
           </section>
 

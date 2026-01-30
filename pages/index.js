@@ -452,9 +452,9 @@ export default function Home() {
               </a>
               <a
                 className="cta-contact"
-                href="mailto:contato@pertodaqui.com"
-                aria-label="Enviar email para contato@pertodaqui.com"
-                title="contato@pertodaqui.com"
+                href="mailto:contato@pertodaqui.app"
+                aria-label="Enviar email para contato@pertodaqui.app"
+                title="contato@pertodaqui.app"
               >
                 <EnvelopeSimple size={20} weight="bold" />
               </a>
@@ -633,7 +633,7 @@ export default function Home() {
                   <FileText size={18} weight="bold" />
                   Termos de uso
                 </button>
-                <a href="/contato">
+                <a className="footer-link-button" href="/contato">
                   <EnvelopeSimple size={18} weight="bold" />
                   Contato
                 </a>
@@ -681,7 +681,7 @@ export default function Home() {
               <h3>Seus direitos</h3>
               <p>
                 Você pode solicitar acesso, correção ou exclusão de dados pelo
-                email contato@pertodaqui.com.
+                email contato@pertodaqui.app.
               </p>
             </div>
           </div>
@@ -727,7 +727,7 @@ export default function Home() {
               <h3>Suporte</h3>
               <p>
                 Para dúvidas ou suporte, entre em contato pelo email
-                contato@pertodaqui.com.
+                contato@pertodaqui.app.
               </p>
             </div>
           </div>

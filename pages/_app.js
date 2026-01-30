@@ -184,7 +184,7 @@ gtag('config', 'G-4PK6JRYRHV');`}
             <div className="pwa-banner__icon">{platformIcon()}</div>
             <div className="pwa-banner__content">
               <strong>Instale o PertoDaqui</strong>
-              <span>Tenha o app com acesso rapido na tela inicial.</span>
+              <span>Tenha o app com acesso rápido na tela inicial.</span>
             </div>
           </div>
           <div className="pwa-banner__actions">
