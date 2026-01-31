@@ -1123,7 +1123,100 @@ const waterfalls = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEm06j4vzHFJ_xNdSyXCo4pfg33B5SZDubMRpldlC7rqcKY57tkvHtLPjrcAw1zNZhbR8BzOyl0B4unOdp60nNUnCWMbWpF3Gwx5nL1AmOIXktRn6cKiB5IgE6sftWhRQuiRKpF-wHvTd3SYg=s1600-w958",
     "lat": -22.5342814,
     "lng": -45.1460093
-  }
+  },
+   {
+    "id": "cachoeira-rf-campos-do-jordao-sp",
+    "title": "Cachoeira RF",
+    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF--O2QZfWOWX_mwy7ZxySAq4yi673z9uMSRELjHWZgJlsuOAhql8hFCM1AdPOrDt-Zv6QPF4QVwHb5g5bSylYDuFWIG6WZ4PagALTOylP1q2InBWhXdVl8v-0WdbLx8GK2xacs0hj7VUK1=s1600-w1600",
+    "lat": -22.7424723,
+    "lng": -45.5631728
+  },
+  {
+    "id": "cachoeira-das-almas-taubate-sp",
+    "title": "Cachoeira das Almas",
+    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=auJxWk41uLOqqRFKYQQs_g&cb_client=search.gws-prod.gps&yaw=289.56363&pitch=0&thumbfov=100&w=600&h=208",
+    "lat": -23.1275482,
+    "lng": -45.4115508
+  },
+  {
+    "id": "cachoeira-de-jambeiro-jambeiro-sp",
+    "title": "Cachoeira de Jambeiro",
+    "meta": "Localizada em Jambeiro, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Jambeiro - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOQxx-ofIVx4A_38MuPVpfz1CnLNn9HRh2e_-KstXBigjf7BV6WoTa1vEIWiDCJ9DTRC9BOs00dhDP4kAeHdztLx5M70NnRiEmCezAnYlJ0Wr-OXL1AXzoSPk3kjLsxuvA_iql1b5aoNakLs8=s1600-w1600",
+    "lat": -23.2486302,
+    "lng": -45.6621026
+  },
+  {
+    "id": "cachoeira-do-triangulo-taubate-taubate-sp",
+    "title": "Cachoeira do triângulo - Taubaté",
+    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGU50z_0uZ-Md2HNKqoVfQWyrZpbn19HZcvSvjpMYA9REjBlVTvfwDSxoc2ZfSHRmNafmTWAdDnQedvh4zpcMrrOupV-smo5EnMBkr08hAHnt5wPpErcGp0ySMybNjA8y_BZbjMFSnaQDjseFk=s1600-w1600",
+    "lat": -22.9775075,
+    "lng": -45.6772611
+  },
+  {
+    "id": "cachoeira-do-vitor-caieiras-taubate-sp",
+    "title": "Cachoeira do Vitor (Caieiras)",
+    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHXmR_YSX86EysTY5VPAT-097Fk6Ld2bDHrc1g8i-qhtmvAxyMwl-Zq2UWHFVYW5tc9doly6NEwIrs7woNgvY27phMO-uhwVkD26bJyF3eF0oJlgEzvwT3Xc4DoJCaVY94wsB_Ned8CpcsRZribfGhBFA=s1600-w1600",
+    "lat": -23.1275279,
+    "lng": -45.4116564
+  },
+  {
+    "id": "cachoeira-vini-hermano-taubate-sp",
+    "title": "Cachoeira Vini Hermano",
+    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE_rdTOw7tGe3AYudzrW7QurIArfp_cMzwJI_2QVihYDeswaxWc5t_wSLygyguI710OBC8Qt61VNJv4yIwdb1UONfyOJ7oxMW6y39AeoaI3rWZQf_Kj02EBL2yNDoiimC9E2yeMGohtuMDJlQ=s1600-w720",
+    "lat": -23.072012,
+    "lng": -45.337715
+  },
+  {
+    "id": "cachoeira-da-melancia-paraty-rj",
+    "title": "Cachoeira da Melancia",
+    "meta": "Localizada em Paraty, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Paraty - RJ",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOMUfRZ9qDePplmcOHWcuvDcX3-_BBkLXHFVJXGThCQ-YI_gOsrQyvMjAhSsu0avq75RXEUDZ7G3mr2AsdGycZAxbbhoxcKLvwFGFRATo8XVhjRhQcrS5lVr3ym2W12fOVpBQdZs6tAmH2JIY=s1600-w1600",
+    "lat": -23.0277386,
+    "lng": -44.7050801
+  },
+  {
+    "id": "cachoeira-do-engenho-paraty-rj",
+    "title": "Cachoeira do Engenho",
+    "meta": "Localizada em Paraty, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Paraty - RJ",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNG0kUhbaTmWBdlYvbPSTJyN3e_7VNUF3QLpmPHYltTd92bDiaA7xNKCq8QnwD_qku9DD1QcWAzpiVFrvgG7J7dlqXV6ef7ISyC-3Q0x4Wh_5GYnUpdt9IfdkEyvDJKho06Yw4p3zUi65G_lR_Q=s1600-w1600",
+    "lat": -23.250107,
+    "lng": -44.60393089999999
+  },
+  {
+    "id": "cachoeira-da-pedra-grande-taubate-sp-trail",
+    "title": "Cachoeira da Pedra Grande",
+    "meta": "Localizada em Taubaté, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEplZllfjyfIy6eYppLPs0x7zsZHwbLouCfk6v0KeOrXXkiNs33KvP0rpo1IT2GxLeUWs5AH7QaEDrVasfoxtpcOa1ACAP2yFTQxeOWknDZaA_EZn6Nmlob7WNyVNIgpWJVzn7Dg8ZsKOKs0A=s1600-w1600",
+    "lat": -23.0926348,
+    "lng": -45.3688949
+  },
+  {
+    "id": "cachoeira-pocao-da-grauna-paraty-rj-trail",
+    "title": "Cachoeira Poção da Graúna",
+    "meta": "Localizada em Paraty, é uma queda d'água procurada para banho e contato com a natureza.",
+    "location": "Paraty - RJ",
+    "image": "https://lh3.googleusercontent.com/places/ANXAkqFMq4ZZr2dvCcJ8gcNv7iGNYML8CH8dgtfPpEl5_N9NRciMDCUbF-A2l4S3J6wJxAZHSHqMOUBVgsOXYuR8-0IZKLR3kWOyWcw=s1600-w1200",
+    "lat": -23.1411653,
+    "lng": -44.7341602
+  },
 ];
 
 export default waterfalls;
+
+
+

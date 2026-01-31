@@ -34,7 +34,26 @@ const viewpoints = [
     "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweofvG5KmVcAggqMLEZamero6AW3vmXBKlofqEvKdpaZ77gwHX0jlYSGn3d_F8FTMBthhm-3eOMD4FVCOwpu1p-Z1G7CbClkRA0wuzPdsIP-MPj0fgE_LpJ7JsGj2_ZLp9wnW1R_=w408-h544-k-no",
     "lat": -22.97702004751788,
     "lng": -45.215658203626894
+  },
+  {
+    "id": "mirante-da-estrada-ferroviaria-campos-do-jordao-sp",
+    "title": "Mirante da Estrada Ferroviária",
+    "meta": "Ponto de observação em Campos do Jordão com vista panorâmica da região.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZZ5VW319f1LicN4wqtp4IkVLKCvPPoUJp3Jj6ekgMSZGMmMQzyNQ_dSWAKucQHmZebV5FQ-nxxPI9YxKD5BE4KJiNqADmYX3g-vZlk_H5-NEh0Ue2huMI0IB7275naHgHdf-iFmgdrbAKLw=s1600-w1600",
+    "lat": -22.7930325,
+    "lng": -45.6223734
+  },
+  {
+    "id": "mirante-do-cruzeiro-jambeiro-sp",
+    "title": "Mirante do Cruzeiro",
+    "meta": "Ponto de observação em Jambeiro com vista panorâmica da região.",
+    "location": "Jambeiro - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHbgCMhLfhnacTCIDbop_h0WyEeiTSNWUeFjm5dKBKwe9kvPTLX_mhebkepdEkB5Giy8GG4mFYOwsRivcURv3UaZowORAtsq-JgwEZn18EDysbqfIwkYjG_Yq0DzRfkxIt9GrjeFgQoKewsAA=s1600-w1600",
+    "lat": -23.2560034,
+    "lng": -45.6849263
   }
 ];
 
 export default viewpoints;
+

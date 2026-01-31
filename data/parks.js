@@ -89,6 +89,33 @@ const parks = [
     "lat": -23.037097822577824,
     "lng": -45.53384617888919
   },
+    {
+    "id": "parque-bambui-campos-do-jordao-sp",
+    "title": "Parque Bambuí",
+    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF_HP_3ZFEbGKsAk8AZVQjSwcRS65ZGZsUXUwHkM5jxeYWBuXDDdYmQHjasHwbAwJd7eRgrfYXo-00AlX--m10moCmzQs8VhXmfPj-U_d7VMYRXboWL3NmaahPEOHtOJZSKUXKaGBB9vZNbXw=s1600-w1600",
+    "lat": -22.7639492,
+    "lng": -45.595093
+  },
+    {
+    "id": "parque-tarundu-campos-do-jordao-sp",
+    "title": "Parque Tarundu",
+    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGhKr0sUEJ6V0ytSSAAyDiC9BeS8OvqK9XCA4p8loxYToiRM-tu-yeFFsSLKexB6dm6NSeBvr91Rp6IodkSlHh6TaCKbRvyNzu8LOIK09k0HAgYZLa-ej4anT0vn6CYouBIgNGjoE_0eVJAhw=s1600-w1600",
+    "lat": -22.7665172,
+    "lng": -45.6034933
+  },
+   {
+    "id": "parque-estadual-campos-do-jordao-horto-florestal-campos-do-jordao-sp",
+    "title": "Parque Estadual Campos do Jordão (Horto Florestal)",
+    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEDyAH5UjUsJXKuXDm-pZC_CbNMNW-rFUsIQuZP_XNbLetYCwi-SqD6c_JOui7xM8PvZkBr1udZCh_Z566K7SXVPRfA6UE8Ll33XjcgNiMJHuBQ5Vd8SSruhIW3gkcz73MsWaGj7_fshFUgY1k=s1600-w1600",
+    "lat": -22.6898797,
+    "lng": -45.4811782
+  },
   {
     "id": "horto-municipal-taubate",
     "title": "Horto Municipal de Taubaté",
@@ -331,6 +358,15 @@ const parks = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEKSIfUooCdX23l4l_0DpH4LEcwnG-Qd1Hb4RsDLb29Rd5aEAiBWJOtqhb9pv-F-jL-cUV8PHW-DkZHDifsj9fTEB97CxoO_Ne55eQGeeSq1j2jaPt4SjqKzWFU9J3HboKfoELDpQ6g_tDTfA=s1600-w1600",
     "lat": -22.8258955,
     "lng": -45.66339900000001
+  },
+   {
+    "id": "bosque-do-silencio-campos-do-jordao-sp",
+    "title": "Bosque do Silêncio",
+    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/places/ANXAkqHEgekvEgdoMW0JCK68ESKeU4Oy5e8n3X03ZqA7IqnbAYpD4G5A4fZRrxcXniSviqLx-_LacNnTfDSchlyuEtzxdkDKqNLX298=s1600-w1600",
+    "lat": -22.7335427,
+    "lng": -45.5714982
   },
   {
     "id": "pousada-e-restaurante-recanto-do-pico-santo-antonio-do-pinhal-sp",
@@ -638,7 +674,62 @@ const parks = [
     "lat": -23.0714073,
     "lng": -45.9333534
   },
+  {
+    "id": "parque-estadual-campos-do-jordao-campos-do-jordao-sp",
+    "title": "Parque Estadual Campos do Jordão",
+    "meta": "Parque estadual em Campos do Jordão, ideal para lazer e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF9tX4qXAS_Gmogc505iEF9LbmCKTaXEEXVIY3jewu8rXGsVpxh_8yF8NkpBj1C7YYwUEv70bGNTX5TKaDFmyrHI3yitpgH2Uei3v93CPiyGXQfoLiikNWSErOUB37tuBy6Rn8DWHqbyU4PYYe-cWLiWQ=s1600-w1600",
+    "lat": -22.690198,
+    "lng": -45.489899
+  },
+  {
+    "id": "mata-comprida-ecoparque-campos-do-jordao-sp",
+    "title": "Mata Comprida Ecoparque",
+    "meta": "Ecoparque em Campos do Jordão, ideal para lazer e contato com a natureza.",
+    "location": "Campos do Jordão - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEieWeqoNwl02A5mERkq-xd9s711172oGLYRGFoh-lB9ACYLMB9gfJo0UTlMRE9nWE4bkc-MGlbToCg-uHAPI8ckJMDRueF6zxa95IiRndkYlvr-rpaYOg2GBWYHFlAKjjRUMUo63n5cHXWcEK9Ntuh=s1600-w1600",
+    "lat": -22.7330389,
+    "lng": -45.6350743
+  },
+  {
+    "id": "parque-vale-do-itaim-taubate-sp",
+    "title": "Parque Vale do Itaim",
+    "meta": "Parque em Taubaté, ideal para lazer e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFSwC4vE5v7yfI9z3gFByG7cgPkKx4HQauo6P_HXCkP0McAyBQNbbRoyNSOaCY52bz8BV1oFcDFOuPPtXWqPLtIeX__ECcYSg3zW1J6pmtCM-sGoxu1Bj9CQO1AOdWn7XNO3usY39r1-4uhfA=s1600-w1600",
+    "lat": -23.0372505,
+    "lng": -45.53380629999999
+  },
+  {
+    "id": "parque-municipal-taubate-sp",
+    "title": "Parque Municipal",
+    "meta": "Parque em Taubaté, ideal para lazer e contato com a natureza.",
+    "location": "Taubaté - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNELEcVNHzT-BOIUp1WdCagKd_QST5fSTIPY4yY1SXTKcpUL7K4CENiuSkdTSVEFQedAjXcHrNHm3Jjl38C6lqGyskamcGNLdqh98Bs7LqqVWiaygBm87tZnXoQJSaeJF9vkX4LgxYDVrQaq9g=s1600-w1600",
+    "lat": -23.0369198,
+    "lng": -45.533202
+  },
+  {
+    "id": "parque-roberto-burle-marx-parque-da-cidade-sao-jose-dos-campos-sp",
+    "title": "Parque Roberto Burle Marx - Parque da Cidade",
+    "meta": "Parque em São José dos Campos, ideal para lazer e contato com a natureza.",
+    "location": "São José dos Campos - SP",
+    "image": "https://lh3.googleusercontent.com/places/ANXAkqF0B7hnxYlIuS-3uV66PakBe_DNiaQU2bQ3cySTBZRDoYMb8D45Sy3sP0gl3cooXdF7OZEJBF0_pt1aeMp8m5qJnFIbpoo-1Cs=s1600-w1290",
+    "lat": -23.1715639,
+    "lng": -45.8899985
+  },
+  {
+    "id": "parque-alberto-simoes-sao-jose-dos-campos-sp",
+    "title": "Parque Alberto Simões",
+    "meta": "Parque em São José dos Campos, ideal para lazer e contato com a natureza.",
+    "location": "São José dos Campos - SP",
+    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE6y6BoqKo-Y-CB2_arvf5ginbZY15Bbz_S0X-036ugU1s2-Z-CuIGRq6uAwumnFc6BTPnqDl5Kvf1n5q6INmZDrWnw4xGPQC5f2rMirtOcOZIKgWmo8kKR7aPaDLYWkbSJICs5iAxylPvW=s1600-w1600",
+    "lat": -23.1635121,
+    "lng": -45.9128825
+  }
 
 ];
 
 export default parks;
+

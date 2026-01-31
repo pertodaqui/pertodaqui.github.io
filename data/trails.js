@@ -9,24 +9,6 @@ const trails = [
     "lng": -45.4896489
   },
   {
-    "id": "cachoeira-do-encontro-pindamonhangaba-sp",
-    "title": "Cachoeira do Encontro",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFcSdHpGQyZ7pCEFn1jCtFSFQe8e_ZgeaFJOYjUhFwA2RE96C9hdUZ410Nq7w0aeXNyDq6KxCb0P7OH2SutHDNFm0xwG2rSEJidtd_i54_CUGHq0yNUVZGiGaLGmJM-vRBupU0rOgdSHmQ3yw=s1600-w1600",
-    "lat": -22.8411417,
-    "lng": -45.6041193
-  },
-  {
-    "id": "cachoeira-do-indio-pindamonhangaba-sp",
-    "title": "Cachoeira do índio",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEuXkEj_1XeaJomBVY72eNeAKDhwHQr6cw0LZlp-aTmfXsU8lBVbzPcsM3H1SXRuKaZDHqqHhn-j73uHA--1cKqf5fGPcGc7zbEKj5p4EcWDwRLoGI3vSc5oVYKKRvLyu3HcpcsFcXxXW34Nw=s1600-w1600",
-    "lat": -22.796784,
-    "lng": -45.5609495
-  },
-  {
     "id": "trilha-para-parque-itapeva-pindamonhangaba-sp",
     "title": "Trilha para parque itapeva",
     "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
@@ -34,15 +16,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFSE3qp7RziTqNUFececM0Cugv7Wp91ZVEcAB0Uq3_vTHR4Okrodd_Jr5L75z8XrFs7pfe8on2twAY39HcmQZ5JQzcTm2PtZGRI15LXcW7zE7t07dcAhquwymVngX9bL0LCy3sblIuF3iK5czUaMWOuKw=s1600-w1600",
     "lat": -22.7790159,
     "lng": -45.5241908
-  },
-  {
-    "id": "cachoeira-poco-das-pacas-pindamonhangaba-sp",
-    "title": "Cachoeira Poço das Pacas",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNH1fn9EbvgXeGwFpdygTyaqSKkxJrJuwoGrH_rlmFOwXH2b5FPa1qobsNHlMz1GxOHNo043Su-zMEJOP-S7ArO_D-VAKOuFUmW2xZsQEGTVVIzF80EKikQ3qoSQahTr7Rc5YPTxNIDXmavoLw1RPHpyfQ=s1600-w913",
-    "lat": -22.7678436,
-    "lng": -45.4162074
   },
   {
     "id": "trilha-sertao-dos-moreiras-pindamonhangaba-sp",
@@ -54,24 +27,6 @@ const trails = [
     "lng": -45.506182
   },
   {
-    "id": "ponto-de-encontro-bike-pindamonhangaba-sp",
-    "title": "Ponto de Encontro BIKE",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/places/ANXAkqFwQefqAidTcR7Q2OcQ32an07K10eoM8jnj-p8eeKfNFk3GZRXe7UKxRKW5G0A_hcfIlvX-AjYDk-0wTE1r-vqrnTAHWP0CQus=s1600-w1120",
-    "lat": -22.9219637,
-    "lng": -45.4709479
-  },
-  {
-    "id": "cachoeira-dos-bufalos-pindamonhangaba-sp",
-    "title": "Cachoeira dos Búfalos",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFm3ygfmbEb2AtjZypHDnT4-L8BDgJeZV2BFa4VuuN-K77w9UEgVGz2pQlliMblFfIWiifV8lRfnf6FReb3V-j1xKmHQDnGshPC5IYmvzt5t8LSU527pkkGTaISoECWxfGT-5KkrnfUnCejkg=s1600-w1600",
-    "lat": -22.8261678,
-    "lng": -45.5595968
-  },
-  {
     "id": "sitio-km-25-pindamonhangaba-sp",
     "title": "Sítio km 25",
     "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
@@ -79,51 +34,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFuJIgt_TsWRwvocyMYQsnTHR-bJIsOXImXK_KIUa-hIfFsSTzrlZAuzZQAAPCQUDeEU0RZdRl6zNZvNRcthlCBvA85M4t2b1JMu5sRTmBp8xcxk_Mz0mfvLJi3UjNcGz4XepIXgDUfO5KdWw=s1600-w1600",
     "lat": -22.8323241,
     "lng": -45.6161035
-  },
-  {
-    "id": "parque-natural-municipal-do-trabiju-pindamonhangaba-sp",
-    "title": "Parque Natural Municipal do Trabiju",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFNx8XC0YsyErlV55xRorxJM2TpfB6jBfUu_lQtExnA3VO74ZLto5sowDAmd4ez-94-DycXPcqt9xJLUKLCaRcxHNFTvduHqumNsH-cz97bo9KnvCAfN7u68ZEIHCxyxDQ398lAI2RodVW8=s1600-w1600",
-    "lat": -22.8465071,
-    "lng": -45.5177646
-  },
-  {
-    "id": "cachoeira-da-onca-pintada-pindamonhangaba-sp",
-    "title": "Cachoeira da onça pintada",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGyc-Ic4InvDpweb9R4s54kN3Gf4k3FNmXBlmK4Fs7K1rlWIYS9-ysVow6h5q593uwr5D5TKz3Glp_9EkDnsRm01LL3L5edimolPadIN08Gs0JHBKk7gbE4fCa_nyiKAjGKNJqCK3AWvd7pL9I=s1600-w1600",
-    "lat": -22.8345069,
-    "lng": -45.4754192
-  },
-  {
-    "id": "cachoeira-curva-do-senna-pindamonhangaba-sp",
-    "title": "Cachoeira Curva do Senna",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE4s1lvg2UYHcl5v47lDbE6cL2NQ-hzppyZlCWlEIajCpKRmXtZTXsrU_QOacxfU2wwdyb74ulwpyyK5cfTEb_UI325zGFz8ACa5hl06al9j32pIBWP5KyJgLaWobBPboeQP8PT6_M2S-13Qw=s1600-w1600",
-    "lat": -22.8452116,
-    "lng": -45.5824293
-  },
-  {
-    "id": "cachoeira-tetequera-pindamonhangaba-sp",
-    "title": "Cachoeira tetequera",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGKGfEtkXf-RRUsJ7SwLqxIjtqqNnDY8dsGwnXgFPh0FUyx0mjn6v1oatDEU3CNAyCtW0B61BU6-CZp61owMybeXThRx3w0nB3F76GLtQqonwmRFgYL1c0oD7CH0xNrqNmUcVoZz5p7TeVgQLASz3RfhA=s1600-w1600",
-    "lat": -22.8496875,
-    "lng": -45.3551875
-  },
-  {
-    "id": "cachoeira-da-gabi-lima-pindamonhangaba-sp",
-    "title": "Cachoeira da Gabi Lima",
-    "meta": "Trilha em Pindamonhangaba, ideal para caminhada e contato com a natureza.",
-    "location": "Pindamonhangaba - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGyxJWA7qWe-MpTVv8_4WeOoiHF5IbZsiBcyDpnr2YNtjez-rzp2U5QtSsE4b3nPJUmq0WZPNO-cDsI9EaS3_qN7QizmQTxGb-d6bwzcvDj1lKidmcn-8DDWOZG-QIDI72Uf5KavXjCMGMhLMo=s1600-w1600",
-    "lat": -22.8419015,
-    "lng": -45.6044033
   },
   {
     "id": "rota-da-luz-pindamonhangaba-sp",
@@ -142,24 +52,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHM3Z3-Bcvu8VbbW8YIzoGQglxguoDwUfUjCKlg_mDn8G20V_AKsemv1SatQQNoE6Ya7rWdOrmGxyhx6ECgApYTR1zrGAhzMCn0Rpd4MMfbkEwzLbTeq_r5UA4_apPmmF8FF2X-ST6jOqxeSw=s1600-w1600",
     "lat": -22.7915145,
     "lng": -45.5711702
-  },
-  {
-    "id": "bosque-do-silencio-campos-do-jordao-sp",
-    "title": "Bosque do Silêncio",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/places/ANXAkqHEgekvEgdoMW0JCK68ESKeU4Oy5e8n3X03ZqA7IqnbAYpD4G5A4fZRrxcXniSviqLx-_LacNnTfDSchlyuEtzxdkDKqNLX298=s1600-w1600",
-    "lat": -22.7335427,
-    "lng": -45.5714982
-  },
-  {
-    "id": "inicio-trilha-zig-zag-campos-do-jordao-sp",
-    "title": "Inicio Trilha Zig Zag",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEFoV94Hf3rBE55-vNI1rQlsuUjlv_0uoLxCFhhomdjJ32p0HPAegJZQCM-sWEsKPmFRvSs5OWwZ5PpavZUpyPiAdatnkLNoDbtEqJaN1SGMl2PiT7HO5JdD5m-mAgSsfXV-rVoKuzn2YSf7z4=s1600-w1600",
-    "lat": -22.7686446,
-    "lng": -45.6143587
   },
   {
     "id": "pico-do-imbiri-campos-do-jordao-sp",
@@ -189,15 +81,6 @@ const trails = [
     "lng": -45.4736875
   },
   {
-    "id": "parque-estadual-campos-do-jordao-horto-florestal-campos-do-jordao-sp",
-    "title": "Parque Estadual Campos do Jordão (Horto Florestal)",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEDyAH5UjUsJXKuXDm-pZC_CbNMNW-rFUsIQuZP_XNbLetYCwi-SqD6c_JOui7xM8PvZkBr1udZCh_Z566K7SXVPRfA6UE8Ll33XjcgNiMJHuBQ5Vd8SSruhIW3gkcz73MsWaGj7_fshFUgY1k=s1600-w1600",
-    "lat": -22.6898797,
-    "lng": -45.4811782
-  },
-  {
     "id": "inicio-da-trilha-do-rio-sapucai-campos-do-jordao-sp",
     "title": "Início da Trilha do Rio Sapucaí",
     "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
@@ -214,24 +97,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEtL55RmZ5kmKSAlVg2jR3ISH9BGZtyY6BXVOJvuVatmFMZsGrE6aouS2U1c1LRyUmrZZ0CpaLcWopQ41Xhb_3zg3FjgdHm3fBXBv5pm79uDnOtLhLMk1MV_wp-QdEAh-pEoQzQ5sfPo4wEUQ=s1600-w1600",
     "lat": -22.693043,
     "lng": -45.4899054
-  },
-  {
-    "id": "mirante-da-estrada-ferroviaria-campos-do-jordao-sp",
-    "title": "Mirante da Estrada Ferroviária",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZZ5VW319f1LicN4wqtp4IkVLKCvPPoUJp3Jj6ekgMSZGMmMQzyNQ_dSWAKucQHmZebV5FQ-nxxPI9YxKD5BE4KJiNqADmYX3g-vZlk_H5-NEh0Ue2huMI0IB7275naHgHdf-iFmgdrbAKLw=s1600-w1600",
-    "lat": -22.7930325,
-    "lng": -45.6223734
-  },
-  {
-    "id": "parque-tarundu-campos-do-jordao-sp",
-    "title": "Parque Tarundu",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGhKr0sUEJ6V0ytSSAAyDiC9BeS8OvqK9XCA4p8loxYToiRM-tu-yeFFsSLKexB6dm6NSeBvr91Rp6IodkSlHh6TaCKbRvyNzu8LOIK09k0HAgYZLa-ej4anT0vn6CYouBIgNGjoE_0eVJAhw=s1600-w1600",
-    "lat": -22.7665172,
-    "lng": -45.6034933
   },
   {
     "id": "labirinto-classico-do-amantikir-campos-do-jordao-sp",
@@ -252,15 +117,6 @@ const trails = [
     "lng": -45.5604585
   },
   {
-    "id": "parque-estadual-campos-do-jordao-campos-do-jordao-sp",
-    "title": "Parque Estadual Campos do Jordão",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF9tX4qXAS_Gmogc505iEF9LbmCKTaXEEXVIY3jewu8rXGsVpxh_8yF8NkpBj1C7YYwUEv70bGNTX5TKaDFmyrHI3yitpgH2Uei3v93CPiyGXQfoLiikNWSErOUB37tuBy6Rn8DWHqbyU4PYYe-cWLiWQ=s1600-w1600",
-    "lat": -22.690198,
-    "lng": -45.489899
-  },
-  {
     "id": "labirinto-de-grama-campos-do-jordao-sp",
     "title": "Labirinto de Grama",
     "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
@@ -268,25 +124,7 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNH1Ua2WuiMa31UbuAT21M-x7sgpDM11ABYnOIE3Lfjfbr_wDDGXqGIAt0EICoDiQ9bXp_LkZm-qs7Xwl_Ozt0l06fzkg4pCjqXwGtdX9jC_vSxiVQxAh2WwJGQ2XsjpbwxbUVBeCOZMCxjKzA=s1600-w1600",
     "lat": -22.7833543,
     "lng": -45.6076112
-  },
-  {
-    "id": "mata-comprida-ecoparque-campos-do-jordao-sp",
-    "title": "Mata Comprida Ecoparque",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEieWeqoNwl02A5mERkq-xd9s711172oGLYRGFoh-lB9ACYLMB9gfJo0UTlMRE9nWE4bkc-MGlbToCg-uHAPI8ckJMDRueF6zxa95IiRndkYlvr-rpaYOg2GBWYHFlAKjjRUMUo63n5cHXWcEK9Ntuh=s1600-w1600",
-    "lat": -22.7330389,
-    "lng": -45.6350743
-  },
-  {
-    "id": "parque-bambui-campos-do-jordao-sp",
-    "title": "Parque Bambuí",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF_HP_3ZFEbGKsAk8AZVQjSwcRS65ZGZsUXUwHkM5jxeYWBuXDDdYmQHjasHwbAwJd7eRgrfYXo-00AlX--m10moCmzQs8VhXmfPj-U_d7VMYRXboWL3NmaahPEOHtOJZSKUXKaGBB9vZNbXw=s1600-w1600",
-    "lat": -22.7639492,
-    "lng": -45.595093
-  },
+  }, 
   {
     "id": "gruta-dos-crioulos-campos-do-jordao-sp",
     "title": "Gruta dos Crioulos",
@@ -295,15 +133,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHY3NWkhgAXO5KXpxJKuGwkeJrxMlJloeyxin3luypZR3IPKhPwqiQTyX_W_2KelDgXemIn5XwkIqyg8hZl2D5JApJcmhdEjxSjp0fzouecZwru-6LKalI01oYD3EBXV5RBLHFUF1BX7Q8nJQ=s1600-w1600",
     "lat": -22.7004598,
     "lng": -45.5924678
-  },
-  {
-    "id": "cachoeira-rf-campos-do-jordao-sp",
-    "title": "Cachoeira RF",
-    "meta": "Trilha em Campos do Jordão, ideal para caminhada e contato com a natureza.",
-    "location": "Campos do Jordão - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNF--O2QZfWOWX_mwy7ZxySAq4yi673z9uMSRELjHWZgJlsuOAhql8hFCM1AdPOrDt-Zv6QPF4QVwHb5g5bSylYDuFWIG6WZ4PagALTOylP1q2InBWhXdVl8v-0WdbLx8GK2xacs0hj7VUK1=s1600-w1600",
-    "lat": -22.7424723,
-    "lng": -45.5631728
   },
   {
     "id": "varzea-de-quiririm-taubate-sp",
@@ -315,24 +144,6 @@ const trails = [
     "lng": -45.6135783
   },
   {
-    "id": "cachoeira-do-triangulo-taubate-taubate-sp",
-    "title": "Cachoeira do triângulo - Taubaté",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGU50z_0uZ-Md2HNKqoVfQWyrZpbn19HZcvSvjpMYA9REjBlVTvfwDSxoc2ZfSHRmNafmTWAdDnQedvh4zpcMrrOupV-smo5EnMBkr08hAHnt5wPpErcGp0ySMybNjA8y_BZbjMFSnaQDjseFk=s1600-w1600",
-    "lat": -22.9775075,
-    "lng": -45.6772611
-  },
-  {
-    "id": "cachoeira-da-pedra-grande-taubate-sp",
-    "title": "Cachoeira da Pedra Grande",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEplZllfjyfIy6eYppLPs0x7zsZHwbLouCfk6v0KeOrXXkiNs33KvP0rpo1IT2GxLeUWs5AH7QaEDrVasfoxtpcOa1ACAP2yFTQxeOWknDZaA_EZn6Nmlob7WNyVNIgpWJVzn7Dg8ZsKOKs0A=s1600-w1600",
-    "lat": -23.0926348,
-    "lng": -45.3688949
-  },
-  {
     "id": "ecotrilhas-taubate-taubate-sp",
     "title": "Ecotrilhas Taubaté",
     "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
@@ -340,15 +151,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE-O_ZXWt6vm_5BbJO6n5ez-F-k1ivmy2uAZnShQO30AZa_aBSlZkjJvlV0AMZpKJNbDhhhfQzZQHS-1PgPiPh-52U2PwvWb9Qz8U23HtdlDZm8xm40MVqpppsShjqNOAbZEJn4Pst7VR5Q0Q=s1600-w1600",
     "lat": -23.0347627,
     "lng": -45.5646655
-  },
-  {
-    "id": "cachoeira-das-almas-taubate-sp",
-    "title": "Cachoeira das Almas",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=auJxWk41uLOqqRFKYQQs_g&cb_client=search.gws-prod.gps&yaw=289.56363&pitch=0&thumbfov=100&w=600&h=208",
-    "lat": -23.1275482,
-    "lng": -45.4115508
   },
   {
     "id": "sitio-recanto-da-gansa-taubate-sp",
@@ -360,15 +162,6 @@ const trails = [
     "lng": -45.4679536
   },
   {
-    "id": "cachoeira-do-vitor-caieiras-taubate-sp",
-    "title": "Cachoeira do Vitor (Caieiras)",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHXmR_YSX86EysTY5VPAT-097Fk6Ld2bDHrc1g8i-qhtmvAxyMwl-Zq2UWHFVYW5tc9doly6NEwIrs7woNgvY27phMO-uhwVkD26bJyF3eF0oJlgEzvwT3Xc4DoJCaVY94wsB_Ned8CpcsRZribfGhBFA=s1600-w1600",
-    "lat": -23.1275279,
-    "lng": -45.4116564
-  },
-  {
     "id": "trilha-hard-taubate-sp",
     "title": "Trilha Hard",
     "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
@@ -378,33 +171,6 @@ const trails = [
     "lng": -45.3270518
   },
   {
-    "id": "cachoeira-vini-hermano-taubate-sp",
-    "title": "Cachoeira Vini Hermano",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE_rdTOw7tGe3AYudzrW7QurIArfp_cMzwJI_2QVihYDeswaxWc5t_wSLygyguI710OBC8Qt61VNJv4yIwdb1UONfyOJ7oxMW6y39AeoaI3rWZQf_Kj02EBL2yNDoiimC9E2yeMGohtuMDJlQ=s1600-w720",
-    "lat": -23.072012,
-    "lng": -45.337715
-  },
-  {
-    "id": "passagem-de-nivel-via-ferrea-taubate-sp",
-    "title": "Passagem de nível- via férrea",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGKRFcAQv8ug6a5YUzL5t7v99Bf-GwpkeP05L0Vuiv6kiU7K7drQoAyi0t5Cf_ho9xnkYgh55SSZiSQ4p5en0ffQoglrHDduy7pKhptaLRQ-X7N6DIq6158EaAUDtCuAFC-tkXqL-L0SeYkjmHAnxMiGg=s1600-w1600",
-    "lat": -23.0368279,
-    "lng": -45.5885229
-  },
-  {
-    "id": "parque-vale-do-itaim-taubate-sp",
-    "title": "Parque Vale do Itaim",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFSwC4vE5v7yfI9z3gFByG7cgPkKx4HQauo6P_HXCkP0McAyBQNbbRoyNSOaCY52bz8BV1oFcDFOuPPtXWqPLtIeX__ECcYSg3zW1J6pmtCM-sGoxu1Bj9CQO1AOdWn7XNO3usY39r1-4uhfA=s1600-w1600",
-    "lat": -23.0372505,
-    "lng": -45.53380629999999
-  },
-  {
     "id": "trilha-light-taubate-sp",
     "title": "Trilha light",
     "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
@@ -412,15 +178,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEALR7Lqkvgls6F35OOwqOfatcFnoPbYDcudU2IwfCrNlF2PouWdDgWklOM8qM-oTWt_qZ_EWol5w9bUW8Kib_OOOnqUCh00t2gvc5voVzE--T79mFlLQsMYnpu1m9bwaUjxqa8FVl3JSIl47xXgPML=s1600-w1600",
     "lat": -23.0899447,
     "lng": -45.4777139
-  },
-  {
-    "id": "parque-municipal-taubate-sp",
-    "title": "Parque Municipal",
-    "meta": "Trilha em Taubaté, ideal para caminhada e contato com a natureza.",
-    "location": "Taubaté - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNELEcVNHzT-BOIUp1WdCagKd_QST5fSTIPY4yY1SXTKcpUL7K4CENiuSkdTSVEFQedAjXcHrNHm3Jjl38C6lqGyskamcGNLdqh98Bs7LqqVWiaygBm87tZnXoQJSaeJF9vkX4LgxYDVrQaq9g=s1600-w1600",
-    "lat": -23.0369198,
-    "lng": -45.533202
   },
   {
     "id": "estrada-municipal-do-coxo-taubate-sp",
@@ -657,15 +414,6 @@ const trails = [
     "lng": -44.6213629
   },
   {
-    "id": "cachoeira-da-melancia-paraty-rj",
-    "title": "Cachoeira da Melancia",
-    "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
-    "location": "Paraty - RJ",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOMUfRZ9qDePplmcOHWcuvDcX3-_BBkLXHFVJXGThCQ-YI_gOsrQyvMjAhSsu0avq75RXEUDZ7G3mr2AsdGycZAxbbhoxcKLvwFGFRATo8XVhjRhQcrS5lVr3ym2W12fOVpBQdZs6tAmH2JIY=s1600-w1600",
-    "lat": -23.0277386,
-    "lng": -44.7050801
-  },
-  {
     "id": "circuito-caminho-do-ouro-paraty-rj",
     "title": "Circuito Caminho do Ouro",
     "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
@@ -682,15 +430,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFXHTnxqwnWY_8Yd06Yst0KzfN7Qp71hVb01SrlrRgrjQKYTlPEhcCz_FAFMQHkbx9GNYf7sfokYrvzQrpdBmX5PK_34UXEXBYkoOgxeKJ81ZSvsXOKsfffpN06Rglbbl_yEreSy9mqhO1VEg=s1600-w1600",
     "lat": -23.2487537,
     "lng": -44.63222349999999
-  },
-  {
-    "id": "cachoeira-da-pedra-branca-paraty-rj",
-    "title": "Cachoeira da Pedra Branca",
-    "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
-    "location": "Paraty - RJ",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEMsLgbktkfWRb9IZinu3kCYr4dytk7usB956pZu2nv9I77vHo9DFq4JlYUyepCg8ewIIVXvkA7RoBEwIezXUDKo13eNUljhQ0uDuA3pNMMmN1en-YRQ0dgEuJcLehcwrQU9ZNS7V1WaPeisA=s1600-w1600",
-    "lat": -23.1999131,
-    "lng": -44.7653847
   },
   {
     "id": "pedra-que-engole-paraty-rj",
@@ -747,15 +486,6 @@ const trails = [
     "lng": -44.6459746
   },
   {
-    "id": "cachoeira-do-engenho-paraty-rj",
-    "title": "Cachoeira do Engenho",
-    "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
-    "location": "Paraty - RJ",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNG0kUhbaTmWBdlYvbPSTJyN3e_7VNUF3QLpmPHYltTd92bDiaA7xNKCq8QnwD_qku9DD1QcWAzpiVFrvgG7J7dlqXV6ef7ISyC-3Q0x4Wh_5GYnUpdt9IfdkEyvDJKho06Yw4p3zUi65G_lR_Q=s1600-w1600",
-    "lat": -23.250107,
-    "lng": -44.60393089999999
-  },
-  {
     "id": "piscina-natural-do-cachadaco-paraty-rj",
     "title": "Piscina Natural do Cachadaço",
     "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
@@ -763,15 +493,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNFRNCoby1m5S6GMWbNBXlbFgWaxQ8UNOIbtTJr-Y3mN-IBrYVTeBFg_Cntjx0_U28y7WnE1und4OFBTpchStxTPY5v40yy3ZZcAv44BPKDzYK-Qxq6NkiovXkHYIy8hK23p2ug1X9UqShmMP9M4xfe_=s1600-w1600",
     "lat": -23.3624902,
     "lng": -44.7311598
-  },
-  {
-    "id": "cachoeira-pocao-da-grauna-paraty-rj",
-    "title": "Cachoeira Poção da Graúna",
-    "meta": "Trilha em Paraty, ideal para caminhada e contato com a natureza.",
-    "location": "Paraty - RJ",
-    "image": "https://lh3.googleusercontent.com/places/ANXAkqFMq4ZZr2dvCcJ8gcNv7iGNYML8CH8dgtfPpEl5_N9NRciMDCUbF-A2l4S3J6wJxAZHSHqMOUBVgsOXYuR8-0IZKLR3kWOyWcw=s1600-w1200",
-    "lat": -23.1411653,
-    "lng": -44.7341602
   },
   {
     "id": "reserva-ecologica-estadual-da-juatinga-sede-adiministrativa-e-operacional-paraty-rj",
@@ -864,15 +585,6 @@ const trails = [
     "lng": -45.9120915
   },
   {
-    "id": "parque-roberto-burle-marx-parque-da-cidade-sao-jose-dos-campos-sp",
-    "title": "Parque Roberto Burle Marx - Parque da Cidade",
-    "meta": "Trilha em São José dos Campos, ideal para caminhada e contato com a natureza.",
-    "location": "São José dos Campos - SP",
-    "image": "https://lh3.googleusercontent.com/places/ANXAkqF0B7hnxYlIuS-3uV66PakBe_DNiaQU2bQ3cySTBZRDoYMb8D45Sy3sP0gl3cooXdF7OZEJBF0_pt1aeMp8m5qJnFIbpoo-1Cs=s1600-w1290",
-    "lat": -23.1715639,
-    "lng": -45.8899985
-  },
-  {
     "id": "rancho-carraspana-sao-jose-dos-campos-sp",
     "title": "RANCHO CARRASPANA",
     "meta": "Trilha em São José dos Campos, ideal para caminhada e contato com a natureza.",
@@ -889,15 +601,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/places/ANXAkqFeq4aaxx25s8KV-49LNFGs8I7N3gxzgAgstg5rPjXOl9Cx34cs79BIoKLiu5BKB7IwOaMJ6UunlEaYaxioDiyNTQ6PtuP8bSE=s1600-w1440",
     "lat": -22.91211,
     "lng": -45.9394514
-  },
-  {
-    "id": "parque-alberto-simoes-sao-jose-dos-campos-sp",
-    "title": "Parque Alberto Simões",
-    "meta": "Trilha em São José dos Campos, ideal para caminhada e contato com a natureza.",
-    "location": "São José dos Campos - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNE6y6BoqKo-Y-CB2_arvf5ginbZY15Bbz_S0X-036ugU1s2-Z-CuIGRq6uAwumnFc6BTPnqDl5Kvf1n5q6INmZDrWnw4xGPQC5f2rMirtOcOZIKgWmo8kKR7aPaDLYWkbSJICs5iAxylPvW=s1600-w1600",
-    "lat": -23.1635121,
-    "lng": -45.9128825
   },
   {
     "id": "pista-de-caminhada-nelson-roberto-guerreiro-sao-jose-dos-campos-sp",
@@ -943,24 +646,6 @@ const trails = [
     "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNGBKbqFH0ecdcL-7Qmw2J4VPUzF6Ms63EdxzIdGhfgqvk6xTRZQG7DhQuf16P-J_OtnQYv7-oNh1vvdhBGfV2anzhQ74_IXUoHQsp6t3juDwFyMqpbXoydh-_2zdIe3X8_k3-qCZtUZRLVZvA=s1600-w1600",
     "lat": -23.2357404,
     "lng": -45.8861848
-  },
-  {
-    "id": "cachoeira-de-jambeiro-jambeiro-sp",
-    "title": "Cachoeira de Jambeiro",
-    "meta": "Trilha em Jambeiro, ideal para caminhada e contato com a natureza.",
-    "location": "Jambeiro - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOQxx-ofIVx4A_38MuPVpfz1CnLNn9HRh2e_-KstXBigjf7BV6WoTa1vEIWiDCJ9DTRC9BOs00dhDP4kAeHdztLx5M70NnRiEmCezAnYlJ0Wr-OXL1AXzoSPk3kjLsxuvA_iql1b5aoNakLs8=s1600-w1600",
-    "lat": -23.2486302,
-    "lng": -45.6621026
-  },
-  {
-    "id": "mirante-do-cruzeiro-jambeiro-sp",
-    "title": "Mirante do Cruzeiro",
-    "meta": "Trilha em Jambeiro, ideal para caminhada e contato com a natureza.",
-    "location": "Jambeiro - SP",
-    "image": "https://lh3.googleusercontent.com/place-photos/AL8-SNHbgCMhLfhnacTCIDbop_h0WyEeiTSNWUeFjm5dKBKwe9kvPTLX_mhebkepdEkB5Giy8GG4mFYOwsRivcURv3UaZowORAtsq-JgwEZn18EDysbqfIwkYjG_Yq0DzRfkxIt9GrjeFgQoKewsAA=s1600-w1600",
-    "lat": -23.2560034,
-    "lng": -45.6849263
   },
   {
     "id": "falesia-da-familia-jambeiro-sp",
