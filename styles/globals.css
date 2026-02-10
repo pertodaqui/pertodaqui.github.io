@@ -327,16 +327,14 @@ details[open] .filter-button svg {
   gap: 10px;
 }
 
+.filter-category-list .filter-option {
+  width: 100%;
+}
+
 .filter-clear-all {
-  border: 1px dashed var(--pd-border);
-  background: #ffffff;
-  color: var(--pd-blue-deep);
-  padding: 30px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
 }
 
 .filter-clear-all:hover {
@@ -345,10 +343,12 @@ details[open] .filter-button svg {
   transform: translateX(2px);
 }
 
-.filter-clear-all:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-  transform: none;
+@media (max-width: 720px) {
+  .filter-category-list {
+    max-height: 55vh;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
 }
 
 .filter-option {
@@ -828,6 +828,29 @@ input[type="range"]::-moz-range-track {
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.city-hero {
+  background: #ffffff;
+  border: 1px solid var(--pd-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--pd-shadow);
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.city-hero h1 {
+  margin: 0;
+  color: var(--pd-blue-deep);
+  font-size: 1.6rem;
+}
+
+.city-hero p {
+  margin: 0;
+  color: var(--pd-muted);
+  line-height: 1.5;
 }
 
 .site-footer {

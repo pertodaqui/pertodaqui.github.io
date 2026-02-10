@@ -450,6 +450,8 @@ export default function Home() {
     );
   };
 
+  const allCategoriesSelected = selectedCategories.length === categories.length;
+
   useEffect(() => {
     setCurrentPage(1);
   }, [distance, selectedCategories, userCoords]);
@@ -491,7 +493,7 @@ export default function Home() {
                     onClick={() => setIsCategoryOpen((prev) => !prev)}
                   >
                     <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
-                    O que está buscando?
+                    Quais atividades?
                   </button>
                   {isCategoryOpen ? (
                     <div className="filter-category-list">
@@ -515,11 +517,16 @@ export default function Home() {
                       ))}
                       <button
                         type="button"
-                        className="filter-clear-all"
-                        onClick={() => setSelectedCategories([])}
-                        disabled={selectedCategories.length === 0}
+                        className="filter-option filter-clear-all"
+                        onClick={() =>
+                          setSelectedCategories(
+                            allCategoriesSelected
+                              ? []
+                              : categories.map((category) => category.key)
+                          )
+                        }
                       >
-                        Desmarcar tudo
+                        {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
                       </button>
                     </div>
                   ) : null}
@@ -764,7 +771,11 @@ export default function Home() {
                   <FileText size={18} weight="bold" />
                   Termos de uso
                 </button>
-                <a className="footer-link-button" href="/contato">
+                <a
+                  className="footer-link-button"
+                  href="mailto:contato@pertodaqui.app"
+                  aria-label="Enviar email para contato@pertodaqui.app"
+                >
                   <EnvelopeSimple size={18} weight="bold" />
                   Contato
                 </a>

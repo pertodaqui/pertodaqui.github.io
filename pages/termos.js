@@ -90,7 +90,7 @@ export default function Termos() {
               <nav className="footer-links" aria-label="Links institucionais">
                 <a href="/privacidade">Política de privacidade</a>
                 <a href="/termos">Termos de uso</a>
-                <a href="/contato">Contato</a>
+                <a href="mailto:contato@pertodaqui.app">Contato</a>
               </nav>
               <span className="footer-copy">© 2026 PertoDaqui</span>
             </div>
