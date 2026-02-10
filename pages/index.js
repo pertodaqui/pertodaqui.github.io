@@ -8,7 +8,6 @@ import {
   Columns,
   ForkKnife,
   EnvelopeSimple,
-  House,
   FunnelSimple,
   MagnifyingGlass,
   MapPinLine,
@@ -174,6 +173,7 @@ export default function Home() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [weatherByCoord, setWeatherByCoord] = useState({});
   const [forecastByCoord, setForecastByCoord] = useState({});
@@ -478,25 +478,37 @@ export default function Home() {
                   Filtrar atividades
                 </summary>
                 <div className="filter-menu">
-                  <span className="filter-menu-title">Categorias</span>
-                  {categories.map((category) => (
-                    <label
-                      key={category.key}
-                      className={`filter-option${
-                        selectedCategories.includes(category.key) ? " active" : ""
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category.key)}
-                        onChange={() => toggleCategory(category.key)}
-                      />
-                      <span className="filter-option-icon" aria-hidden="true">
-                        {category.icon}
-                      </span>
-                      <span>{category.label}</span>
-                    </label>
-                  ))}
+                  <button
+                    type="button"
+                    className="filter-category-toggle"
+                    aria-expanded={isCategoryOpen}
+                    onClick={() => setIsCategoryOpen((prev) => !prev)}
+                  >
+                    <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
+                    O que está buscando?
+                  </button>
+                  {isCategoryOpen ? (
+                    <div className="filter-category-list">
+                      {categories.map((category) => (
+                        <label
+                          key={category.key}
+                          className={`filter-option${
+                            selectedCategories.includes(category.key) ? " active" : ""
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(category.key)}
+                            onChange={() => toggleCategory(category.key)}
+                          />
+                          <span className="filter-option-icon" aria-hidden="true">
+                            {category.icon}
+                          </span>
+                          <span className="filter-option-label">{category.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
                   <div className="filter-menu-divider"></div>
                   <span className="filter-menu-title">Raio de busca</span>
                   <div className="filter-distance-wrap">
@@ -532,9 +544,6 @@ export default function Home() {
                   </div>
                 </div>
               </details>
-              <a className="cta-home" href="/" aria-label="Página inicial" title="Início">
-                <House size={20} weight="bold" />
-              </a>
               <a
                 className="cta-contact"
                 href="mailto:contato@pertodaqui.app"
@@ -697,7 +706,8 @@ export default function Home() {
               <div className="footer-brand">
                 <span className="footer-logo">PertoDaqui © 2026</span>
                 <p className="footer-slogan">
-                  Descubra atividades perto de você!
+                  Turismo de curta distância para sair do tédio e conhecer o que
+                  existe ao seu redor.
                 </p>
               </div>
 

@@ -25,6 +25,10 @@ export default function App({ Component, pageProps }) {
         setPlatform("ios");
       } else if (ua.includes("mac") || ua.includes("macintosh")) {
         setPlatform("macos");
+      } else if (ua.includes("windows")) {
+        setPlatform("windows");
+      } else if (ua.includes("linux")) {
+        setPlatform("linux");
       } else {
         setPlatform("desktop");
       }
@@ -53,33 +57,16 @@ export default function App({ Component, pageProps }) {
   const platformIcon = () => {
     switch (platform) {
       case "android":
-        return (
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M7.1 5.2 6 3.3c-.2-.3-.1-.7.2-.9.3-.2.7-.1.9.2l1.2 2.1c1.1-.5 2.4-.7 3.7-.7s2.6.2 3.7.7l1.2-2.1c.2-.3.6-.4.9-.2.3.2.4.6.2.9l-1.1 1.9C18.3 6.1 19 7.4 19 9v7.2c0 .9-.7 1.6-1.6 1.6H6.6c-.9 0-1.6-.7-1.6-1.6V9c0-1.6.7-2.9 2.1-3.8zM8 9.5c0 .4-.3.7-.7.7S6.6 9.9 6.6 9.5s.3-.7.7-.7.7.3.7.7zm9.4 0c0 .4-.3.7-.7.7s-.7-.3-.7-.7.3-.7.7-.7.7.3.7.7z"
-            />
-          </svg>
-        );
+        return <i className="devicon-android-plain" aria-hidden="true"></i>;
       case "ios":
       case "macos":
-        return (
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M16.6 2.8c-.8.1-1.7.6-2.3 1.3-.6.7-1.1 1.7-.9 2.7 1 .1 1.9-.4 2.5-1.1.6-.7 1-1.7.7-2.9zm3.6 14.5c-.5 1.2-1.1 2.1-1.9 3-.7.8-1.5 1.1-2.4 1.1-.8 0-1.1-.2-2-.6-.9-.4-1.7-.6-2.6-.6-1 0-1.8.2-2.7.6-.8.4-1.1.6-2 .6-.9 0-1.6-.3-2.4-1.1-1.7-1.8-3-4.8-3-7.5 0-2.4.9-4.2 2.1-5.4 1-1 2.3-1.6 3.5-1.6.7 0 1.6.2 2.6.6.9.3 1.4.5 1.8.5.3 0 .9-.2 1.8-.5 1.1-.4 2-.6 2.4-.6.4 0 1.6.1 2.7.8-1.1.7-1.9 2-1.8 3.5.1 1.9 1.3 3 2.8 3.6-.2.4-.3.7-.5 1z"
-            />
-          </svg>
-        );
+        return <i className="devicon-apple-original" aria-hidden="true"></i>;
+      case "windows":
+        return <i className="devicon-windows8-original" aria-hidden="true"></i>;
+      case "linux":
+        return <i className="devicon-linux-original" aria-hidden="true"></i>;
       default:
-        return (
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M4 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2h-5v2h3c.6 0 1 .4 1 1H7c0-.6.4-1 1-1h3v-2H6c-1.1 0-2-.9-2-2V6zm2 0v8h12V6H6z"
-            />
-          </svg>
-        );
+        return <i className="devicon-devicon-plain" aria-hidden="true"></i>;
     }
   };
 
@@ -171,6 +158,10 @@ export default function App({ Component, pageProps }) {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+        />
       </Head>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-4PK6JRYRHV"
@@ -184,10 +175,17 @@ gtag('config', 'G-4PK6JRYRHV');`}
       </Script>
       {showInstallPrompt ? (
         <div className="pwa-banner" role="dialog" aria-live="polite">
-          <span className="pwa-banner__icon-small">{platformIcon()}</span>
-          <strong>Instale o PertoDaqui</strong>
+          <div className="pwa-banner__content">
+            <strong>Instale o PertoDaqui</strong>
+            <span className="pwa-banner__text">
+              Instale para descobrir o que tem perto de você.
+            </span>
+          </div>
           <div className="pwa-banner__actions">
             <button className="pwa-banner__btn" onClick={handleInstallClick}>
+              <span className="pwa-banner__btn-icon" aria-hidden="true">
+                {platformIcon()}
+              </span>
               Instalar
             </button>
             <button

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Briefcase, EnvelopeSimple, House } from "@phosphor-icons/react";
+import { Briefcase, EnvelopeSimple } from "@phosphor-icons/react";
 
 export default function Privacidade() {
   return (
@@ -38,9 +38,6 @@ export default function Privacidade() {
                   <Briefcase size={20} weight="bold" />
                 </span>
                 <span className="cta-text">Divulgue seu negócio aqui</span>
-              </a>
-              <a className="cta-home" href="/" aria-label="Página inicial" title="Início">
-                <House size={20} weight="bold" />
               </a>
               <a
                 className="cta-contact"
