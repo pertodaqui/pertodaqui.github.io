@@ -23,6 +23,8 @@ export default function App({ Component, pageProps }) {
         setPlatform("android");
       } else if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) {
         setPlatform("ios");
+      } else if (ua.includes("mac") || ua.includes("macintosh")) {
+        setPlatform("macos");
       } else {
         setPlatform("desktop");
       }
@@ -60,6 +62,7 @@ export default function App({ Component, pageProps }) {
           </svg>
         );
       case "ios":
+      case "macos":
         return (
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -91,7 +94,8 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <meta name="theme-color" content="#0e45a9" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#0055d4" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-touch-icon.png" />
@@ -180,13 +184,8 @@ gtag('config', 'G-4PK6JRYRHV');`}
       </Script>
       {showInstallPrompt ? (
         <div className="pwa-banner" role="dialog" aria-live="polite">
-          <div className="pwa-banner__main">
-            <div className="pwa-banner__icon">{platformIcon()}</div>
-            <div className="pwa-banner__content">
-              <strong>Instale o PertoDaqui</strong>
-              <span>Tenha o app com acesso rápido na tela inicial.</span>
-            </div>
-          </div>
+          <span className="pwa-banner__icon-small">{platformIcon()}</span>
+          <strong>Instale o PertoDaqui</strong>
           <div className="pwa-banner__actions">
             <button className="pwa-banner__btn" onClick={handleInstallClick}>
               Instalar

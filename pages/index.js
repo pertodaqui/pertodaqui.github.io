@@ -18,7 +18,8 @@ import {
   Thermometer,
   Tree,
   Shield,
-  FileText
+  FileText,
+  Sliders
 } from "@phosphor-icons/react";
 import bars from "../data/bars";
 import cafes from "../data/cafes";
@@ -473,7 +474,7 @@ export default function Home() {
                     setIsFilterOpen((prev) => !prev);
                   }}
                 >
-                  <FunnelSimple size={16} />
+                  <Sliders size={18} weight="bold" />
                   Filtrar atividades
                 </summary>
                 <div className="filter-menu">
@@ -496,6 +497,39 @@ export default function Home() {
                       <span>{category.label}</span>
                     </label>
                   ))}
+                  <div className="filter-menu-divider"></div>
+                  <span className="filter-menu-title">Raio de busca</span>
+                  <div className="filter-distance-wrap">
+                    <div
+                      className="range-wrap"
+                      style={{
+                        "--range-progress": `${((distance - 1) / 89) * 100}%`
+                      }}
+                    >
+                      <input
+                        type="range"
+                        min="1"
+                        max="90"
+                        step="1"
+                        value={distance}
+                        onChange={(event) => setDistance(Number(event.target.value))}
+                        aria-label="Raio em quilômetros"
+                      />
+                      <output className="range-tooltip">{distance} km</output>
+                    </div>
+                  </div>
+                  <div className="filter-quick-distances">
+                    {QUICK_DISTANCES.map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        className={`quick-distance-btn${value === distance ? " active" : ""}`}
+                        onClick={() => setDistance(value)}
+                      >
+                        {value} km
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </details>
               <a className="cta-home" href="/" aria-label="Página inicial" title="Início">
@@ -514,50 +548,6 @@ export default function Home() {
         </header>
 
         <main className="content">
-          <section className="hero-card">
-            <h1>Descubra atividades perto de você</h1>
-            <p>{subtitle}</p>
-            <div className="distance-wrap">
-              <div
-                className="range-wrap"
-                style={{
-                  "--range-progress": `${((distance - 1) / 89) * 100}%`
-                }}
-              >
-                <input
-                  type="range"
-                  min="1"
-                  max="90"
-                  step="1"
-                  value={distance}
-                  onChange={(event) => setDistance(Number(event.target.value))}
-                  aria-label="Raio em quilômetros"
-                />
-                <output className="range-tooltip">{distance} km</output>
-              </div>
-            </div>
-            <div className="quick-buttons">
-              {QUICK_DISTANCES.map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={value === distance ? "active" : ""}
-                  onClick={() => setDistance(value)}
-                >
-                  {value} km
-                </button>
-              ))}
-            </div>
-            {!userCoords && (
-              <div className="location-hint">
-                <p>{geoError || "Ative a localização para sugestões próximas."}</p>
-                <button type="button" onClick={requestLocation}>
-                  Ativar localização
-                </button>
-              </div>
-            )}
-          </section>
-
           <section className="results">
             {activeItems.length > 0 ? (
               <div className="cards-grid">
@@ -755,29 +745,107 @@ export default function Home() {
             <div className="modal-body">
               <p className="modal-muted">Última atualização: 2026</p>
               <p>
-                Esta Política descreve como coletamos, usamos e protegemos suas
-                informações ao usar o PertoDaqui.
+                O PertoDaqui ("nós", "nosso" ou "nos") opera a plataforma PertoDaqui. Esta página informa sua política de privacidade e explica como coletamos, usamos, mantemos e protegemos suas informações ao usar nosso serviço.
               </p>
-              <h3>Coleta de dados</h3>
+
+              <h3>1. Dados que Coletamos</h3>
               <p>
-                Podemos coletar dados de localização (com sua permissão), dados de
-                navegação e preferências de filtros para melhorar as sugestões.
+                Coletamos dados de forma direta e indireta para fornecer e melhorar nossa plataforma:
               </p>
-              <h3>Uso dos dados</h3>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li><strong>Dados de Localização:</strong> Com sua permissão explícita, coletamos sua localização atual para fornecer sugestões personalizadas de atividades próximas.</li>
+                <li><strong>Dados de Navegação:</strong> Registramos quais categorias você visualiza, filtros aplicados, itens que você clica e tempo gasto na plataforma.</li>
+                <li><strong>Preferências:</strong> Armazenamos localmente suas preferências de filtros e distância selecionada.</li>
+                <li><strong>Dados do Dispositivo:</strong> Informações sobre seu navegador, sistema operacional e tipo de dispositivo para otimizar a experiência.</li>
+                <li><strong>Dados Climáticos:</strong> Coletamos dados de temperatura de APIs públicas baseados em coordenadas geográficas.</li>
+              </ul>
+
+              <h3>2. Como Usamos Seus Dados</h3>
+              <p>Usamos as informações coletadas para:</p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Personalizar recomendações de atividades com base em sua localização e preferências</li>
+                <li>Exibir informações climáticas relevantes para os locais consultados</li>
+                <li>Melhorar a funcionalidade, performance e segurança da plataforma</li>
+                <li>Entender padrões de uso para aprimorar a experiência</li>
+                <li>Enviar atualizações importantes ou mudanças em nossa política (quando aplicável)</li>
+                <li>Proteger contra fraude e atividades maliciosas</li>
+              </ul>
+
+              <h3>3. Base Legal para Processamento</h3>
               <p>
-                Usamos os dados para personalizar resultados, aprimorar a
-                plataforma e fornecer informações relevantes.
+                Processamos seus dados com base no seu consentimento. Para dados de localização, solicitamos permissão explícita do seu navegador. Você pode retirar seu consentimento a qualquer momento nas configurações do seu dispositivo.
               </p>
-              <h3>Compartilhamento</h3>
+
+              <h3>4. Armazenamento de Dados Locais</h3>
               <p>
-                Não vendemos seus dados. Podemos compartilhar informações
-                agregadas para fins de análise.
+                Utilizamos tecnologia de Service Worker e armazenamento local do navegador para guardar suas preferências, o histórico de filtros e dados em cache. Esses dados permanecem exclusivamente em seu dispositivo e não são transmitidos aos nossos servidores.
               </p>
-              <h3>Seus direitos</h3>
+
+              <h3>5. APIs e Serviços de Terceiros</h3>
               <p>
-                Você pode solicitar acesso, correção ou exclusão de dados pelo
-                email contato@pertodaqui.app.
+                Utilizamos APIs públicas de terceiros para fornecer funcionalidades:
               </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li><strong>Open-Meteo API:</strong> Para dados climáticos. Sujeita à <a href="https://open-meteo.com/en/terms" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Open-Meteo</a></li>
+                <li><strong>Google Maps:</strong> Para gerar rotas. Sujeita à <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Google</a></li>
+                <li><strong>Google Analytics:</strong> Para análise anônima de uso. Saiba mais na <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Google Analytics</a></li>
+              </ul>
+
+              <h3>6. Compartilhamento de Dados</h3>
+              <p>
+                <strong>Não vendemos, alugamos ou compartilhamos seus dados pessoais com terceiros</strong> para fins de marketing. Podemos compartilhar:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Informações agregadas e anonimizadas para análise de tendências</li>
+                <li>Dados quando exigido por lei ou para proteger direitos legais</li>
+                <li>Informações necessárias para operar serviços integrados (como Google Maps)</li>
+              </ul>
+
+              <h3>7. Retenção de Dados</h3>
+              <p>
+                Os dados de localização são processados apenas durante sua sessão ativa. Preferências e histórico de navegação são mantidos localmente em seu dispositivo indefinidamente até que você limpe o armazenamento do navegador. Logs de servidor (quando aplicável) são retidos por 90 dias.
+              </p>
+
+              <h3>8. Segurança</h3>
+              <p>
+                Implementamos medidas técnicas e organizacionais para proteger seus dados contra acesso não autorizado, alteração ou divulgação. A plataforma utiliza conexões HTTPS seguras. No entanto, nenhuma transmissão pela internet é 100% segura.
+              </p>
+
+              <h3>9. Seus Direitos</h3>
+              <p>Você tem o direito de:</p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Acessar os dados que você forneceu</li>
+                <li>Corrigir informações imprecisas</li>
+                <li>Solicitar exclusão de seus dados</li>
+                <li>Revogar consentimento de localização a qualquer momento</li>
+                <li>Obter uma cópia dos seus dados em formato portável</li>
+                <li>Receber informações sobre como seus dados são processados</li>
+              </ul>
+              <p>
+                Para exercer qualquer desses direitos, entre em contato conosco em <strong>contato@pertodaqui.app</strong>.
+              </p>
+
+              <h3>10. Cookies e Tecnologias Similares</h3>
+              <p>
+                Utilizamos cookies e similar technologies para melhorar sua experiência. Cookies essenciais são necessários para o funcionamento da plataforma. Você pode desabilitar cookies em suas configurações de navegador, embora isso possa afetar algumas funcionalidades.
+              </p>
+
+              <h3>11. Privacidade de Menores</h3>
+              <p>
+                O PertoDaqui não é direcionado a menores de 13 anos. Não coletamos informações de menores knowingly. Se descobrirmos que coletamos dados de um menor, eliminaremos esses dados imediatamente.
+              </p>
+
+              <h3>12. Alterações a Esta Política</h3>
+              <p>
+                Reservamo-nos o direito de modificar esta Política a qualquer momento. Alterações significativas serão comunicadas com 30 dias de antecedência. Seu uso contínuo da plataforma após alterações constitui aceitação.
+              </p>
+
+              <h3>13. Contato</h3>
+              <p>
+                Para dúvidas sobre esta Política de Privacidade ou práticas de privacidade do PertoDaqui, entre em contato conosco através do e-mail <b>contato@pertodaqui.app</b>
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+              </ul>
             </div>
           </div>
         </div>
@@ -800,30 +868,155 @@ export default function Home() {
             <div className="modal-body">
               <p className="modal-muted">Última atualização: 2026</p>
               <p>
-                Ao utilizar o PertoDaqui, você concorda com os termos descritos
-                abaixo.
+                Bem-vindo ao PertoDaqui. Ao acessar e usar esta plataforma, você concorda em cumprir integralmente estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não utilize o serviço.
               </p>
-              <h3>Uso da plataforma</h3>
+
+              <h3>1. Descrição do Serviço</h3>
               <p>
-                O PertoDaqui é uma plataforma de descoberta de negócios e
-                experiências. Você é responsável pelo uso correto das informações
-                apresentadas.
+                O PertoDaqui é uma plataforma web baseada em localização que ajuda usuários a descobrir atividades, experiências e estabelecimentos (restaurantes, hotéis, passeios, etc.) próximos à sua localização atual. A plataforma integra informações de terceiros e dados de APIs públicas.
               </p>
-              <h3>Conteúdo e disponibilidade</h3>
+
+              <h3>2. Elegibilidade</h3>
               <p>
-                Trabalhamos para manter os dados atualizados, mas não garantimos
-                disponibilidade, preços ou informações de terceiros.
+                Você deve ter pelo menos 13 anos de idade para usar o PertoDaqui. Se você é menor de idade, deve ter consentimento de seus pais ou responsável legal. Ao usar a plataforma, você confirma que atende a esses requisitos.
               </p>
-              <h3>Conduta</h3>
+
+              <h3>3. Concessão de Licença</h3>
               <p>
-                Não é permitido usar a plataforma para fins ilegais, abusivos ou
-                que violem direitos de terceiros.
+                Concedemos a você uma licença limitada, não exclusiva e não transferível para acessar e usar a plataforma PertoDaqui para fins pessoais e não comerciais. Você não pode modificar, traduzir, adaptar ou criar trabalhos derivados.
               </p>
-              <h3>Suporte</h3>
+
+              <h3>4. Uso Aceitável</h3>
               <p>
-                Para dúvidas ou suporte, entre em contato pelo email
-                contato@pertodaqui.app.
+                Você concorda em não:
               </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Usar a plataforma para qualquer atividade ilegal ou prejudicial</li>
+                <li>Acessar ou interferir com dados ou sistemas que não lhe pertencem</li>
+                <li>Fazer spam, harassment ou publicar conteúdo ofensivo</li>
+                <li>Usar bots, crawlers ou ferramentas automatizadas sem autorização</li>
+                <li>Contornar medidas de segurança ou restrições técnicas</li>
+                <li>Comercializar dados coletados da plataforma</li>
+                <li>Violar qualquer lei, regulamento ou direito de terceiros</li>
+              </ul>
+
+              <h3>5. Precisão do Conteúdo</h3>
+              <p>
+                A plataforma PertoDaqui fornece informações sobre estabelecimentos e atividades de terceiros. Embora nos esforçemos para manter os dados precisos e atualizados, <strong>não garantimos a exatidão, completude ou atualidade de todas as informações</strong>. As informações incluem:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Nomes e localizações de estabelecimentos</li>
+                <li>Imagens e descrições</li>
+                <li>Horários de funcionamento e contato</li>
+                <li>Dados climáticos fornecidos por APIs públicas</li>
+              </ul>
+              <p>
+                Verificar informações críticas diretamente com os estabelecimentos é recomendado.
+              </p>
+
+              <h3>6. Isenção de Responsabilidade</h3>
+              <p>
+                <strong>O SERVIÇO É FORNECIDO "COMO ESTÁ" E "CONFORME DISPONÍVEL".</strong> O PertoDaqui não faz representações ou garantias de nenhum tipo, expressas ou implícitas. Especificamente:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Não garantimos disponibilidade contínua ou livre de erros</li>
+                <li>Não garantimos compatibilidade com seu dispositivo ou navegador</li>
+                <li>Não somos responsáveis por perdas de dados ou alterações</li>
+                <li>Não garantimos que a plataforma atenderá suas necessidades específicas</li>
+              </ul>
+
+              <h3>7. Limitação de Responsabilidade</h3>
+              <p>
+                Em nenhuma circunstância o PertoDaqui será responsável por danos diretos, indiretos, incidentais, consequentes, especiais ou punitivos decorrentes de:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Uso ou impossibilidade de usar a plataforma</li>
+                <li>Dados imprecisos ou informações desatualizadas</li>
+                <li>Decisões tomadas com base em informações da plataforma</li>
+                <li>Acesso não autorizado a dados ou sistemas</li>
+                <li>Interrupções ou eliminação de conteúdo</li>
+              </ul>
+
+              <h3>8. Direitos de Propriedade Intelectual</h3>
+              <p>
+                O PertoDaqui e seu conteúdo original (design, funcionalidades, código) são propriedade intelectual nossa. Você não pode copiar, reproduzir ou distribuir sem permissão explícita. Dados de estabelecimentos são propriedade de seus respectivos donos.
+              </p>
+
+              <h3>9. Integração com Terceiros</h3>
+              <p>
+                O PertoDaqui integra serviços de terceiros:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li><strong>Google Maps:</strong> Para dados de localização e rotas</li>
+                <li><strong>Open-Meteo:</strong> Para dados climáticos públicos</li>
+                <li><strong>Google Analytics:</strong> Para análise anônima</li>
+              </ul>
+              <p>
+                Você também concorda com os Termos de Serviço desses provedores ao usar o PertoDaqui.
+              </p>
+
+              <h3>10. Consentimento para Localização</h3>
+              <p>
+                A plataforma funciona melhor com permissão de localização. Sua localização nunca é armazenada em servidores; é processada apenas durante sua sessão ativa no navegador. Você pode revogar essa permissão a qualquer momento nas configurações do seu dispositivo.
+              </p>
+
+              <h3>11. Modificação do Serviço</h3>
+              <p>
+                Reservamo-nos o direito de modificar, suspender ou descontinuar qualquer parte do PertoDaqui a qualquer momento. Não seremos responsáveis por qualquer modificação ou descontinuação.
+              </p>
+
+              <h3>12. Violação de Direitos Autorais</h3>
+              <p>
+                Se você acredita que seus direitos autorais foram violados, notifique-nos em <strong>contato@pertodaqui.app</strong> com:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Descrição detalhada do trabalho protegido</li>
+                <li>Localização do conteúdo na plataforma</li>
+                <li>Declaração jurada de boa fé</li>
+                <li>Seus dados de contato completos</li>
+              </ul>
+
+              <h3>13. Terminação de Acesso</h3>
+              <p>
+                Podemos encerrar ou suspender seu acesso ao PertoDaqui sem aviso prévio se você violar estes Termos, participar de atividades ilegais ou prejudicar a plataforma.
+              </p>
+
+              <h3>14. Indenização</h3>
+              <p>
+                Você concorda em defender, indenizar e manter harmônico o PertoDaqui contra quaisquer reclamações, perdas, custos e despesas (incluindo honorários advocatícios) decorrentes de:
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+                <li>Sua violação destes Termos</li>
+                <li>Seu uso inadequado da plataforma</li>
+                <li>Violação de direitos de terceiros</li>
+              </ul>
+
+              <h3>15. Jurisdição e Lei Aplicável</h3>
+              <p>
+                Estes Termos são regidos pelas leis aplicáveis. Qualquer disputa será resolvida em tribunais competentes no Brasil.
+              </p>
+
+              <h3>16. Alterações aos Termos</h3>
+              <p>
+                Podemos atualizar estes Termos periodicamente. Alterações significativas serão comunicadas com 30 dias de antecedência. Seu uso contínuo significa aceitação das alterações.
+              </p>
+
+              <h3>17. Divisibilidade</h3>
+              <p>
+                Se qualquer parte destes Termos for inválida ou inaplicável, as demais disposições permanecerão em vigor.
+              </p>
+
+              <h3>18. Acordo Integral</h3>
+              <p>
+                Estes Termos, juntamente com nossa Política de Privacidade, constituem o acordo integral entre você e o PertoDaqui, substituindo qualquer acordo anterior.
+              </p>
+
+              <h3>19. Contato</h3>
+              <p>
+                Para questões sobre estes termos entre em contato conosco através do e-mail <b>contato@pertodaqui.app</b>
+              </p>
+              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
+              </ul>
             </div>
           </div>
         </div>
