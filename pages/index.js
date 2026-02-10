@@ -12,6 +12,7 @@ import {
   MagnifyingGlass,
   MapPinLine,
   MapTrifold,
+  SpinnerGap,
   Broom,
   PlusCircle,
   Thermometer,
@@ -174,6 +175,7 @@ export default function Home() {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isLocating, setIsLocating] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [weatherByCoord, setWeatherByCoord] = useState({});
   const [forecastByCoord, setForecastByCoord] = useState({});
@@ -187,9 +189,11 @@ export default function Home() {
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
       setGeoError("Seu navegador não suporta geolocalização.");
+      setIsLocating(false);
       return;
     }
 
+    setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setUserCoords({
@@ -197,10 +201,12 @@ export default function Home() {
           lng: position.coords.longitude
         });
         setGeoError("");
+        setIsLocating(false);
       },
       () => {
         setUserCoords(null);
         setGeoError("Permita a localização para ver opções próximas.");
+        setIsLocating(false);
       }
     );
   };
@@ -507,6 +513,14 @@ export default function Home() {
                           <span className="filter-option-label">{category.label}</span>
                         </label>
                       ))}
+                      <button
+                        type="button"
+                        className="filter-clear-all"
+                        onClick={() => setSelectedCategories([])}
+                        disabled={selectedCategories.length === 0}
+                      >
+                        Desmarcar tudo
+                      </button>
                     </div>
                   ) : null}
                   <div className="filter-menu-divider"></div>
@@ -648,6 +662,28 @@ export default function Home() {
                     </div>
                   </article>
                 ))}
+              </div>
+            ) : isLocating ? (
+              <div className="empty-state loading-state">
+                <div className="loading-spinner" aria-hidden="true">
+                  <SpinnerGap size={72} weight="bold" />
+                </div>
+                <h3>Buscando opções perto de você...</h3>
+                <p>Estamos localizando e organizando as sugestões.</p>
+              </div>
+            ) : geoError ? (
+              <div className="empty-state">
+                <div className="empty-illustration" aria-hidden="true">
+                  <MapPinLine size={72} />
+                </div>
+                <h3>Não conseguimos acessar sua localização</h3>
+                <p>{geoError}</p>
+                <div className="empty-actions">
+                  <button type="button" onClick={requestLocation}>
+                    <MapPinLine size={18} weight="bold" />
+                    Tentar novamente
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="empty-state">

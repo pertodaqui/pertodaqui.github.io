@@ -327,6 +327,30 @@ details[open] .filter-button svg {
   gap: 10px;
 }
 
+.filter-clear-all {
+  border: 1px dashed var(--pd-border);
+  background: #ffffff;
+  color: var(--pd-blue-deep);
+  padding: 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-clear-all:hover {
+  border-color: var(--pd-blue);
+  background: var(--pd-sky);
+  transform: translateX(2px);
+}
+
+.filter-clear-all:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
 .filter-option {
   display: grid;
   grid-template-columns: auto auto 1fr;
@@ -735,6 +759,25 @@ input[type="range"]::-moz-range-track {
 .empty-state p {
   margin: 0;
   color: var(--pd-muted);
+}
+
+.loading-state .loading-spinner {
+  color: #7ea2d7;
+}
+
+.loading-spinner svg {
+  width: 72px;
+  height: 72px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .empty-actions {
