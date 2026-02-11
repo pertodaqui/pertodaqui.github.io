@@ -13,6 +13,8 @@ import {
   MapPinLine,
   MapTrifold,
   SpinnerGap,
+  CheckSquare,
+  XCircle,
   Broom,
   PlusCircle,
   Thermometer,
@@ -456,6 +458,11 @@ export default function Home() {
     setCurrentPage(1);
   }, [distance, selectedCategories, userCoords]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   return (
     <>
       <Head>
@@ -517,7 +524,9 @@ export default function Home() {
                       ))}
                       <button
                         type="button"
-                        className="filter-option filter-clear-all"
+                        className={`filter-option filter-clear-all ${
+                          allCategoriesSelected ? "is-clear" : "is-select"
+                        }`}
                         onClick={() =>
                           setSelectedCategories(
                             allCategoriesSelected
@@ -526,7 +535,16 @@ export default function Home() {
                           )
                         }
                       >
-                        {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
+                        <span className="filter-option-icon" aria-hidden="true">
+                          {allCategoriesSelected ? (
+                            <XCircle size={20} />
+                          ) : (
+                            <CheckSquare size={20} />
+                          )}
+                        </span>
+                        <span className="filter-option-label">
+                          {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
+                        </span>
                       </button>
                     </div>
                   ) : null}

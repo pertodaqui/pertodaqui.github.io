@@ -14,7 +14,9 @@ import {
   Thermometer,
   Tree,
   Sliders,
-  SpinnerGap
+  SpinnerGap,
+  CheckSquare,
+  XCircle
 } from "@phosphor-icons/react";
 import bars from "../data/bars";
 import cafes from "../data/cafes";
@@ -381,6 +383,11 @@ export default function CityPage({ slug }) {
     setCurrentPage(1);
   }, [selectedCategories, slugParam]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   const locationTitle = formatSlugTitle(slugParam);
   const metaDescription = locationTitle
     ? `Descubra o que fazer em ${locationTitle}. Veja ${totalItems} opções com filtros por categoria, como cachoeiras, restaurantes e passeios.`
@@ -468,7 +475,11 @@ export default function CityPage({ slug }) {
                       ))}
                       <button
                         type="button"
-                        className="filter-option filter-clear-all"
+                        className={`filter-option filter-clear-all ${
+                          selectedCategories.length === categories.length
+                            ? "is-clear"
+                            : "is-select"
+                        }`}
                         onClick={() =>
                           setSelectedCategories((prev) =>
                             prev.length === categories.length
@@ -477,9 +488,18 @@ export default function CityPage({ slug }) {
                           )
                         }
                       >
-                        {selectedCategories.length === categories.length
-                          ? "Desmarcar tudo"
-                          : "Marcar tudo"}
+                        <span className="filter-option-icon" aria-hidden="true">
+                          {selectedCategories.length === categories.length ? (
+                            <XCircle size={20} />
+                          ) : (
+                            <CheckSquare size={20} />
+                          )}
+                        </span>
+                        <span className="filter-option-label">
+                          {selectedCategories.length === categories.length
+                            ? "Desmarcar tudo"
+                            : "Marcar tudo"}
+                        </span>
                       </button>
                     </div>
                   ) : null}
