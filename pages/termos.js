@@ -7,6 +7,8 @@ export default function Termos() {
       <Head>
         <title>PertoDaqui - Termos de Uso</title>
         <meta name="description" content="Termos de uso do PertoDaqui." />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="https://pertodaqui.com/termos/" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 

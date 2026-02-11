@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bed,
@@ -8,7 +9,6 @@ import {
   Columns,
   ForkKnife,
   EnvelopeSimple,
-  FunnelSimple,
   MagnifyingGlass,
   MapPinLine,
   MapTrifold,
@@ -33,65 +33,24 @@ import waterfalls from "../data/waterfalls";
 import viewpoints from "../data/viewpoints";
 import trails from "../data/trails";
 import tours from "../data/tours";
+import {
+  buildActiveItemsFromCategoryMap,
+  normalizeSelectedCategories,
+  paginateItems,
+  toggleAllCategories,
+  toggleCategorySelection
+} from "../utils/listingHelpers";
+import {
+  formatLocation,
+  getItemsByDistance,
+  getMapsUrl
+} from "../utils/locationHelpers";
 import { getRandomSubtitle } from "../utils/textHelpers";
+import { useWeatherByItems } from "../utils/useWeatherByItems";
 
-const EARTH_RADIUS_KM = 6371;
 const QUICK_DISTANCES = [1, 5, 10, 25];
 const ITEMS_PER_PAGE = 12;
-
-const toRadians = (value) => (value * Math.PI) / 180;
-
-const getDistanceKm = (from, to) => {
-  const deltaLat = toRadians(to.lat - from.lat);
-  const deltaLng = toRadians(to.lng - from.lng);
-  const originLat = toRadians(from.lat);
-  const targetLat = toRadians(to.lat);
-
-  const a =
-    Math.sin(deltaLat / 2) ** 2 +
-    Math.cos(originLat) * Math.cos(targetLat) * Math.sin(deltaLng / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return EARTH_RADIUS_KM * c;
-};
-
-const mapDistance = (item, origin) => {
-  const distanceKm = getDistanceKm(origin, item);
-  return { ...item, distanceKm: Math.round(distanceKm) };
-};
-
-const getItemsByDistance = (items, maxDistance, origin) => {
-  if (!origin) {
-    return [];
-  }
-
-  return items
-    .map((item) => mapDistance(item, origin))
-    .filter((item) => item.distanceKm <= maxDistance);
-};
-
-const getMapsUrl = (item) =>
-  `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
-
-const formatLocation = (location) => {
-  if (!location) {
-    return "";
-  }
-
-  const cleaned = location.trim();
-  const hyphenMatch = cleaned.match(/([^,]+?)\s*-\s*([A-Z]{2})\b/);
-
-  if (hyphenMatch) {
-    return `${hyphenMatch[1].trim()} - ${hyphenMatch[2]}`;
-  }
-
-  const parts = cleaned.split(",").map((part) => part.trim());
-  if (parts.length >= 2) {
-    return `${parts[0]} - ${parts[1]}`;
-  }
-
-  return cleaned;
-};
+const SITE_URL = "https://pertodaqui.com";
 
 const categories = [
   {
@@ -167,6 +126,7 @@ const categories = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const categoryKeys = useMemo(
     () => categories.map((category) => category.key),
     []
@@ -183,14 +143,12 @@ export default function Home() {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isLocating, setIsLocating] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [weatherByCoord, setWeatherByCoord] = useState({});
-  const [forecastByCoord, setForecastByCoord] = useState({});
   const [subtitle, setSubtitle] = useState(
     "Escolha o raio de distância e descubra o que explorar..."
   );
   const filterRef = useRef(null);
-  const weatherCacheRef = useRef({});
   const [openTempKey, setOpenTempKey] = useState(null);
+  const hasSelectedCategories = selectedCategories.length > 0;
 
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -318,119 +276,18 @@ export default function Home() {
     []
   );
 
-  const activeItems = useMemo(
-    () =>
-      selectedCategories.flatMap(
-        (categoryKey) =>
-          (filteredByCategory[categoryKey] || []).map((item) => ({
-            ...item,
-            categoryKey
-          }))
-      ).sort((a, b) => a.distanceKm - b.distanceKm),
-    [filteredByCategory, selectedCategories]
-  );
+  const activeItems = useMemo(() => {
+    if (!hasSelectedCategories) return [];
+    return buildActiveItemsFromCategoryMap(filteredByCategory, selectedCategories, "distance");
+  }, [filteredByCategory, hasSelectedCategories, selectedCategories]);
 
   const totalPages = Math.max(1, Math.ceil(activeItems.length / ITEMS_PER_PAGE));
   const paginatedItems = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return activeItems.slice(start, start + ITEMS_PER_PAGE);
+    return paginateItems(activeItems, currentPage, ITEMS_PER_PAGE);
   }, [activeItems, currentPage]);
 
-  const getCoordKey = (item) => `${item.lat},${item.lng}`;
-
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const pending = activeItems
-      .filter((item) => item.lat != null && item.lng != null)
-      .map((item) => ({
-        key: getCoordKey(item),
-        lat: item.lat,
-        lng: item.lng
-      }))
-      .filter(({ key }) => weatherCacheRef.current[key] === undefined);
-
-    if (pending.length === 0) {
-      return () => {
-        controller.abort();
-      };
-    }
-
-    pending.forEach(({ key }) => {
-      weatherCacheRef.current[key] = "loading";
-    });
-
-    const fetchWeather = async ({ key, lat, lng }) => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto`;
-      const response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) {
-        return null;
-      }
-      const data = await response.json();
-      const timezone =
-        typeof data?.timezone === "string" ? data.timezone : "America/Sao_Paulo";
-      const todayStr = new Intl.DateTimeFormat("en-CA", {
-        timeZone: timezone
-      }).format(new Date());
-      const temp = data?.current_weather?.temperature;
-      const daily = data?.daily;
-      const dates = Array.isArray(daily?.time) ? daily.time : [];
-      const maxes = Array.isArray(daily?.temperature_2m_max)
-        ? daily.temperature_2m_max
-        : [];
-      const mins = Array.isArray(daily?.temperature_2m_min)
-        ? daily.temperature_2m_min
-        : [];
-      const forecast = dates
-        .map((date, index) => ({
-          date,
-          max: typeof maxes[index] === "number" ? Math.round(maxes[index]) : null,
-          min: typeof mins[index] === "number" ? Math.round(mins[index]) : null
-        }))
-        .filter((entry) => entry.date >= todayStr)
-        .slice(0, 5);
-      if (typeof temp === "number") {
-        return { key, temp: Math.round(temp), forecast };
-      }
-      return { key, temp: null, forecast };
-    };
-
-    Promise.all(pending.map(fetchWeather))
-      .then((results) => {
-        if (!isMounted) {
-          return;
-        }
-        const next = {};
-        const nextForecast = {};
-        results.forEach((result) => {
-          if (result) {
-            if (typeof result.temp === "number") {
-              next[result.key] = result.temp;
-            }
-            if (Array.isArray(result.forecast)) {
-              nextForecast[result.key] = result.forecast;
-            }
-            weatherCacheRef.current[result.key] = {
-              temp: result.temp,
-              forecast: result.forecast
-            };
-          }
-        });
-        if (Object.keys(next).length > 0) {
-          setWeatherByCoord((prev) => ({ ...prev, ...next }));
-        }
-        if (Object.keys(nextForecast).length > 0) {
-          setForecastByCoord((prev) => ({ ...prev, ...nextForecast }));
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, [activeItems]);
+  const { weatherByCoord, weatherStatusByCoord, forecastByCoord, getCoordKey } =
+    useWeatherByItems(activeItems);
 
   useEffect(() => {
     if (!openTempKey) {
@@ -448,16 +305,14 @@ export default function Home() {
     };
   }, [openTempKey]);
 
+  useEffect(() => {
+    if (!hasSelectedCategories) {
+      setOpenTempKey(null);
+    }
+  }, [hasSelectedCategories]);
+
   const toggleCategory = (categoryKey) => {
-    setSelectedCategories((prev) => {
-      const next = new Set(prev);
-      if (next.has(categoryKey)) {
-        next.delete(categoryKey);
-      } else {
-        next.add(categoryKey);
-      }
-      return Array.from(next);
-    });
+    setSelectedCategories((prev) => toggleCategorySelection(prev, categoryKey));
   };
 
   const allCategoriesSelected = categoryKeys.every((key) =>
@@ -466,9 +321,7 @@ export default function Home() {
 
   useEffect(() => {
     setSelectedCategories((prev) => {
-      const sanitized = Array.from(new Set(prev)).filter((key) =>
-        categoryKeys.includes(key)
-      );
+      const sanitized = normalizeSelectedCategories(prev, categoryKeys);
       if (
         sanitized.length === prev.length &&
         sanitized.every((key, index) => key === prev[index])
@@ -484,9 +337,43 @@ export default function Home() {
   }, [distance, selectedCategories, userCoords]);
 
   useEffect(() => {
+    if (!router.isReady) return;
+    const pageFromQuery = Number(router.query.page);
+    if (Number.isInteger(pageFromQuery) && pageFromQuery > 0) {
+      setCurrentPage(pageFromQuery);
+    } else {
+      setCurrentPage(1);
+    }
+  }, [router.isReady, router.query.page]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+      return;
+    }
+    const nextQuery = { ...router.query };
+    if (currentPage > 1) {
+      nextQuery.page = String(currentPage);
+    } else {
+      delete nextQuery.page;
+    }
+    router.replace(
+      { pathname: router.pathname, query: nextQuery },
+      undefined,
+      { shallow: true, scroll: false }
+    );
+  }, [currentPage, totalPages, router]);
+
+  useEffect(() => {
     if (typeof window === "undefined") return;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
+
+  const canonicalUrl =
+    currentPage > 1
+      ? `${SITE_URL}/?page=${currentPage}`
+      : `${SITE_URL}/`;
 
   return (
     <>
@@ -496,6 +383,8 @@ export default function Home() {
           name="description"
           content="Descubra passeios, hospedagens e experiências perto de você."
         />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href={canonicalUrl} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
@@ -554,8 +443,8 @@ export default function Home() {
                         }`}
                         onClick={() => {
                           setOpenTempKey(null);
-                          setSelectedCategories(
-                            allCategoriesSelected ? [] : categoryKeys
+                          setSelectedCategories((prev) =>
+                            toggleAllCategories(prev, categoryKeys)
                           );
                         }}
                       >
@@ -620,7 +509,9 @@ export default function Home() {
         </header>
 
         <main className="content">
+          <h1 className="sr-only">PertoDaqui: atividades e lugares perto de você</h1>
           <section className="results">
+            <h2 className="sr-only">Resultados</h2>
             {activeItems.length > 0 ? (
               <div className="cards-grid">
                 {paginatedItems.map((item) => (
@@ -638,7 +529,9 @@ export default function Home() {
                       </span>
                     </div>
                     <div className="place-footer">
-                      <span>{item.distanceKm} km</span>
+                      <span>
+                        {userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`}
+                      </span>
                       <div className="place-actions">
                         <span
                           className="place-badge"
@@ -664,7 +557,11 @@ export default function Home() {
                           <button
                             type="button"
                             className="place-temp"
-                            title="Temperatura atual"
+                            title={
+                              weatherStatusByCoord[getCoordKey(item)] === "error"
+                                ? "Temperatura indisponível no momento"
+                                : "Temperatura atual"
+                            }
                             onClick={() => {
                               const key = getCoordKey(item);
                               setOpenTempKey((prev) =>
@@ -674,7 +571,11 @@ export default function Home() {
                           >
                             <Thermometer size={16} />
                             <span>
-                              {weatherByCoord[getCoordKey(item)] ?? "--"}°C
+                              {weatherStatusByCoord[getCoordKey(item)] === "loading"
+                                ? "..."
+                                : weatherStatusByCoord[getCoordKey(item)] === "error"
+                                  ? "N/D"
+                                  : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
                             </span>
                           </button>
                           {openTempKey === getCoordKey(item) && (

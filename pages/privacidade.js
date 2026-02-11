@@ -10,6 +10,8 @@ export default function Privacidade() {
           name="description"
           content="Política de privacidade do PertoDaqui."
         />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="https://pertodaqui.com/privacidade/" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 

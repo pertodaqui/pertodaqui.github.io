@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useMemo, useEffect, useRef, useState } from "react";
 import {
   Bed,
@@ -28,25 +29,24 @@ import waterfalls from "../data/waterfalls";
 import viewpoints from "../data/viewpoints";
 import trails from "../data/trails";
 import tours from "../data/tours";
+import {
+  buildActiveItemsFromList,
+  normalizeSelectedCategories,
+  paginateItems,
+  toggleAllCategories,
+  toggleCategorySelection
+} from "../utils/listingHelpers";
+import {
+  formatLocation,
+  formatSlugTitle,
+  getDistanceKm,
+  getLocationSlug,
+  getMapsUrl
+} from "../utils/locationHelpers";
+import { useWeatherByItems } from "../utils/useWeatherByItems";
 
 const ITEMS_PER_PAGE = 12;
-const EARTH_RADIUS_KM = 6371;
-
-const toRadians = (value) => (value * Math.PI) / 180;
-
-const getDistanceKm = (from, to) => {
-  const deltaLat = toRadians(to.lat - from.lat);
-  const deltaLng = toRadians(to.lng - from.lng);
-  const originLat = toRadians(from.lat);
-  const targetLat = toRadians(to.lat);
-
-  const a =
-    Math.sin(deltaLat / 2) ** 2 +
-    Math.cos(originLat) * Math.cos(targetLat) * Math.sin(deltaLng / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return EARTH_RADIUS_KM * c;
-};
+const SITE_URL = "https://pertodaqui.com";
 
 const categories = [
   {
@@ -101,64 +101,6 @@ const categories = [
   }
 ];
 
-const formatLocation = (location) => {
-  if (!location) {
-    return "";
-  }
-
-  const cleaned = location.trim();
-  const hyphenMatch = cleaned.match(/([^,]+?)\s*-\s*([A-Z]{2})\b/);
-
-  if (hyphenMatch) {
-    return `${hyphenMatch[1].trim()} - ${hyphenMatch[2]}`;
-  }
-
-  const parts = cleaned.split(",").map((part) => part.trim());
-  if (parts.length >= 2) {
-    return `${parts[0]} - ${parts[1]}`;
-  }
-
-  return cleaned;
-};
-
-const normalizeText = (value) =>
-  value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-const slugify = (value) =>
-  normalizeText(value)
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-const getLocationSlug = (location) => {
-  const formatted = formatLocation(location);
-  const match = formatted.match(/^(.+)\s-\s([A-Z]{2})$/);
-  if (match) {
-    return `${slugify(match[1])}-${match[2].toLowerCase()}`;
-  }
-  return slugify(formatted);
-};
-
-const formatSlugTitle = (slug) => {
-  if (!slug) return "";
-  const parts = slug.split("-");
-  if (parts.length === 1) {
-    return parts[0];
-  }
-  const state = parts[parts.length - 1].toUpperCase();
-  const city = parts.slice(0, -1).join(" ");
-  const cityTitle = city
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-  return `${cityTitle} - ${state}`;
-};
-
-const getMapsUrl = (item) =>
-  `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
-
 const PREFIX = "o-que-fazer-em-";
 const allItems = [
   ...bars,
@@ -200,6 +142,7 @@ export async function getStaticProps({ params }) {
 }
 
 export default function CityPage({ slug }) {
+  const router = useRouter();
   const slugParam = slug || "";
   const categoryKeys = useMemo(
     () => categories.map((category) => category.key),
@@ -213,11 +156,8 @@ export default function CityPage({ slug }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [weatherByCoord, setWeatherByCoord] = useState({});
-  const [forecastByCoord, setForecastByCoord] = useState({});
   const [openTempKey, setOpenTempKey] = useState(null);
   const filterRef = useRef(null);
-  const weatherCacheRef = useRef({});
   const hasSelectedCategories = selectedCategories.length > 0;
   const allCategoriesSelected = categoryKeys.every((key) =>
     selectedCategories.includes(key)
@@ -270,23 +210,19 @@ export default function CityPage({ slug }) {
   const totalItems = itemsByCity.length;
   const activeItems = useMemo(
     () => {
-      if (!hasSelectedCategories) {
-        return [];
-      }
-      return itemsByCity
-        .filter((item) => selectedCategories.includes(item.categoryKey))
-        .sort((a, b) => a.title.localeCompare(b.title));
+      if (!hasSelectedCategories) return [];
+      return buildActiveItemsFromList(itemsByCity, selectedCategories, "alpha");
     },
     [hasSelectedCategories, itemsByCity, selectedCategories]
   );
 
   const totalPages = Math.max(1, Math.ceil(activeItems.length / ITEMS_PER_PAGE));
   const paginatedItems = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return activeItems.slice(start, start + ITEMS_PER_PAGE);
+    return paginateItems(activeItems, currentPage, ITEMS_PER_PAGE);
   }, [activeItems, currentPage]);
 
-  const getCoordKey = (item) => `${item.lat},${item.lng}`;
+  const { weatherByCoord, weatherStatusByCoord, forecastByCoord, getCoordKey } =
+    useWeatherByItems(activeItems);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -326,100 +262,6 @@ export default function CityPage({ slug }) {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const pending = activeItems
-      .filter((item) => item.lat != null && item.lng != null)
-      .map((item) => ({
-        key: getCoordKey(item),
-        lat: item.lat,
-        lng: item.lng
-      }))
-      .filter(({ key }) => weatherCacheRef.current[key] === undefined);
-
-    if (pending.length === 0) {
-      return () => {
-        controller.abort();
-      };
-    }
-
-    pending.forEach(({ key }) => {
-      weatherCacheRef.current[key] = "loading";
-    });
-
-    const fetchWeather = async ({ key, lat, lng }) => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto`;
-      const response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) {
-        return null;
-      }
-      const data = await response.json();
-      const timezone =
-        typeof data?.timezone === "string" ? data.timezone : "America/Sao_Paulo";
-      const todayStr = new Intl.DateTimeFormat("en-CA", {
-        timeZone: timezone
-      }).format(new Date());
-      const temp = data?.current_weather?.temperature;
-      const daily = data?.daily;
-      const dates = Array.isArray(daily?.time) ? daily.time : [];
-      const maxes = Array.isArray(daily?.temperature_2m_max)
-        ? daily.temperature_2m_max
-        : [];
-      const mins = Array.isArray(daily?.temperature_2m_min)
-        ? daily.temperature_2m_min
-        : [];
-      const forecast = dates
-        .map((date, index) => ({
-          date,
-          max: typeof maxes[index] === "number" ? Math.round(maxes[index]) : null,
-          min: typeof mins[index] === "number" ? Math.round(mins[index]) : null
-        }))
-        .filter((entry) => entry.date >= todayStr)
-        .slice(0, 5);
-      if (typeof temp === "number") {
-        return { key, temp: Math.round(temp), forecast };
-      }
-      return { key, temp: null, forecast };
-    };
-
-    Promise.all(pending.map(fetchWeather))
-      .then((results) => {
-        if (!isMounted) {
-          return;
-        }
-        const next = {};
-        const nextForecast = {};
-        results.forEach((result) => {
-          if (result) {
-            if (typeof result.temp === "number") {
-              next[result.key] = result.temp;
-            }
-            if (Array.isArray(result.forecast)) {
-              nextForecast[result.key] = result.forecast;
-            }
-            weatherCacheRef.current[result.key] = {
-              temp: result.temp,
-              forecast: result.forecast
-            };
-          }
-        });
-        if (Object.keys(next).length > 0) {
-          setWeatherByCoord((prev) => ({ ...prev, ...next }));
-        }
-        if (Object.keys(nextForecast).length > 0) {
-          setForecastByCoord((prev) => ({ ...prev, ...nextForecast }));
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, [activeItems]);
-
-  useEffect(() => {
     if (!openTempKey) {
       return;
     }
@@ -446,10 +288,37 @@ export default function CityPage({ slug }) {
   }, [selectedCategories, slugParam]);
 
   useEffect(() => {
+    if (!router.isReady) return;
+    const pageFromQuery = Number(router.query.page);
+    if (Number.isInteger(pageFromQuery) && pageFromQuery > 0) {
+      setCurrentPage(pageFromQuery);
+    } else {
+      setCurrentPage(1);
+    }
+  }, [router.isReady, router.query.page]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+      return;
+    }
+    const nextQuery = { ...router.query };
+    if (currentPage > 1) {
+      nextQuery.page = String(currentPage);
+    } else {
+      delete nextQuery.page;
+    }
+    router.replace(
+      { pathname: router.pathname, query: nextQuery },
+      undefined,
+      { shallow: true, scroll: false }
+    );
+  }, [currentPage, totalPages, router]);
+
+  useEffect(() => {
     setSelectedCategories((prev) => {
-      const sanitized = Array.from(new Set(prev)).filter((key) =>
-        categoryKeys.includes(key)
-      );
+      const sanitized = normalizeSelectedCategories(prev, categoryKeys);
       if (
         sanitized.length === prev.length &&
         sanitized.every((key, index) => key === prev[index])
@@ -468,6 +337,11 @@ export default function CityPage({ slug }) {
   const locationDisplay = itemsByCity[0]?.location
     ? formatLocation(itemsByCity[0].location)
     : formatSlugTitle(slugParam);
+  const baseCityPath = `/o-que-fazer-em-${slugParam}/`;
+  const canonicalUrl =
+    currentPage > 1
+      ? `${SITE_URL}${baseCityPath}?page=${currentPage}`
+      : `${SITE_URL}${baseCityPath}`;
   const metaDescription = locationDisplay
     ? `Descubra o que fazer em ${locationDisplay}. Veja ${totalItems} opções com filtros por categoria, como cachoeiras, restaurantes e passeios.`
     : "Descubra o que fazer na sua cidade com filtros por categoria.";
@@ -489,6 +363,8 @@ export default function CityPage({ slug }) {
       <Head>
         <title>{`O que fazer em ${locationDisplay} | PertoDaqui`}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href={canonicalUrl} />
         <meta property="og:title" content={`O que fazer em ${locationDisplay}`} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
@@ -541,15 +417,9 @@ export default function CityPage({ slug }) {
                             type="checkbox"
                             checked={selectedCategories.includes(category.key)}
                             onChange={() =>
-                              setSelectedCategories((prev) => {
-                                const next = new Set(prev);
-                                if (next.has(category.key)) {
-                                  next.delete(category.key);
-                                } else {
-                                  next.add(category.key);
-                                }
-                                return Array.from(next);
-                              })
+                              setSelectedCategories((prev) =>
+                                toggleCategorySelection(prev, category.key)
+                              )
                             }
                           />
                           <span className="filter-option-icon" aria-hidden="true">
@@ -565,15 +435,9 @@ export default function CityPage({ slug }) {
                         }`}
                         onClick={() => {
                           setOpenTempKey(null);
-                          setSelectedCategories((prev) => {
-                            const normalized = Array.from(new Set(prev)).filter((key) =>
-                              categoryKeys.includes(key)
-                            );
-                            const isAllSelected = categoryKeys.every((key) =>
-                              normalized.includes(key)
-                            );
-                            return isAllSelected ? [] : categoryKeys;
-                          });
+                          setSelectedCategories((prev) =>
+                            toggleAllCategories(prev, categoryKeys)
+                          );
                         }}
                       >
                         <span className="filter-option-icon" aria-hidden="true">
@@ -612,6 +476,7 @@ export default function CityPage({ slug }) {
             </p>
           </section>
           <section className="results">
+            <h2 className="sr-only">Resultados</h2>
             {!slugParam ? (
               <div className="empty-state loading-state">
                 <div className="loading-spinner" aria-hidden="true">
@@ -639,7 +504,9 @@ export default function CityPage({ slug }) {
                     <div className="place-footer">
                       <span>
                         {typeof item.distanceKm === "number"
-                          ? `${item.distanceKm} km`
+                          ? userCoords
+                            ? `${item.distanceKm} km de você`
+                            : `${item.distanceKm} km`
                           : "-- km"}
                       </span>
                       <div className="place-actions">
@@ -664,7 +531,11 @@ export default function CityPage({ slug }) {
                           <button
                             type="button"
                             className="place-temp"
-                            title="Temperatura atual"
+                            title={
+                              weatherStatusByCoord[getCoordKey(item)] === "error"
+                                ? "Temperatura indisponível no momento"
+                                : "Temperatura atual"
+                            }
                             onClick={() => {
                               const key = getCoordKey(item);
                               setOpenTempKey((prev) => (prev === key ? null : key));
@@ -672,7 +543,11 @@ export default function CityPage({ slug }) {
                           >
                             <Thermometer size={16} />
                             <span>
-                              {weatherByCoord[getCoordKey(item)] ?? "--"}°C
+                              {weatherStatusByCoord[getCoordKey(item)] === "loading"
+                                ? "..."
+                                : weatherStatusByCoord[getCoordKey(item)] === "error"
+                                  ? "N/D"
+                                  : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
                             </span>
                           </button>
                           {openTempKey === getCoordKey(item) && (
