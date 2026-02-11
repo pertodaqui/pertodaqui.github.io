@@ -414,7 +414,7 @@ export default function Home() {
                     onClick={() => setIsCategoryOpen((prev) => !prev)}
                   >
                     <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
-                    Quais atividades?
+                    Categorias
                   </button>
                   {isCategoryOpen ? (
                     <div className="filter-category-list">
@@ -530,7 +530,7 @@ export default function Home() {
                     </div>
                     <div className="place-footer">
                       <span>
-                        {userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`}
+                        <strong> {userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`} </strong>
                       </span>
                       <div className="place-actions">
                         <span

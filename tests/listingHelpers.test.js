@@ -57,6 +57,23 @@ test("buildActiveItemsFromList filtra por categoria e ordena por nome", async ()
   );
 });
 
+test("buildActiveItemsFromList remove itens duplicados por categoria e id", async () => {
+  const { buildActiveItemsFromList } = await import("../utils/listingHelpers.js");
+
+  const items = [
+    { id: "1", title: "Alfa", categoryKey: "parks" },
+    { id: "1", title: "Alfa", categoryKey: "parks" },
+    { id: "2", title: "Beta", categoryKey: "parks" }
+  ];
+
+  const result = buildActiveItemsFromList(items, ["parks"], "alpha");
+
+  assert.deepEqual(
+    result.map((item) => item.id),
+    ["1", "2"]
+  );
+});
+
 test("paginateItems retorna fatia correta", async () => {
   const { paginateItems } = await import("../utils/listingHelpers.js");
 

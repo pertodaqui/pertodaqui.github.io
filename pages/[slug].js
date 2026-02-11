@@ -45,7 +45,7 @@ import {
 } from "../utils/locationHelpers";
 import { useWeatherByItems } from "../utils/useWeatherByItems";
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 9;
 const SITE_URL = "https://pertodaqui.com";
 
 const categories = [
@@ -402,7 +402,7 @@ export default function CityPage({ slug }) {
                     onClick={() => setIsCategoryOpen((prev) => !prev)}
                   >
                     <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
-                    Quais atividades?
+                    Categorias
                   </button>
                   {isCategoryOpen ? (
                     <div className="filter-category-list">
@@ -505,7 +505,11 @@ export default function CityPage({ slug }) {
                       <span>
                         {typeof item.distanceKm === "number"
                           ? userCoords
-                            ? `${item.distanceKm} km de você`
+                            ? (
+                              <>
+                                <strong>{item.distanceKm} km de você</strong>
+                              </>
+                            )
                             : `${item.distanceKm} km`
                           : "-- km"}
                       </span>

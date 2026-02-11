@@ -54,9 +54,14 @@ export const buildActiveItemsFromList = (
   const filtered = items.filter((item) =>
     selectedCategories.includes(item.categoryKey)
   );
+  const uniqueByCategoryAndId = Array.from(
+    new Map(
+      filtered.map((item) => [`${item.categoryKey}::${item.id}`, item])
+    ).values()
+  );
 
   if (sortMode === "distance") {
-    return filtered.sort((a, b) => {
+    return uniqueByCategoryAndId.sort((a, b) => {
       const aDistance = Number.isFinite(a.distanceKm)
         ? a.distanceKm
         : Number.MAX_SAFE_INTEGER;
@@ -67,7 +72,7 @@ export const buildActiveItemsFromList = (
     });
   }
 
-  return filtered.sort((a, b) => a.title.localeCompare(b.title));
+  return uniqueByCategoryAndId.sort((a, b) => a.title.localeCompare(b.title));
 };
 
 export const paginateItems = (items, currentPage, perPage) => {
