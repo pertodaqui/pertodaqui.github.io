@@ -167,10 +167,14 @@ const categories = [
 ];
 
 export default function Home() {
+  const categoryKeys = useMemo(
+    () => categories.map((category) => category.key),
+    []
+  );
   const [distance, setDistance] = useState(80);
   const [userCoords, setUserCoords] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState(
-    categories.map((category) => category.key)
+    categoryKeys
   );
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -445,14 +449,35 @@ export default function Home() {
   }, [openTempKey]);
 
   const toggleCategory = (categoryKey) => {
-    setSelectedCategories((prev) =>
-      prev.includes(categoryKey)
-        ? prev.filter((key) => key !== categoryKey)
-        : [...prev, categoryKey]
-    );
+    setSelectedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(categoryKey)) {
+        next.delete(categoryKey);
+      } else {
+        next.add(categoryKey);
+      }
+      return Array.from(next);
+    });
   };
 
-  const allCategoriesSelected = selectedCategories.length === categories.length;
+  const allCategoriesSelected = categoryKeys.every((key) =>
+    selectedCategories.includes(key)
+  );
+
+  useEffect(() => {
+    setSelectedCategories((prev) => {
+      const sanitized = Array.from(new Set(prev)).filter((key) =>
+        categoryKeys.includes(key)
+      );
+      if (
+        sanitized.length === prev.length &&
+        sanitized.every((key, index) => key === prev[index])
+      ) {
+        return prev;
+      }
+      return sanitized;
+    });
+  }, [categoryKeys]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -527,13 +552,12 @@ export default function Home() {
                         className={`filter-option filter-clear-all ${
                           allCategoriesSelected ? "is-clear" : "is-select"
                         }`}
-                        onClick={() =>
+                        onClick={() => {
+                          setOpenTempKey(null);
                           setSelectedCategories(
-                            allCategoriesSelected
-                              ? []
-                              : categories.map((category) => category.key)
-                          )
-                        }
+                            allCategoriesSelected ? [] : categoryKeys
+                          );
+                        }}
                       >
                         <span className="filter-option-icon" aria-hidden="true">
                           {allCategoriesSelected ? (

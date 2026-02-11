@@ -201,6 +201,10 @@ export async function getStaticProps({ params }) {
 
 export default function CityPage({ slug }) {
   const slugParam = slug || "";
+  const categoryKeys = useMemo(
+    () => categories.map((category) => category.key),
+    []
+  );
 
   const [selectedCategories, setSelectedCategories] = useState(
     categories.map((category) => category.key)
@@ -214,6 +218,10 @@ export default function CityPage({ slug }) {
   const [openTempKey, setOpenTempKey] = useState(null);
   const filterRef = useRef(null);
   const weatherCacheRef = useRef({});
+  const hasSelectedCategories = selectedCategories.length > 0;
+  const allCategoriesSelected = categoryKeys.every((key) =>
+    selectedCategories.includes(key)
+  );
 
   const categoriesByKey = useMemo(
     () =>
@@ -261,11 +269,15 @@ export default function CityPage({ slug }) {
 
   const totalItems = itemsByCity.length;
   const activeItems = useMemo(
-    () =>
-      itemsByCity
+    () => {
+      if (!hasSelectedCategories) {
+        return [];
+      }
+      return itemsByCity
         .filter((item) => selectedCategories.includes(item.categoryKey))
-        .sort((a, b) => a.title.localeCompare(b.title)),
-    [itemsByCity, selectedCategories]
+        .sort((a, b) => a.title.localeCompare(b.title));
+    },
+    [hasSelectedCategories, itemsByCity, selectedCategories]
   );
 
   const totalPages = Math.max(1, Math.ceil(activeItems.length / ITEMS_PER_PAGE));
@@ -424,8 +436,29 @@ export default function CityPage({ slug }) {
   }, [openTempKey]);
 
   useEffect(() => {
+    if (!hasSelectedCategories) {
+      setOpenTempKey(null);
+    }
+  }, [hasSelectedCategories]);
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategories, slugParam]);
+
+  useEffect(() => {
+    setSelectedCategories((prev) => {
+      const sanitized = Array.from(new Set(prev)).filter((key) =>
+        categoryKeys.includes(key)
+      );
+      if (
+        sanitized.length === prev.length &&
+        sanitized.every((key, index) => key === prev[index])
+      ) {
+        return prev;
+      }
+      return sanitized;
+    });
+  }, [categoryKeys]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -508,11 +541,15 @@ export default function CityPage({ slug }) {
                             type="checkbox"
                             checked={selectedCategories.includes(category.key)}
                             onChange={() =>
-                              setSelectedCategories((prev) =>
-                                prev.includes(category.key)
-                                  ? prev.filter((key) => key !== category.key)
-                                  : [...prev, category.key]
-                              )
+                              setSelectedCategories((prev) => {
+                                const next = new Set(prev);
+                                if (next.has(category.key)) {
+                                  next.delete(category.key);
+                                } else {
+                                  next.add(category.key);
+                                }
+                                return Array.from(next);
+                              })
                             }
                           />
                           <span className="filter-option-icon" aria-hidden="true">
@@ -524,29 +561,30 @@ export default function CityPage({ slug }) {
                       <button
                         type="button"
                         className={`filter-option filter-clear-all ${
-                          selectedCategories.length === categories.length
-                            ? "is-clear"
-                            : "is-select"
+                          allCategoriesSelected ? "is-clear" : "is-select"
                         }`}
-                        onClick={() =>
-                          setSelectedCategories((prev) =>
-                            prev.length === categories.length
-                              ? []
-                              : categories.map((category) => category.key)
-                          )
-                        }
+                        onClick={() => {
+                          setOpenTempKey(null);
+                          setSelectedCategories((prev) => {
+                            const normalized = Array.from(new Set(prev)).filter((key) =>
+                              categoryKeys.includes(key)
+                            );
+                            const isAllSelected = categoryKeys.every((key) =>
+                              normalized.includes(key)
+                            );
+                            return isAllSelected ? [] : categoryKeys;
+                          });
+                        }}
                       >
                         <span className="filter-option-icon" aria-hidden="true">
-                          {selectedCategories.length === categories.length ? (
+                          {allCategoriesSelected ? (
                             <XCircle size={20} />
                           ) : (
                             <CheckSquare size={20} />
                           )}
                         </span>
                         <span className="filter-option-label">
-                          {selectedCategories.length === categories.length
-                            ? "Desmarcar tudo"
-                            : "Marcar tudo"}
+                          {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
                         </span>
                       </button>
                     </div>
@@ -677,8 +715,7 @@ export default function CityPage({ slug }) {
                 <div className="empty-illustration" aria-hidden="true">
                   <Broom size={72} />
                 </div>
-                <h3>Nada encontrado em {locationTitle}</h3>
-                <p>Tente outra cidade ou ajuste as categorias.</p>
+                <h3>Não tem nada nessa cidade.</h3>
               </div>
             )}
           </section>
