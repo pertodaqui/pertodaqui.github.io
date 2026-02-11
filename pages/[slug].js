@@ -30,6 +30,23 @@ import trails from "../data/trails";
 import tours from "../data/tours";
 
 const ITEMS_PER_PAGE = 12;
+const EARTH_RADIUS_KM = 6371;
+
+const toRadians = (value) => (value * Math.PI) / 180;
+
+const getDistanceKm = (from, to) => {
+  const deltaLat = toRadians(to.lat - from.lat);
+  const deltaLng = toRadians(to.lng - from.lng);
+  const originLat = toRadians(from.lat);
+  const targetLat = toRadians(to.lat);
+
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(originLat) * Math.cos(targetLat) * Math.sin(deltaLng / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return EARTH_RADIUS_KM * c;
+};
 
 const categories = [
   {
@@ -188,6 +205,7 @@ export default function CityPage({ slug }) {
   const [selectedCategories, setSelectedCategories] = useState(
     categories.map((category) => category.key)
   );
+  const [userCoords, setUserCoords] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -229,9 +247,17 @@ export default function CityPage({ slug }) {
     return categories.flatMap((category) =>
       (itemsByCategory[category.key] || [])
         .filter((item) => getLocationSlug(item.location) === slugParam)
-        .map((item) => ({ ...item, categoryKey: category.key }))
+        .map((item) => {
+          if (!userCoords || item.lat == null || item.lng == null) {
+            return { ...item, categoryKey: category.key, distanceKm: null };
+          }
+          const distanceKm = Math.round(
+            getDistanceKm(userCoords, { lat: item.lat, lng: item.lng })
+          );
+          return { ...item, categoryKey: category.key, distanceKm };
+        })
     );
-  }, [itemsByCategory, slugParam]);
+  }, [itemsByCategory, slugParam, userCoords]);
 
   const totalItems = itemsByCity.length;
   const activeItems = useMemo(
@@ -267,6 +293,24 @@ export default function CityPage({ slug }) {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("touchstart", handleOutsideClick);
     };
+  }, []);
+
+  useEffect(() => {
+    if (!("geolocation" in navigator)) {
+      setUserCoords(null);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserCoords({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      () => {
+        setUserCoords(null);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -388,14 +432,18 @@ export default function CityPage({ slug }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  const locationTitle = formatSlugTitle(slugParam);
-  const metaDescription = locationTitle
-    ? `Descubra o que fazer em ${locationTitle}. Veja ${totalItems} opções com filtros por categoria, como cachoeiras, restaurantes e passeios.`
+  const locationDisplay = itemsByCity[0]?.location
+    ? formatLocation(itemsByCity[0].location)
+    : formatSlugTitle(slugParam);
+  const metaDescription = locationDisplay
+    ? `Descubra o que fazer em ${locationDisplay}. Veja ${totalItems} opções com filtros por categoria, como cachoeiras, restaurantes e passeios.`
     : "Descubra o que fazer na sua cidade com filtros por categoria.";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: locationTitle ? `O que fazer em ${locationTitle}` : "O que fazer na cidade",
+    name: locationDisplay
+      ? `O que fazer em ${locationDisplay}`
+      : "O que fazer na cidade",
     itemListElement: itemsByCity.slice(0, 30).map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -406,9 +454,9 @@ export default function CityPage({ slug }) {
   return (
     <>
       <Head>
-        <title>{`O que fazer em ${locationTitle} | PertoDaqui`}</title>
+        <title>{`O que fazer em ${locationDisplay} | PertoDaqui`}</title>
         <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={`O que fazer em ${locationTitle}`} />
+        <meta property="og:title" content={`O que fazer em ${locationDisplay}`} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
@@ -519,11 +567,10 @@ export default function CityPage({ slug }) {
 
         <main className="content">
           <section className="city-hero">
-            <h1>O que fazer em {locationTitle}</h1>
+            <h1>O que fazer em {locationDisplay}</h1>
             <p>
-              Encontre {totalItems} opções para explorar em {locationTitle}. Use
-              os filtros para ver cachoeiras, trilhas, restaurantes, bares e
-              muito mais.
+              Explore {totalItems} lugares imperdíveis em {locationDisplay}. Use
+              os filtros para achar seu rolê ideal.
             </p>
           </section>
           <section className="results">
@@ -552,7 +599,11 @@ export default function CityPage({ slug }) {
                       </span>
                     </div>
                     <div className="place-footer">
-                      <span>{locationTitle}</span>
+                      <span>
+                        {typeof item.distanceKm === "number"
+                          ? `${item.distanceKm} km`
+                          : "-- km"}
+                      </span>
                       <div className="place-actions">
                         <span
                           className="place-badge"
