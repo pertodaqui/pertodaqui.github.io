@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bed,
   BeerStein,
@@ -8,8 +8,6 @@ import {
   Coffee,
   Columns,
   ForkKnife,
-  EnvelopeSimple,
-  MagnifyingGlass,
   MapPinLine,
   MapTrifold,
   SpinnerGap,
@@ -19,9 +17,10 @@ import {
   PlusCircle,
   Thermometer,
   Tree,
-  Shield,
-  FileText,
-  Sliders
+  List,
+  Moon,
+  Sun,
+  X
 } from "@phosphor-icons/react";
 import bars from "../data/bars";
 import cafes from "../data/cafes";
@@ -45,108 +44,76 @@ import {
   getItemsByDistance,
   getMapsUrl
 } from "../utils/locationHelpers";
-import { getRandomSubtitle } from "../utils/textHelpers";
 import { useWeatherByItems } from "../utils/useWeatherByItems";
 
 const QUICK_DISTANCES = [1, 5, 10, 25];
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 9;
 const SITE_URL = "https://pertodaqui.com";
 
 const categories = [
   {
     key: "waterfalls",
     label: "Cachoeiras",
-    icon: (
-      <Tree size={24} />
-    )
+    icon: <Tree size={18} />
   },
   {
     key: "trails",
     label: "Trilhas",
-    icon: (
-      <MapPinLine size={24} />
-    )
+    icon: <MapPinLine size={18} />
   },
   {
     key: "viewpoints",
     label: "Mirantes",
-    icon: (
-      <Binoculars size={24} />
-    )
+    icon: <Binoculars size={18} />
   },
   {
     key: "parks",
     label: "Parques",
-    icon: (
-      <Tree size={24} />
-    )
+    icon: <Tree size={18} />
   },
   {
     key: "restaurants",
     label: "Restaurantes",
-    icon: (
-      <ForkKnife size={24} />
-    )
+    icon: <ForkKnife size={18} />
   },
   {
     key: "cafes",
     label: "Cafés",
-    icon: (
-      <Coffee size={24} />
-    )
+    icon: <Coffee size={18} />
   },
   {
     key: "bars",
     label: "Bares",
-    icon: (
-      <BeerStein size={24} />
-    )
+    icon: <BeerStein size={18} />
   },
   {
     key: "culture",
     label: "Cultura",
-    icon: (
-      <Columns size={24} />
-    )
+    icon: <Columns size={18} />
   },
   {
     key: "hotels",
     label: "Hospedagens",
-    icon: (
-      <Bed size={24} />
-    )
+    icon: <Bed size={18} />
   },
   {
     key: "tours",
     label: "Passeios",
-    icon: (
-      <MapTrifold size={24} />
-    )
+    icon: <MapTrifold size={18} />
   }
 ];
 
-export default function Home() {
+export default function HomeV2() {
   const router = useRouter();
-  const categoryKeys = useMemo(
-    () => categories.map((category) => category.key),
-    []
-  );
+  const categoryKeys = useMemo(() => categories.map((category) => category.key), []);
   const [distance, setDistance] = useState(80);
   const [userCoords, setUserCoords] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState(
-    categoryKeys
-  );
+  const [selectedCategories, setSelectedCategories] = useState(categoryKeys);
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
-  const [isTermsOpen, setIsTermsOpen] = useState(false);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isLocating, setIsLocating] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [subtitle, setSubtitle] = useState(
-    "Escolha o raio de distância e descubra o que explorar..."
-  );
-  const filterRef = useRef(null);
+  const [theme, setTheme] = useState("winter");
   const [openTempKey, setOpenTempKey] = useState(null);
   const hasSelectedCategories = selectedCategories.length > 0;
 
@@ -177,26 +144,18 @@ export default function Home() {
 
   useEffect(() => {
     requestLocation();
-    setSubtitle(getRandomSubtitle());
   }, []);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (!filterRef.current) {
-        return;
-      }
-      if (!filterRef.current.contains(event.target)) {
-        setIsFilterOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    document.addEventListener("touchstart", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-      document.removeEventListener("touchstart", handleOutsideClick);
-    };
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem("v2-theme");
+    if (saved === "night" || saved === "winter") {
+      setTheme(saved);
+    } else if (saved === "dark") {
+      setTheme("night");
+    } else if (saved === "cupcake") {
+      setTheme("winter");
+    }
   }, []);
 
   const filteredTours = useMemo(
@@ -267,24 +226,16 @@ export default function Home() {
     ]
   );
 
-  const categoriesByKey = useMemo(
-    () =>
-      categories.reduce((acc, category) => {
-        acc[category.key] = category;
-        return acc;
-      }, {}),
-    []
-  );
-
   const activeItems = useMemo(() => {
     if (!hasSelectedCategories) return [];
     return buildActiveItemsFromCategoryMap(filteredByCategory, selectedCategories, "distance");
   }, [filteredByCategory, hasSelectedCategories, selectedCategories]);
 
   const totalPages = Math.max(1, Math.ceil(activeItems.length / ITEMS_PER_PAGE));
-  const paginatedItems = useMemo(() => {
-    return paginateItems(activeItems, currentPage, ITEMS_PER_PAGE);
-  }, [activeItems, currentPage]);
+  const paginatedItems = useMemo(
+    () => paginateItems(activeItems, currentPage, ITEMS_PER_PAGE),
+    [activeItems, currentPage]
+  );
 
   const { weatherByCoord, weatherStatusByCoord, forecastByCoord, getCoordKey } =
     useWeatherByItems(activeItems);
@@ -315,9 +266,7 @@ export default function Home() {
     setSelectedCategories((prev) => toggleCategorySelection(prev, categoryKey));
   };
 
-  const allCategoriesSelected = categoryKeys.every((key) =>
-    selectedCategories.includes(key)
-  );
+  const allCategoriesSelected = categoryKeys.every((key) => selectedCategories.includes(key));
 
   useEffect(() => {
     setSelectedCategories((prev) => {
@@ -371,9 +320,16 @@ export default function Home() {
   }, [currentPage]);
 
   const canonicalUrl =
-    currentPage > 1
-      ? `${SITE_URL}/?page=${currentPage}`
-      : `${SITE_URL}/`;
+    currentPage > 1 ? `${SITE_URL}/?page=${currentPage}` : `${SITE_URL}/`;
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === "winter" ? "night" : "winter";
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("v2-theme", next);
+      }
+      return next;
+    });
+  };
 
   return (
     <>
@@ -386,227 +342,215 @@ export default function Home() {
         <meta name="robots" content="index,follow" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css"
+        />
       </Head>
 
-      <div className="page">
-        <header className="site-header">
-          <div className="site-header-inner">
-            <a href="/" aria-label="Ir para a página inicial">
-              <img src="/logo.svg" alt="PertoDaqui" className="logo" />
-            </a>
-            <div className="header-actions">
-              <details className="filter-dropdown" open={isFilterOpen} ref={filterRef}>
-                <summary
-                  className="filter-button"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setIsFilterOpen((prev) => !prev);
-                  }}
-                >
-                  <Sliders size={18} weight="bold" />
-                  Filtrar atividades
-                </summary>
-                <div className="filter-menu">
-                  <button
-                    type="button"
-                    className="filter-category-toggle"
-                    aria-expanded={isCategoryOpen}
-                    onClick={() => setIsCategoryOpen((prev) => !prev)}
-                  >
-                    <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
-                    Categorias
-                  </button>
-                  {isCategoryOpen ? (
-                    <div className="filter-category-list">
-                      {categories.map((category) => (
-                        <label
-                          key={category.key}
-                          className={`filter-option${
-                            selectedCategories.includes(category.key) ? " active" : ""
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedCategories.includes(category.key)}
-                            onChange={() => toggleCategory(category.key)}
-                          />
-                          <span className="filter-option-icon" aria-hidden="true">
-                            {category.icon}
-                          </span>
-                          <span className="filter-option-label">{category.label}</span>
-                        </label>
-                      ))}
-                      <button
-                        type="button"
-                        className={`filter-option filter-clear-all ${
-                          allCategoriesSelected ? "is-clear" : "is-select"
-                        }`}
-                        onClick={() => {
-                          setOpenTempKey(null);
-                          setSelectedCategories((prev) =>
-                            toggleAllCategories(prev, categoryKeys)
-                          );
-                        }}
-                      >
-                        <span className="filter-option-icon" aria-hidden="true">
-                          {allCategoriesSelected ? (
-                            <XCircle size={20} />
-                          ) : (
-                            <CheckSquare size={20} />
-                          )}
-                        </span>
-                        <span className="filter-option-label">
-                          {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
-                        </span>
-                      </button>
-                    </div>
-                  ) : null}
-                  <div className="filter-menu-divider"></div>
-                  <span className="filter-menu-title">Raio de busca</span>
-                  <div className="filter-distance-wrap">
-                    <div
-                      className="range-wrap"
-                      style={{
-                        "--range-progress": `${((distance - 1) / 89) * 100}%`
-                      }}
-                    >
-                      <input
-                        type="range"
-                        min="1"
-                        max="90"
-                        step="1"
-                        value={distance}
-                        onChange={(event) => setDistance(Number(event.target.value))}
-                        aria-label="Raio em quilômetros"
-                      />
-                      <output className="range-tooltip">{distance} km</output>
-                    </div>
-                  </div>
-                  <div className="filter-quick-distances">
-                    {QUICK_DISTANCES.map((value) => (
-                      <button
-                        key={value}
-                        type="button"
-                        className={`quick-distance-btn${value === distance ? " active" : ""}`}
-                        onClick={() => setDistance(value)}
-                      >
-                        {value} km
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </details>
-              <a
-                className="cta-contact"
-                href="mailto:contato@pertodaqui.app"
-                aria-label="Enviar email para contato@pertodaqui.app"
-                title="contato@pertodaqui.app"
-              >
-                <EnvelopeSimple size={20} weight="bold" />
+      <div data-theme={theme} className="min-h-screen bg-base-200 text-base-content flex flex-col">
+        <header
+          className="border-b border-base-300 bg-base-100"
+          style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50 }}
+        >
+          <div className="navbar mx-auto w-full max-w-7xl px-4 md:px-8" style={{ minHeight: "108px" }}>
+            <div className="navbar-start">
+              <a href="/" className="btn btn-ghost px-0 hover:bg-transparent h-full min-h-0 flex items-center">
+                <img
+                  src={theme === "night" ? "/logo-dark.svg" : "/logo.svg"}
+                  alt="PertoDaqui"
+                  className="w-auto"
+                  style={{ height: "72px" }}
+                />
               </a>
+            </div>
+            <div className="navbar-end gap-2">
+              <button
+                type="button"
+                className="btn btn-ghost btn-circle"
+                onClick={toggleTheme}
+                aria-label={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
+                title={theme === "winter" ? "Modo escuro" : "Modo claro"}
+              >
+                {theme === "winter" ? <Moon size={20} /> : <Sun size={20} />}
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-circle"
+                onClick={() => setIsFilterOpen(true)}
+                aria-label="Abrir filtros"
+                title="Abrir filtros"
+              >
+                <List size={20} />
+              </button>
             </div>
           </div>
         </header>
 
-        <main className="content">
-          <h1 className="sr-only">PertoDaqui: atividades e lugares perto de você</h1>
-          <section className="results">
-            <h2 className="sr-only">Resultados</h2>
+        {isFilterOpen ? (
+          <>
+            <button
+              type="button"
+              className="v2-drawer-backdrop"
+              aria-label="Fechar filtros"
+              onClick={() => setIsFilterOpen(false)}
+            />
+            <aside className="v2-drawer-panel" role="dialog" aria-modal="true">
+              <div className="v2-drawer-header">
+                <strong>Filtros</strong>
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-circle btn-sm"
+                  aria-label="Fechar filtros"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="menu w-full rounded-box border border-base-300 bg-base-100 p-4 shadow-xl">
+                <div className="mt-2 grid grid-cols-1 gap-2">
+                  {categories.map((category) => (
+                    <label
+                      key={category.key}
+                      className="label cursor-pointer justify-start gap-3 rounded-box border border-base-300 px-3 py-2"
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm checkbox-primary"
+                        checked={selectedCategories.includes(category.key)}
+                        onChange={() => toggleCategory(category.key)}
+                      />
+                      <span className="flex items-center gap-2 text-sm font-medium">
+                        {category.icon}
+                        {category.label}
+                      </span>
+                    </label>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline"
+                    onClick={() => {
+                      setOpenTempKey(null);
+                      setSelectedCategories((prev) => toggleAllCategories(prev, categoryKeys));
+                    }}
+                  >
+                    {allCategoriesSelected ? <XCircle size={16} /> : <CheckSquare size={16} />}
+                    {allCategoriesSelected ? "Desmarcar tudo" : "Marcar tudo"}
+                  </button>
+                </div>
+
+                <div className="divider my-3"></div>
+                <div className="text-xs font-bold uppercase tracking-wide">Raio de busca</div>
+                <div className="mt-2">
+                  <input
+                    type="range"
+                    min="1"
+                    max="90"
+                    step="1"
+                    value={distance}
+                    onChange={(event) => setDistance(Number(event.target.value))}
+                    aria-label="Raio em quilômetros"
+                    className="range range-sm range-primary w-full"
+                  />
+                  <div className="mt-1 flex justify-between text-xs text-base-content/60">
+                    <span>1 km</span>
+                    <span>90 km</span>
+                  </div>
+                  <div className="mt-2 text-sm font-semibold">{distance} km</div>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {QUICK_DISTANCES.map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      className={`btn btn-xs ${value === distance ? "btn-primary" : "btn-outline"}`}
+                      onClick={() => setDistance(value)}
+                    >
+                      {value} km
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </>
+        ) : null}
+
+        <main
+          className="mx-auto w-full max-w-7xl flex-1 px-4 pb-0 pt-0 md:px-8 md:pb-0"
+          style={{ paddingTop: "120px", paddingBottom: "60px" }}
+        >
+          <section>
             {activeItems.length > 0 ? (
-              <div className="cards-grid">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {paginatedItems.map((item) => (
-                  <article className="place-card" key={`${item.id}-${item.categoryKey}`}>
-                    <div className="place-media">
-                      <img src={item.image} alt={item.title} loading="lazy" />
-                    </div>
-                    <div className="place-body">
+                  <article className="card border border-base-300 bg-base-100 shadow-sm" key={`${item.id}-${item.categoryKey}`}>
+                    <figure className="h-44 overflow-hidden border-b border-base-300">
+                      <img src={item.image} alt={item.title} loading="lazy" className="h-full w-full object-cover" />
+                    </figure>
+                    <div className="card-body gap-3 p-4 v2-card-body">
                       <div>
-                        <h3>{item.title}</h3>
-                        <p>{item.meta}</p>
+                        <h2 className="card-title text-base leading-tight">{item.title}</h2>
+                        <p className="mt-1 text-sm text-base-content/70">{item.meta}</p>
                       </div>
-                      <span className="place-location">
-                        {formatLocation(item.location)}
-                      </span>
-                    </div>
-                    <div className="place-footer">
-                      <span>
-                        <strong> {userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`} </strong>
-                      </span>
-                      <div className="place-actions">
-                        <span
-                          className="place-badge"
-                          title={categoriesByKey[item.categoryKey]?.label}
-                          aria-label={categoriesByKey[item.categoryKey]?.label}
-                        >
-                          {categoriesByKey[item.categoryKey]?.icon}
+                      <div className="text-xs font-medium text-base-content/60 v2-card-location">{formatLocation(item.location)}</div>
+                      <div className="flex items-center justify-between gap-2 v2-card-footer">
+                        <span className="text-sm">
+                          <strong>{userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`}</strong>
                         </span>
-                        <a
-                          className="route-link"
-                          href={getMapsUrl(item)}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label="Iniciar rota"
-                          title="Iniciar rota"
-                        >
-                          <MapPinLine size={18} />
-                        </a>
-                        <div
-                          className="place-temp-wrap"
-                          data-temp-key={getCoordKey(item)}
-                        >
-                          <button
-                            type="button"
-                            className="place-temp"
-                            title={
-                              weatherStatusByCoord[getCoordKey(item)] === "error"
-                                ? "Temperatura indisponível no momento"
-                                : "Temperatura atual"
-                            }
-                            onClick={() => {
-                              const key = getCoordKey(item);
-                              setOpenTempKey((prev) =>
-                                prev === key ? null : key
-                              );
-                            }}
+                        <div className="flex items-center gap-2">
+                          <a
+                            className="btn btn-sm btn-primary btn-square"
+                            href={getMapsUrl(item)}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="Iniciar rota"
+                            title="Iniciar rota"
                           >
-                            <Thermometer size={16} />
-                            <span>
-                              {weatherStatusByCoord[getCoordKey(item)] === "loading"
-                                ? "..."
-                                : weatherStatusByCoord[getCoordKey(item)] === "error"
-                                  ? "N/D"
-                                  : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
-                            </span>
-                          </button>
-                          {openTempKey === getCoordKey(item) && (
-                            <div className="temp-tooltip" role="dialog">
-                              <strong>Próximos 5 dias</strong>
-                              <div className="temp-tooltip-list">
-                                {(forecastByCoord[getCoordKey(item)] || []).map(
-                                  (day) => (
-                                    <div
-                                      key={`${getCoordKey(item)}-${day.date}`}
-                                      className="temp-tooltip-row"
-                                    >
+                            <MapPinLine size={16} />
+                          </a>
+                          <div className="relative" data-temp-key={getCoordKey(item)}>
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-ghost"
+                              title={
+                                weatherStatusByCoord[getCoordKey(item)] === "error"
+                                  ? "Temperatura indisponível no momento"
+                                  : "Temperatura atual"
+                              }
+                              onClick={() => {
+                                const key = getCoordKey(item);
+                                setOpenTempKey((prev) => (prev === key ? null : key));
+                              }}
+                            >
+                              <Thermometer size={16} />
+                              <span>
+                                {weatherStatusByCoord[getCoordKey(item)] === "loading"
+                                  ? "..."
+                                  : weatherStatusByCoord[getCoordKey(item)] === "error"
+                                    ? "N/D"
+                                    : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
+                              </span>
+                            </button>
+                            {openTempKey === getCoordKey(item) && (
+                              <div className="absolute right-0 top-full z-20 mt-2 min-w-52 rounded-box border border-base-300 bg-base-100 p-3 shadow-xl">
+                                <strong className="block text-sm">Próximos 5 dias</strong>
+                                <div className="mt-2 space-y-1 text-xs">
+                                  {(forecastByCoord[getCoordKey(item)] || []).map((day) => (
+                                    <div key={`${getCoordKey(item)}-${day.date}`} className="flex items-center justify-between gap-3">
                                       <span>
-                                        {new Date(day.date).toLocaleDateString(
-                                          "pt-BR",
-                                          {
-                                            weekday: "short",
-                                            day: "2-digit",
-                                            month: "2-digit"
-                                          }
-                                        )}
+                                        {new Date(day.date).toLocaleDateString("pt-BR", {
+                                          weekday: "short",
+                                          day: "2-digit",
+                                          month: "2-digit"
+                                        })}
                                       </span>
-                                      <span>
-                                        {day.min ?? "--"}°C / {day.max ?? "--"}°C
-                                      </span>
+                                      <span>{day.min ?? "--"}°C / {day.max ?? "--"}°C</span>
                                     </div>
-                                  )
-                                )}
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -614,72 +558,70 @@ export default function Home() {
                 ))}
               </div>
             ) : isLocating ? (
-              <div className="empty-state loading-state">
-                <div className="loading-spinner" aria-hidden="true">
-                  <SpinnerGap size={72} weight="bold" />
+              <div className="alert border border-base-300 bg-base-100 shadow-sm">
+                <SpinnerGap size={24} className="animate-spin" />
+                <div>
+                  <h3 className="font-bold">Buscando opções perto de você...</h3>
+                  <div className="text-sm">Estamos localizando e organizando as sugestões.</div>
                 </div>
-                <h3>Buscando opções perto de você...</h3>
-                <p>Estamos localizando e organizando as sugestões.</p>
               </div>
             ) : geoError ? (
-              <div className="empty-state">
-                <div className="empty-illustration" aria-hidden="true">
-                  <MapPinLine size={72} />
-                </div>
-                <h3>Não conseguimos acessar sua localização</h3>
-                <p>{geoError}</p>
-                <div className="empty-actions">
-                  <button type="button" onClick={requestLocation}>
-                    <MapPinLine size={18} weight="bold" />
-                    Tentar novamente
-                  </button>
+              <div className="card border border-base-300 bg-base-100 shadow-sm">
+                <div className="card-body">
+                  <h3 className="card-title">Não conseguimos acessar sua localização</h3>
+                  <p className="text-sm">{geoError}</p>
+                  <div className="card-actions">
+                    <button type="button" className="btn btn-primary" onClick={requestLocation}>
+                      <MapPinLine size={16} />
+                      Tentar novamente
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
-              <div className="empty-state">
-                <div className="empty-illustration" aria-hidden="true">
-                  <MagnifyingGlass size={72} />
-                </div>
-                <h3>Nada por aqui nesse raio</h3>
-                <p>Aumente a distância ou tente outra categoria.</p>
-                <div className="empty-actions">
-                  <button type="button" onClick={() => setDistance(25)}>
-                    <PlusCircle size={18} weight="bold" />
-                    Aumentar para 25 km
-                  </button>
-                  <button
-                    type="button"
-                    className="ghost"
-                    onClick={() => {
-                      setDistance(10);
-                      setSelectedCategories(["tours"]);
-                    }}
-                  >
-                    <Broom size={18} weight="bold" />
-                    Limpar filtros
-                  </button>
+              <div className="card border border-base-300 bg-base-100 shadow-sm">
+                <div className="card-body">
+                  <h3 className="card-title">Nada por aqui nesse raio</h3>
+                  <p className="text-sm">Aumente a distância ou tente outra categoria.</p>
+                  <div className="card-actions flex-wrap">
+                    <button type="button" className="btn btn-primary" onClick={() => setDistance(25)}>
+                      <PlusCircle size={16} />
+                      Aumentar para 25 km
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => {
+                        setDistance(10);
+                        setSelectedCategories(["tours"]);
+                      }}
+                    >
+                      <Broom size={16} />
+                      Limpar filtros
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
           </section>
 
           {activeItems.length > ITEMS_PER_PAGE && (
-            <div className="pagination">
+            <div className="mt-6 flex items-center justify-center gap-3">
               <button
                 type="button"
+                className="btn btn-outline btn-sm"
                 onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
               >
                 Anterior
               </button>
-              <span>
+              <span className="text-sm font-medium">
                 Página {currentPage} de {totalPages}
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-                }
+                className="btn btn-outline btn-sm"
+                onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
               >
                 Próxima
@@ -687,340 +629,36 @@ export default function Home() {
             </div>
           )}
 
-          <footer className="site-footer">
-            <div className="footer-inner">
-              <div className="footer-brand">
-                <span className="footer-logo">PertoDaqui © 2026</span>
-                <p className="footer-slogan">
-                  Turismo de curta distância para sair do tédio e conhecer o que
-                  existe ao seu redor.
-                </p>
-              </div>
-
-              <nav className="footer-links" aria-label="Links institucionais">
-                <button
-                  type="button"
-                  className="footer-link-button"
-                  onClick={() => setIsPrivacyOpen(true)}
-                >
-                  <Shield size={18} weight="bold" />
-                  Politica de privacidade
-                </button>
-                <button
-                  type="button"
-                  className="footer-link-button"
-                  onClick={() => setIsTermsOpen(true)}
-                >
-                  <FileText size={18} weight="bold" />
-                  Termos de uso
-                </button>
-                <a
-                  className="footer-link-button"
-                  href="mailto:contato@pertodaqui.app"
-                  aria-label="Enviar email para contato@pertodaqui.app"
-                >
-                  <EnvelopeSimple size={18} weight="bold" />
-                  Contato
-                </a>
-              </nav>
-            </div>
-          </footer>
         </main>
+        <footer className="v2-site-footer w-full border-t border-base-300 bg-base-100 py-6">
+          <div className="mx-auto w-full max-w-7xl px-4 md:px-8 v2-footer-inner">
+            <aside>
+              <p className="font-semibold">PertoDaqui © 2026</p>
+              <p className="text-sm text-base-content/70">
+                Turismo de curta distância para sair do tédio e conhecer o que existe ao seu redor.
+              </p>
+            </aside>
+            <div className="v2-footer-columns text-sm">
+              <div className="v2-footer-col">
+                <strong className="v2-footer-col-title">SITE</strong>
+                <a href="/sobre-nos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/sobre-nos/"); }}>Sobre nós</a>
+                <a href="/parceiros/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/parceiros/"); }}>Parceiros</a>
+              </div>
+              <div className="v2-footer-col">
+                <strong className="v2-footer-col-title">Para empresas</strong>
+                <a href="/quais-as-vantagens/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/quais-as-vantagens/"); }}>Quais as vantagens</a>
+                <a href="/como-aparecer/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/como-aparecer/"); }}>Como aparecer</a>
+              </div>
+              <div className="v2-footer-col">
+                <strong className="v2-footer-col-title">Ajuda</strong>
+                <a href="/privacidade/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/privacidade/"); }}>Política de privacidade</a>
+                <a href="/termos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/termos/"); }}>Termos de uso</a>
+                <a href="mailto:contato@pertodaqui.app" className="link link-hover">Contato</a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-
-      {isPrivacyOpen && (
-        <div className="modal-overlay" role="dialog" aria-modal="true">
-          <div className="modal-card">
-            <div className="modal-header">
-              <h2>Política de Privacidade</h2>
-              <button
-                type="button"
-                className="modal-close"
-                aria-label="Fechar"
-                onClick={() => setIsPrivacyOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              <p className="modal-muted">Última atualização: 2026</p>
-              <p>
-                O PertoDaqui ("nós", "nosso" ou "nos") opera a plataforma PertoDaqui. Esta página informa sua política de privacidade e explica como coletamos, usamos, mantemos e protegemos suas informações ao usar nosso serviço.
-              </p>
-
-              <h3>1. Dados que Coletamos</h3>
-              <p>
-                Coletamos dados de forma direta e indireta para fornecer e melhorar nossa plataforma:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li><strong>Dados de Localização:</strong> Com sua permissão explícita, coletamos sua localização atual para fornecer sugestões personalizadas de atividades próximas.</li>
-                <li><strong>Dados de Navegação:</strong> Registramos quais categorias você visualiza, filtros aplicados, itens que você clica e tempo gasto na plataforma.</li>
-                <li><strong>Preferências:</strong> Armazenamos localmente suas preferências de filtros e distância selecionada.</li>
-                <li><strong>Dados do Dispositivo:</strong> Informações sobre seu navegador, sistema operacional e tipo de dispositivo para otimizar a experiência.</li>
-                <li><strong>Dados Climáticos:</strong> Coletamos dados de temperatura de APIs públicas baseados em coordenadas geográficas.</li>
-              </ul>
-
-              <h3>2. Como Usamos Seus Dados</h3>
-              <p>Usamos as informações coletadas para:</p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Personalizar recomendações de atividades com base em sua localização e preferências</li>
-                <li>Exibir informações climáticas relevantes para os locais consultados</li>
-                <li>Melhorar a funcionalidade, performance e segurança da plataforma</li>
-                <li>Entender padrões de uso para aprimorar a experiência</li>
-                <li>Enviar atualizações importantes ou mudanças em nossa política (quando aplicável)</li>
-                <li>Proteger contra fraude e atividades maliciosas</li>
-              </ul>
-
-              <h3>3. Base Legal para Processamento</h3>
-              <p>
-                Processamos seus dados com base no seu consentimento. Para dados de localização, solicitamos permissão explícita do seu navegador. Você pode retirar seu consentimento a qualquer momento nas configurações do seu dispositivo.
-              </p>
-
-              <h3>4. Armazenamento de Dados Locais</h3>
-              <p>
-                Utilizamos tecnologia de Service Worker e armazenamento local do navegador para guardar suas preferências, o histórico de filtros e dados em cache. Esses dados permanecem exclusivamente em seu dispositivo e não são transmitidos aos nossos servidores.
-              </p>
-
-              <h3>5. APIs e Serviços de Terceiros</h3>
-              <p>
-                Utilizamos APIs públicas de terceiros para fornecer funcionalidades:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li><strong>Open-Meteo API:</strong> Para dados climáticos. Sujeita à <a href="https://open-meteo.com/en/terms" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Open-Meteo</a></li>
-                <li><strong>Google Maps:</strong> Para gerar rotas. Sujeita à <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Google</a></li>
-                <li><strong>Google Analytics:</strong> Para análise anônima de uso. Saiba mais na <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={{color: 'var(--pd-blue)', textDecoration: 'none'}}>política de privacidade do Google Analytics</a></li>
-              </ul>
-
-              <h3>6. Compartilhamento de Dados</h3>
-              <p>
-                <strong>Não vendemos, alugamos ou compartilhamos seus dados pessoais com terceiros</strong> para fins de marketing. Podemos compartilhar:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Informações agregadas e anonimizadas para análise de tendências</li>
-                <li>Dados quando exigido por lei ou para proteger direitos legais</li>
-                <li>Informações necessárias para operar serviços integrados (como Google Maps)</li>
-              </ul>
-
-              <h3>7. Retenção de Dados</h3>
-              <p>
-                Os dados de localização são processados apenas durante sua sessão ativa. Preferências e histórico de navegação são mantidos localmente em seu dispositivo indefinidamente até que você limpe o armazenamento do navegador. Logs de servidor (quando aplicável) são retidos por 90 dias.
-              </p>
-
-              <h3>8. Segurança</h3>
-              <p>
-                Implementamos medidas técnicas e organizacionais para proteger seus dados contra acesso não autorizado, alteração ou divulgação. A plataforma utiliza conexões HTTPS seguras. No entanto, nenhuma transmissão pela internet é 100% segura.
-              </p>
-
-              <h3>9. Seus Direitos</h3>
-              <p>Você tem o direito de:</p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Acessar os dados que você forneceu</li>
-                <li>Corrigir informações imprecisas</li>
-                <li>Solicitar exclusão de seus dados</li>
-                <li>Revogar consentimento de localização a qualquer momento</li>
-                <li>Obter uma cópia dos seus dados em formato portável</li>
-                <li>Receber informações sobre como seus dados são processados</li>
-              </ul>
-              <p>
-                Para exercer qualquer desses direitos, entre em contato conosco em <strong>contato@pertodaqui.app</strong>.
-              </p>
-
-              <h3>10. Cookies e Tecnologias Similares</h3>
-              <p>
-                Utilizamos cookies e similar technologies para melhorar sua experiência. Cookies essenciais são necessários para o funcionamento da plataforma. Você pode desabilitar cookies em suas configurações de navegador, embora isso possa afetar algumas funcionalidades.
-              </p>
-
-              <h3>11. Privacidade de Menores</h3>
-              <p>
-                O PertoDaqui não é direcionado a menores de 13 anos. Não coletamos informações de menores knowingly. Se descobrirmos que coletamos dados de um menor, eliminaremos esses dados imediatamente.
-              </p>
-
-              <h3>12. Alterações a Esta Política</h3>
-              <p>
-                Reservamo-nos o direito de modificar esta Política a qualquer momento. Alterações significativas serão comunicadas com 30 dias de antecedência. Seu uso contínuo da plataforma após alterações constitui aceitação.
-              </p>
-
-              <h3>13. Contato</h3>
-              <p>
-                Para dúvidas sobre esta Política de Privacidade ou práticas de privacidade do PertoDaqui, entre em contato conosco através do e-mail <b>contato@pertodaqui.app</b>
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isTermsOpen && (
-        <div className="modal-overlay" role="dialog" aria-modal="true">
-          <div className="modal-card">
-            <div className="modal-header">
-              <h2>Termos de Uso</h2>
-              <button
-                type="button"
-                className="modal-close"
-                aria-label="Fechar"
-                onClick={() => setIsTermsOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              <p className="modal-muted">Última atualização: 2026</p>
-              <p>
-                Bem-vindo ao PertoDaqui. Ao acessar e usar esta plataforma, você concorda em cumprir integralmente estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não utilize o serviço.
-              </p>
-
-              <h3>1. Descrição do Serviço</h3>
-              <p>
-                O PertoDaqui é uma plataforma web baseada em localização que ajuda usuários a descobrir atividades, experiências e estabelecimentos (restaurantes, hotéis, passeios, etc.) próximos à sua localização atual. A plataforma integra informações de terceiros e dados de APIs públicas.
-              </p>
-
-              <h3>2. Elegibilidade</h3>
-              <p>
-                Você deve ter pelo menos 13 anos de idade para usar o PertoDaqui. Se você é menor de idade, deve ter consentimento de seus pais ou responsável legal. Ao usar a plataforma, você confirma que atende a esses requisitos.
-              </p>
-
-              <h3>3. Concessão de Licença</h3>
-              <p>
-                Concedemos a você uma licença limitada, não exclusiva e não transferível para acessar e usar a plataforma PertoDaqui para fins pessoais e não comerciais. Você não pode modificar, traduzir, adaptar ou criar trabalhos derivados.
-              </p>
-
-              <h3>4. Uso Aceitável</h3>
-              <p>
-                Você concorda em não:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Usar a plataforma para qualquer atividade ilegal ou prejudicial</li>
-                <li>Acessar ou interferir com dados ou sistemas que não lhe pertencem</li>
-                <li>Fazer spam, harassment ou publicar conteúdo ofensivo</li>
-                <li>Usar bots, crawlers ou ferramentas automatizadas sem autorização</li>
-                <li>Contornar medidas de segurança ou restrições técnicas</li>
-                <li>Comercializar dados coletados da plataforma</li>
-                <li>Violar qualquer lei, regulamento ou direito de terceiros</li>
-              </ul>
-
-              <h3>5. Precisão do Conteúdo</h3>
-              <p>
-                A plataforma PertoDaqui fornece informações sobre estabelecimentos e atividades de terceiros. Embora nos esforçemos para manter os dados precisos e atualizados, <strong>não garantimos a exatidão, completude ou atualidade de todas as informações</strong>. As informações incluem:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Nomes e localizações de estabelecimentos</li>
-                <li>Imagens e descrições</li>
-                <li>Horários de funcionamento e contato</li>
-                <li>Dados climáticos fornecidos por APIs públicas</li>
-              </ul>
-              <p>
-                Verificar informações críticas diretamente com os estabelecimentos é recomendado.
-              </p>
-
-              <h3>6. Isenção de Responsabilidade</h3>
-              <p>
-                <strong>O SERVIÇO É FORNECIDO "COMO ESTÁ" E "CONFORME DISPONÍVEL".</strong> O PertoDaqui não faz representações ou garantias de nenhum tipo, expressas ou implícitas. Especificamente:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Não garantimos disponibilidade contínua ou livre de erros</li>
-                <li>Não garantimos compatibilidade com seu dispositivo ou navegador</li>
-                <li>Não somos responsáveis por perdas de dados ou alterações</li>
-                <li>Não garantimos que a plataforma atenderá suas necessidades específicas</li>
-              </ul>
-
-              <h3>7. Limitação de Responsabilidade</h3>
-              <p>
-                Em nenhuma circunstância o PertoDaqui será responsável por danos diretos, indiretos, incidentais, consequentes, especiais ou punitivos decorrentes de:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Uso ou impossibilidade de usar a plataforma</li>
-                <li>Dados imprecisos ou informações desatualizadas</li>
-                <li>Decisões tomadas com base em informações da plataforma</li>
-                <li>Acesso não autorizado a dados ou sistemas</li>
-                <li>Interrupções ou eliminação de conteúdo</li>
-              </ul>
-
-              <h3>8. Direitos de Propriedade Intelectual</h3>
-              <p>
-                O PertoDaqui e seu conteúdo original (design, funcionalidades, código) são propriedade intelectual nossa. Você não pode copiar, reproduzir ou distribuir sem permissão explícita. Dados de estabelecimentos são propriedade de seus respectivos donos.
-              </p>
-
-              <h3>9. Integração com Terceiros</h3>
-              <p>
-                O PertoDaqui integra serviços de terceiros:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li><strong>Google Maps:</strong> Para dados de localização e rotas</li>
-                <li><strong>Open-Meteo:</strong> Para dados climáticos públicos</li>
-                <li><strong>Google Analytics:</strong> Para análise anônima</li>
-              </ul>
-              <p>
-                Você também concorda com os Termos de Serviço desses provedores ao usar o PertoDaqui.
-              </p>
-
-              <h3>10. Consentimento para Localização</h3>
-              <p>
-                A plataforma funciona melhor com permissão de localização. Sua localização nunca é armazenada em servidores; é processada apenas durante sua sessão ativa no navegador. Você pode revogar essa permissão a qualquer momento nas configurações do seu dispositivo.
-              </p>
-
-              <h3>11. Modificação do Serviço</h3>
-              <p>
-                Reservamo-nos o direito de modificar, suspender ou descontinuar qualquer parte do PertoDaqui a qualquer momento. Não seremos responsáveis por qualquer modificação ou descontinuação.
-              </p>
-
-              <h3>12. Violação de Direitos Autorais</h3>
-              <p>
-                Se você acredita que seus direitos autorais foram violados, notifique-nos em <strong>contato@pertodaqui.app</strong> com:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Descrição detalhada do trabalho protegido</li>
-                <li>Localização do conteúdo na plataforma</li>
-                <li>Declaração jurada de boa fé</li>
-                <li>Seus dados de contato completos</li>
-              </ul>
-
-              <h3>13. Terminação de Acesso</h3>
-              <p>
-                Podemos encerrar ou suspender seu acesso ao PertoDaqui sem aviso prévio se você violar estes Termos, participar de atividades ilegais ou prejudicar a plataforma.
-              </p>
-
-              <h3>14. Indenização</h3>
-              <p>
-                Você concorda em defender, indenizar e manter harmônico o PertoDaqui contra quaisquer reclamações, perdas, custos e despesas (incluindo honorários advocatícios) decorrentes de:
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-                <li>Sua violação destes Termos</li>
-                <li>Seu uso inadequado da plataforma</li>
-                <li>Violação de direitos de terceiros</li>
-              </ul>
-
-              <h3>15. Jurisdição e Lei Aplicável</h3>
-              <p>
-                Estes Termos são regidos pelas leis aplicáveis. Qualquer disputa será resolvida em tribunais competentes no Brasil.
-              </p>
-
-              <h3>16. Alterações aos Termos</h3>
-              <p>
-                Podemos atualizar estes Termos periodicamente. Alterações significativas serão comunicadas com 30 dias de antecedência. Seu uso contínuo significa aceitação das alterações.
-              </p>
-
-              <h3>17. Divisibilidade</h3>
-              <p>
-                Se qualquer parte destes Termos for inválida ou inaplicável, as demais disposições permanecerão em vigor.
-              </p>
-
-              <h3>18. Acordo Integral</h3>
-              <p>
-                Estes Termos, juntamente com nossa Política de Privacidade, constituem o acordo integral entre você e o PertoDaqui, substituindo qualquer acordo anterior.
-              </p>
-
-              <h3>19. Contato</h3>
-              <p>
-                Para questões sobre estes termos entre em contato conosco através do e-mail <b>contato@pertodaqui.app</b>
-              </p>
-              <ul style={{marginLeft: '20px', lineHeight: '1.8'}}>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

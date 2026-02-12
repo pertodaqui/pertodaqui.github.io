@@ -1,82 +1,17 @@
 import Head from "next/head";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../styles/globals.css";
+import "../styles/v2-fallback.css";
 
 export default function App({ Component, pageProps }) {
-  const [installPrompt, setInstallPrompt] = useState(null);
-  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
-  const [platform, setPlatform] = useState("desktop");
-
   useEffect(() => {
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/service-worker.js");
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister());
       });
     }
   }, []);
-
-  useEffect(() => {
-    if (typeof navigator !== "undefined") {
-      const ua = navigator.userAgent.toLowerCase();
-      if (ua.includes("android")) {
-        setPlatform("android");
-      } else if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) {
-        setPlatform("ios");
-      } else if (ua.includes("mac") || ua.includes("macintosh")) {
-        setPlatform("macos");
-      } else if (ua.includes("windows")) {
-        setPlatform("windows");
-      } else if (ua.includes("linux")) {
-        setPlatform("linux");
-      } else {
-        setPlatform("desktop");
-      }
-    }
-
-    const handleBeforeInstall = (event) => {
-      event.preventDefault();
-      setInstallPrompt(event);
-      setShowInstallPrompt(true);
-    };
-
-    const handleInstalled = () => {
-      setShowInstallPrompt(false);
-      setInstallPrompt(null);
-    };
-
-    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
-    window.addEventListener("appinstalled", handleInstalled);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
-      window.removeEventListener("appinstalled", handleInstalled);
-    };
-  }, []);
-
-  const platformIcon = () => {
-    switch (platform) {
-      case "android":
-        return <i className="devicon-android-plain" aria-hidden="true"></i>;
-      case "ios":
-      case "macos":
-        return <i className="devicon-apple-original" aria-hidden="true"></i>;
-      case "windows":
-        return <i className="devicon-windows8-original" aria-hidden="true"></i>;
-      case "linux":
-        return <i className="devicon-linux-original" aria-hidden="true"></i>;
-      default:
-        return <i className="devicon-devicon-plain" aria-hidden="true"></i>;
-    }
-  };
-
-  const handleInstallClick = async () => {
-    if (!installPrompt) return;
-    installPrompt.prompt();
-    await installPrompt.userChoice;
-    setShowInstallPrompt(false);
-    setInstallPrompt(null);
-  };
 
   return (
     <>
@@ -158,10 +93,6 @@ export default function App({ Component, pageProps }) {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-        />
       </Head>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-4PK6JRYRHV"
@@ -173,30 +104,6 @@ function gtag(){window.dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-4PK6JRYRHV');`}
       </Script>
-      {showInstallPrompt ? (
-        <div className="pwa-banner" role="dialog" aria-live="polite">
-          <div className="pwa-banner__content">
-            <strong>Instale o PertoDaqui</strong>
-            <span className="pwa-banner__text">
-              Instale para descobrir o que tem perto de você.
-            </span>
-          </div>
-          <div className="pwa-banner__actions">
-            <button className="pwa-banner__btn" onClick={handleInstallClick}>
-              <span className="pwa-banner__btn-icon" aria-hidden="true">
-                {platformIcon()}
-              </span>
-              Instalar
-            </button>
-            <button
-              className="pwa-banner__btn pwa-banner__btn--ghost"
-              onClick={() => setShowInstallPrompt(false)}
-            >
-              Agora não
-            </button>
-          </div>
-        </div>
-      ) : null}
       <Component {...pageProps} />
     </>
   );

@@ -139,7 +139,7 @@ const waterfalls = [
       "title": "Cachoeira Tetequera",
       "meta": "Localizada na região de Moreira César, é uma das quedas mais próximas da face da serra que liga Pinda a Lagoinha.",
       "location": "Pindamonhangaba - SP",
-      "image": "https://scontent-gru1-1.xx.fbcdn.net/v/t39.30808-6/484064970_633586649606904_1157065854559711461_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=BiPdSpGgP4wQ7kNvwEAdRNm&_nc_oc=AdkDKpXy9A_CJTrKCEEaqsuxKLS2Rgho_B2eoI1uHHNMReP-D4F6TU68zr2MbfYzGBQ&_nc_zt=23&_nc_ht=scontent-gru1-1.xx&_nc_gid=PPBcbK-uGFmf7yjy6sRbww&oh=00_AfpMUB-OZFiw5F-btigh1Ybk_tWnQ9ylU1zxv3pYOxjGnA&oe=697DD087",
+      "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerusAccp0ZnYtgXJZTylJ3xixCr_LfvZvURNRfIjmZGA3z65oJuc5IGx-2_JDp0bFXXdFutm7uoCMZWGlrTPOwJtm4JLYiYMzEyUkI5u_tPf8cxoST1Vpe2f0h-F9BhA_hNw1rT=s1360-w1360-h1020-rw",
       "lat": -22.849254264856995,
       "lng": -45.355243682128155
     },

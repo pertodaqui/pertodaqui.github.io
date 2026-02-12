@@ -190,7 +190,7 @@ img {
 }
 
 
-input[type="range"] {
+.page input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -206,11 +206,11 @@ input[type="range"] {
   outline: none;
 }
 
-.range-wrap {
+.page .range-wrap {
   position: relative;
 }
 
-.range-tooltip {
+.page .range-tooltip {
   position: absolute;
   top: -30px;
   left: var(--range-progress, 0%);
@@ -225,7 +225,7 @@ input[type="range"] {
   white-space: nowrap;
 }
 
-.range-tooltip::after {
+.page .range-tooltip::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -457,11 +457,11 @@ details[open] .filter-button svg {
   margin: 8px 0 10px;
 }
 
-.filter-distance-wrap .range-wrap {
+.page .filter-distance-wrap .range-wrap {
   padding: 8px 4px;
 }
 
-.filter-distance-wrap input[type="range"] {
+.page .filter-distance-wrap input[type="range"] {
   width: 100%;
   height: 6px;
   border-radius: 999px;
@@ -471,7 +471,7 @@ details[open] .filter-button svg {
   appearance: none;
 }
 
-.filter-distance-wrap input[type="range"]::-webkit-slider-thumb {
+.page .filter-distance-wrap input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -483,7 +483,7 @@ details[open] .filter-button svg {
   box-shadow: 0 2px 6px rgba(0, 85, 212, 0.3);
 }
 
-.filter-distance-wrap input[type="range"]::-moz-range-thumb {
+.page .filter-distance-wrap input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -493,7 +493,7 @@ details[open] .filter-button svg {
   box-shadow: 0 2px 6px rgba(0, 85, 212, 0.3);
 }
 
-.filter-distance-wrap .range-tooltip {
+.page .filter-distance-wrap .range-tooltip {
   font-size: 0.75rem;
   font-weight: 800;
   color: #ffffff;
@@ -536,7 +536,7 @@ details[open] .filter-button svg {
   background: #f6f9ff;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.page input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 22px;
@@ -546,7 +546,7 @@ input[type="range"]::-webkit-slider-thumb {
   border: 3px solid #ffffff;
 }
 
-input[type="range"]::-moz-range-thumb {
+.page input[type="range"]::-moz-range-thumb {
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -554,7 +554,7 @@ input[type="range"]::-moz-range-thumb {
   border: 3px solid #ffffff;
 }
 
-input[type="range"]::-moz-range-track {
+.page input[type="range"]::-moz-range-track {
   height: 6px;
   border-radius: 999px;
   background: #cfd7e6;
@@ -1115,10 +1115,11 @@ input[type="range"]::-moz-range-track {
 
 .pwa-banner {
   position: fixed;
-  left: auto;
-  right: 16px;
+  left: 16px;
+  right: auto;
   bottom: 16px;
   z-index: 20;
+  pointer-events: none;
   background: #ffffff;
   border: 1px solid var(--pd-border);
   border-radius: 16px;
@@ -1167,6 +1168,7 @@ input[type="range"]::-moz-range-track {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  pointer-events: auto;
 }
 
 .pwa-banner__btn-icon {
@@ -1188,8 +1190,8 @@ input[type="range"]::-moz-range-track {
 
 @media (min-width: 900px) {
   .pwa-banner {
-    left: auto;
-    right: 24px;
+    left: 24px;
+    right: auto;
     bottom: 24px;
     max-width: 420px;
   }

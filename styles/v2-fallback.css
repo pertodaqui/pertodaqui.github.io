@@ -1,0 +1,266 @@
+/* Fallback de layout/utilitários para as páginas /v2 */
+.min-h-screen { min-height: 100vh; }
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.h-full { height: 100%; }
+.h-10 { height: 2.5rem; }
+.h-44 { height: 11rem; }
+.max-w-7xl { max-width: 80rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.block { display: block; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.right-0 { right: 0; }
+.top-full { top: 100%; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.overflow-hidden { overflow: hidden; }
+.object-cover { object-fit: cover; }
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.flex-1 { flex: 1 1 0%; }
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: minmax(0, 1fr); }
+.grid-flow-col { grid-auto-flow: column; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-start { justify-content: flex-start; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.space-y-1 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.25rem; }
+
+.px-0 { padding-left: 0; padding-right: 0; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-5 { padding: 1.25rem; }
+.p-6 { padding: 1.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-10 { margin-top: 2.5rem; }
+.my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+
+.rounded-box { border-radius: 1rem; }
+.border { border-width: 1px; border-style: solid; }
+.border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+.shadow-sm { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+.shadow-xl { box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12); }
+.leading-tight { line-height: 1.25; }
+.text-center { text-align: center; }
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-2xl { font-size: 1.5rem; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.uppercase { text-transform: uppercase; }
+.tracking-wide { letter-spacing: 0.025em; }
+
+[data-theme="winter"] {
+  --v2-bg-100: #ffffff;
+  --v2-bg-200: #faf7f5;
+  --v2-border: #e8ddd5;
+  --v2-text: #3f3025;
+}
+
+[data-theme="night"] {
+  --v2-bg-100: #1d232a;
+  --v2-bg-200: #101316;
+  --v2-border: #2b333d;
+  --v2-text: #f1f5f9;
+}
+.bg-base-100 { background: var(--v2-bg-100); }
+.bg-base-200 { background: var(--v2-bg-200); }
+.border-base-300 { border-color: var(--v2-border); }
+.text-base-content { color: var(--v2-text); }
+.text-base-content\/60 { color: color-mix(in oklab, var(--v2-text) 60%, white); }
+.text-base-content\/70 { color: color-mix(in oklab, var(--v2-text) 70%, white); }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-start,
+.navbar-end {
+  display: flex;
+  align-items: center;
+}
+
+.hero {
+  display: flex;
+  align-items: stretch;
+}
+.hero-content {
+  display: flex;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer-center { text-align: center; }
+
+@media (min-width: 768px) {
+  .md\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+  .md\:py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .md\:text-3xl { font-size: 1.875rem; }
+  .md\:text-base { font-size: 1rem; }
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1280px) {
+  .xl\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.v2-install-overlay {
+  backdrop-filter: blur(2px);
+}
+
+.v2-install-modal {
+  width: min(92vw, 420px);
+  border: 1px solid var(--v2-border);
+  background: var(--v2-bg-100);
+  color: var(--v2-text);
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+}
+
+.v2-install-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #d6f4f0;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.v2-install-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.v2-card-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+}
+
+.v2-card-location {
+  margin-top: auto;
+}
+
+.v2-card-footer {
+  margin-top: 8px;
+}
+
+.v2-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  border: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.v2-drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 41;
+  height: 100vh;
+  width: min(90vw, 360px);
+  padding: 16px;
+  background: var(--v2-bg-200);
+  border-left: 1px solid var(--v2-border);
+  overflow-y: auto;
+}
+
+.v2-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.v2-footer-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.v2-footer-inner aside {
+  text-align: left;
+}
+
+.v2-footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-self: flex-start;
+  min-width: 420px;
+}
+
+.v2-footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.v2-footer-col-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.v2-site-footer {
+  position: relative;
+  z-index: 2147483647;
+  isolation: isolate;
+  pointer-events: all;
+}
+
+.v2-site-footer a,
+.v2-site-footer button {
+  pointer-events: all;
+}
+
+@media (max-width: 768px) {
+  .v2-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .v2-footer-columns {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    width: 100%;
+  }
+}

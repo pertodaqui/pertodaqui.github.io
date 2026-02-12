@@ -1,104 +1,104 @@
 import Head from "next/head";
-import { Briefcase, EnvelopeSimple } from "@phosphor-icons/react";
+import { FileText, Gavel, Lifebuoy, LockKeyOpen, ShieldWarning, Wrench } from "@phosphor-icons/react";
+import StaticPageLayout from "../components/StaticPageLayout";
 
-export default function Termos() {
+export default function TermosPage() {
   return (
     <>
       <Head>
-        <title>PertoDaqui - Termos de Uso</title>
-        <meta name="description" content="Termos de uso do PertoDaqui." />
+        <title>Termos de Uso | PertoDaqui</title>
+        <meta
+          name="description"
+          content="Termos de Uso do PertoDaqui. Condições para utilização da plataforma."
+        />
         <meta name="robots" content="index,follow" />
-        <link rel="canonical" href="https://pertodaqui.com/termos/" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css"
+        />
       </Head>
 
-      <div className="page">
-        <header className="site-header">
-          <div className="site-header-inner">
-            <a href="/" aria-label="Ir para a página inicial">
-              <img src="/logo.svg" alt="PertoDaqui" className="logo" />
-            </a>
-            <div className="header-actions">
-              <a
-                className="cta-link"
-                href="https://buy.stripe.com/bJe14mfCd9HB6Zy7P8gYU00"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Divulgue seu negócio"
-                title="Divulgue seu negócio"
-                onClick={() => {
-                  window.gtag?.("event", "cta_divulgue", {
-                    event_category: "engagement",
-                    event_label: "divulgue_negocio"
-                  });
-                }}
-              >
-                <span aria-hidden="true" className="cta-icon">
-                  <Briefcase size={20} weight="bold" />
-                </span>
-                <span className="cta-text">Divulgue seu negócio aqui</span>
-              </a>
-              <a
-                className="cta-contact"
-                href="mailto:contato@pertodaqui.app"
-                aria-label="Enviar email para contato@pertodaqui.app"
-                title="contato@pertodaqui.app"
-              >
-                <EnvelopeSimple size={20} weight="bold" />
-              </a>
-            </div>
-          </div>
-        </header>
-
-        <main className="content legal-content">
-          <section className="legal-card">
-            <h1>Termos de Uso</h1>
-            <p>Última atualização: 2026</p>
-            <p>
-              Ao utilizar o PertoDaqui, você concorda com os termos descritos
-              abaixo.
-            </p>
-            <h2>Uso da plataforma</h2>
-            <p>
-              O PertoDaqui é uma plataforma de descoberta de negócios e
-              experiências. Você é responsável pelo uso correto das informações
-              apresentadas.
-            </p>
-            <h2>Conteúdo e disponibilidade</h2>
-            <p>
-              Trabalhamos para manter os dados atualizados, mas não garantimos
-              disponibilidade, preços ou informações de terceiros.
-            </p>
-            <h2>Conduta</h2>
-            <p>
-              Não é permitido usar a plataforma para fins ilegais, abusivos ou
-              que violem direitos de terceiros.
-            </p>
-            <h2>Suporte</h2>
-            <p>
-              Para dúvidas ou suporte, entre em contato pelo email
-              contato@pertodaqui.app.
-            </p>
-          </section>
-
-          <footer className="site-footer">
-            <div className="footer-inner">
-              <div className="footer-brand">
-                <span className="footer-logo">PertoDaqui</span>
-                <p className="footer-slogan">
-                  Descubra o melhor perto de você.
+      <StaticPageLayout>
+        <div className="space-y-6">
+          <section className="overflow-hidden bg-transparent">
+            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
+              <div>
+                <div className="badge badge-primary badge-outline">Termos</div>
+                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Termos de Uso</h1>
+                <p className="mt-2 text-sm opacity-70">Última atualização: 2026</p>
+                <p className="mt-4 text-base-content/75">
+                  Ao acessar o PertoDaqui, você concorda com as condições abaixo.
                 </p>
               </div>
-              <nav className="footer-links" aria-label="Links institucionais">
-                <a href="/privacidade">Política de privacidade</a>
-                <a href="/termos">Termos de uso</a>
-                <a href="mailto:contato@pertodaqui.app">Contato</a>
-              </nav>
-              <span className="footer-copy">© 2026 PertoDaqui</span>
+              <figure className="overflow-hidden rounded-box border border-base-300">
+                <img src="/illustrations/legal.svg" alt="Ilustração de termos e condições" className="h-full w-full object-cover" />
+              </figure>
             </div>
-          </footer>
-        </main>
-      </div>
+          </section>
+
+          <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><FileText size={22} className="text-primary" /> 1. Sobre o serviço</h2>
+                <p className="text-sm text-base-content/80">
+                  O PertoDaqui ajuda usuários a descobrir atividades e estabelecimentos próximos
+                  com base em localização, distância e filtros.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><ShieldWarning size={22} className="text-primary" /> 2. Uso aceitável</h2>
+                <ul className="list-disc space-y-1 pl-6 text-sm text-base-content/80">
+                  <li>Não usar a plataforma para atividades ilegais.</li>
+                  <li>Não tentar burlar segurança e limitações técnicas.</li>
+                  <li>Não extrair conteúdo em massa sem autorização.</li>
+                </ul>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Wrench size={22} className="text-primary" /> 3. Conteúdo e disponibilidade</h2>
+                <p className="text-sm text-base-content/80">
+                  Buscamos manter dados atualizados, mas não garantimos precisão absoluta ou
+                  disponibilidade contínua.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><LockKeyOpen size={22} className="text-primary" /> 4. Limitação de responsabilidade</h2>
+                <p className="text-sm text-base-content/80">
+                  O uso do serviço é por conta e risco do usuário. Decisões baseadas nas informações
+                  exibidas são de responsabilidade do próprio usuário.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Gavel size={22} className="text-primary" /> 5. Propriedade intelectual</h2>
+                <p className="text-sm text-base-content/80">
+                  Marca, interface e elementos originais do PertoDaqui são protegidos. Reprodução
+                  não autorizada é proibida.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Lifebuoy size={22} className="text-primary" /> 6. Alterações e contato</h2>
+                <p className="text-sm text-base-content/80">
+                  Podemos atualizar estes termos periodicamente. Dúvidas:{" "}
+                  <a href="mailto:contato@pertodaqui.app" className="link link-primary">
+                    contato@pertodaqui.app
+                  </a>
+                  .
+                </p>
+              </div>
+            </article>
+          </section>
+        </div>
+      </StaticPageLayout>
     </>
   );
 }
