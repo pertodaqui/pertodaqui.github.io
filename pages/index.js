@@ -23,6 +23,7 @@ import {
   X
 } from "@phosphor-icons/react";
 import bars from "../data/bars";
+import beaches from "../data/beaches";
 import cafes from "../data/cafes";
 import culture from "../data/culture";
 import hotels from "../data/hotels";
@@ -55,6 +56,11 @@ const categories = [
     key: "waterfalls",
     label: "Cachoeiras",
     icon: <Tree size={18} />
+  },
+  {
+    key: "beaches",
+    label: "Praias",
+    icon: <MapPinLine size={18} />
   },
   {
     key: "trails",
@@ -174,6 +180,10 @@ export default function HomeV2() {
     () => getItemsByDistance(waterfalls, distance, userCoords),
     [distance, userCoords]
   );
+  const filteredBeaches = useMemo(
+    () => getItemsByDistance(beaches, distance, userCoords),
+    [distance, userCoords]
+  );
   const filteredViewpoints = useMemo(
     () => getItemsByDistance(viewpoints, distance, userCoords),
     [distance, userCoords]
@@ -205,6 +215,7 @@ export default function HomeV2() {
       hotels: filteredHotels,
       parks: filteredParks,
       waterfalls: filteredWaterfalls,
+      beaches: filteredBeaches,
       viewpoints: filteredViewpoints,
       trails: filteredTrails,
       restaurants: filteredRestaurants,
@@ -219,6 +230,7 @@ export default function HomeV2() {
       filteredHotels,
       filteredParks,
       filteredWaterfalls,
+      filteredBeaches,
       filteredViewpoints,
       filteredTrails,
       filteredRestaurants,
@@ -477,7 +489,7 @@ export default function HomeV2() {
 
         <main
           className="mx-auto w-full max-w-7xl flex-1 px-4 pb-0 pt-0 md:px-8 md:pb-0"
-          style={{ paddingTop: "120px", paddingBottom: "60px" }}
+          style={{ paddingTop: "140px", paddingBottom: "90px" }}
         >
           <section>
             {activeItems.length > 0 ? (
@@ -495,7 +507,7 @@ export default function HomeV2() {
                       <div className="text-xs font-medium text-base-content/60 v2-card-location">{formatLocation(item.location)}</div>
                       <div className="flex items-center justify-between gap-2 v2-card-footer">
                         <span className="text-sm">
-                          <strong>{userCoords ? `${item.distanceKm} km de você` : `${item.distanceKm} km`}</strong>
+                          <strong>{item.distanceKm} km</strong>
                         </span>
                         <div className="flex items-center gap-2">
                           <a
@@ -506,7 +518,7 @@ export default function HomeV2() {
                             aria-label="Iniciar rota"
                             title="Iniciar rota"
                           >
-                            <MapPinLine size={16} />
+                            <MapPinLine size={16} weight="bold" />
                           </a>
                           <div className="relative" data-temp-key={getCoordKey(item)}>
                             <button

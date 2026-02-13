@@ -1,4 +1,4 @@
-const CACHE_NAME = "pertodaqui-v7";
+const CACHE_NAME = "pertodaqui-v8";
 const CORE_ASSETS = [
   "/",
   "/index.html",

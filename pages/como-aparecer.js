@@ -41,7 +41,7 @@ export default function ComoAparecerPage() {
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <section className="howto-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
                 <MapPin size={24} className="text-primary" />

@@ -59,7 +59,7 @@ export default function StaticPageLayout({ children }) {
 
       <main
         className="mx-auto w-full max-w-7xl flex-1 px-4 pb-0 pt-0 md:px-8 md:pb-0"
-        style={{ paddingTop: "120px", paddingBottom: "60px" }}
+        style={{ paddingTop: "140px", paddingBottom: "90px" }}
       >
         {children}
       </main>

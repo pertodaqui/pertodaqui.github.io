@@ -24,20 +24,20 @@ export default function SobreNosPage() {
           <section className="overflow-hidden bg-transparent">
             <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
               <div>
-                <div className="badge badge-primary badge-outline">Sobre o projeto</div>
-                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Descobertas locais, sem perder tempo</h1>
+                <div className="badge badge-primary badge-outline">Sobre nós</div>
+                <h1 className="mt-3 text-4xl font-bold md:text-5xl">Descobertas locais, sem perder tempo</h1>
                 <p className="mt-4 text-base-content/75">
                   O PertoDaqui organiza lugares e atividades por distância, contexto e intenção.
                   A proposta e simples: transformar a vontade de sair da rotina em planos reais.
                 </p>
               </div>
               <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/illustrations/discovery.svg" alt="Ilustração de descoberta local" className="h-full w-full object-cover" />
+                <img src="/about.png" alt="Ilustração de descoberta local" className="h-full w-full object-cover" />
               </figure>
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <section className="about-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
                 <MapPinArea size={24} className="text-primary" />

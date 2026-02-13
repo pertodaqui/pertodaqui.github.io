@@ -37,7 +37,7 @@ export default function ParceirosPage() {
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <section className="partners-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
                 <SuitcaseRolling size={24} className="text-primary" />

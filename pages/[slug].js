@@ -21,6 +21,7 @@ import {
   X
 } from "@phosphor-icons/react";
 import bars from "../data/bars";
+import beaches from "../data/beaches";
 import cafes from "../data/cafes";
 import culture from "../data/culture";
 import hotels from "../data/hotels";
@@ -54,6 +55,11 @@ const categories = [
     key: "waterfalls",
     label: "Cachoeiras",
     icon: <Tree size={18} />
+  },
+  {
+    key: "beaches",
+    label: "Praias",
+    icon: <MapPinLine size={18} />
   },
   {
     key: "trails",
@@ -111,6 +117,7 @@ const allItems = [
   ...parks,
   ...restaurants,
   ...waterfalls,
+  ...beaches,
   ...viewpoints,
   ...trails,
   ...tours
@@ -166,6 +173,7 @@ export default function CityPageV2({ slug }) {
       hotels,
       parks,
       waterfalls,
+      beaches,
       viewpoints,
       trails,
       restaurants,
@@ -469,7 +477,10 @@ export default function CityPageV2({ slug }) {
           </>
         ) : null}
 
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-6 pt-24 md:px-8 md:pb-8 md:pt-24">
+        <main
+          className="mx-auto w-full max-w-7xl flex-1 px-4 pb-0 pt-0 md:px-8 md:pb-0"
+          style={{ paddingTop: "140px", paddingBottom: "90px" }}
+        >
           <section className="mb-6 rounded-b-box rounded-t-none border border-base-300 bg-base-100 p-5 shadow-sm">
             <h1 className="text-2xl font-bold md:text-3xl">O que fazer em {locationDisplay}</h1>
             <p className="mt-2 text-sm text-base-content/70 md:text-base">
@@ -504,7 +515,7 @@ export default function CityPageV2({ slug }) {
                           {typeof item.distanceKm === "number"
                             ? userCoords
                               ? (
-                                <strong>{item.distanceKm} km de você</strong>
+                                <strong>{item.distanceKm} km</strong>
                               )
                               : `${item.distanceKm} km`
                             : "-- km"}
@@ -518,7 +529,7 @@ export default function CityPageV2({ slug }) {
                             aria-label="Iniciar rota"
                             title="Iniciar rota"
                           >
-                            <MapPinLine size={16} />
+                            <MapPinLine size={16} weight="bold" />
                           </a>
                           <div className="relative" data-temp-key={getCoordKey(item)}>
                             <button
