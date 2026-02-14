@@ -260,7 +260,7 @@
 
 .v2-site-footer {
   position: relative;
-  z-index: 2147483647;
+  z-index: 1;
   isolation: isolate;
   pointer-events: all;
 }

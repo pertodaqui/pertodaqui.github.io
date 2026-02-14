@@ -22,7 +22,7 @@ export default function SobreNosPage() {
       <StaticPageLayout>
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
-            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
+            <div className="w-full p-6 md:p-8">
               <div>
                 <div className="badge badge-primary badge-outline">Sobre nós</div>
                 <h1 className="mt-3 text-4xl font-bold md:text-5xl">Descobertas locais, sem perder tempo</h1>
@@ -31,9 +31,6 @@ export default function SobreNosPage() {
                   A proposta e simples: transformar a vontade de sair da rotina em planos reais.
                 </p>
               </div>
-              <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/about.png" alt="Ilustração de descoberta local" className="h-full w-full object-cover" />
-              </figure>
             </div>
           </section>
 
