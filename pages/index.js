@@ -22,17 +22,6 @@ import {
   Sun,
   X
 } from "@phosphor-icons/react";
-import bars from "../data/bars";
-import beaches from "../data/beaches";
-import cafes from "../data/cafes";
-import culture from "../data/culture";
-import hotels from "../data/hotels";
-import parks from "../data/parks";
-import restaurants from "../data/restaurants";
-import waterfalls from "../data/waterfalls";
-import viewpoints from "../data/viewpoints";
-import trails from "../data/trails";
-import tours from "../data/tours";
 import {
   buildActiveItemsFromCategoryMap,
   normalizeSelectedCategories,
@@ -40,16 +29,35 @@ import {
   toggleAllCategories,
   toggleCategorySelection
 } from "../utils/listingHelpers";
-import {
-  formatLocation,
-  getItemsByDistance,
-  getMapsUrl
-} from "../utils/locationHelpers";
+import { formatLocation, getMapsUrl } from "../utils/locationHelpers";
 import { useWeatherByItems } from "../utils/useWeatherByItems";
 
 const QUICK_DISTANCES = [1, 5, 10, 25];
 const ITEMS_PER_PAGE = 9;
 const SITE_URL = "https://pertodaqui.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.pertodaqui.app";
+const API_LIMIT = 500;
+const API_TO_UI_CATEGORY = {
+  waterfall: "waterfalls",
+  waterfalls: "waterfalls",
+  viewpoint: "viewpoints",
+  viewpoints: "viewpoints",
+  trail: "trails",
+  trails: "trails",
+  park: "parks",
+  parks: "parks",
+  restaurant: "restaurants",
+  restaurants: "restaurants",
+  cafe: "cafes",
+  cafes: "cafes",
+  bar: "bars",
+  bars: "bars",
+  culture: "culture",
+  hotel: "hotels",
+  hotels: "hotels",
+  tour: "tours",
+  tours: "tours"
+};
 
 const categories = [
   {
@@ -118,10 +126,15 @@ export default function HomeV2() {
   const [geoError, setGeoError] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isLocating, setIsLocating] = useState(true);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
+  const [apiError, setApiError] = useState("");
+  const [apiItems, setApiItems] = useState([]);
+  const [reloadToken, setReloadToken] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [theme, setTheme] = useState("winter");
   const [openTempKey, setOpenTempKey] = useState(null);
   const hasSelectedCategories = selectedCategories.length > 0;
+  const validCategoryKeys = useMemo(() => new Set(categoryKeys), [categoryKeys]);
 
   const requestLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -164,78 +177,109 @@ export default function HomeV2() {
     }
   }, []);
 
-  const filteredTours = useMemo(
-    () => getItemsByDistance(tours, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredHotels = useMemo(
-    () => getItemsByDistance(hotels, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredParks = useMemo(
-    () => getItemsByDistance(parks, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredWaterfalls = useMemo(
-    () => getItemsByDistance(waterfalls, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredBeaches = useMemo(
-    () => getItemsByDistance(beaches, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredViewpoints = useMemo(
-    () => getItemsByDistance(viewpoints, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredTrails = useMemo(
-    () => getItemsByDistance(trails, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredRestaurants = useMemo(
-    () => getItemsByDistance(restaurants, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredCafes = useMemo(
-    () => getItemsByDistance(cafes, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredCulture = useMemo(
-    () => getItemsByDistance(culture, distance, userCoords),
-    [distance, userCoords]
-  );
-  const filteredBars = useMemo(
-    () => getItemsByDistance(bars, distance, userCoords),
-    [distance, userCoords]
-  );
+  useEffect(() => {
+    if (!userCoords) {
+      setApiItems([]);
+      setApiError("");
+      return;
+    }
+
+    const controller = new AbortController();
+    const query = new URLSearchParams({
+      lat: String(userCoords.lat),
+      lng: String(userCoords.lng),
+      radius_km: String(distance),
+      limit: String(API_LIMIT)
+    });
+
+    const loadItems = async () => {
+      setIsLoadingPlaces(true);
+      setApiError("");
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/locations/search?${query.toString()}`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) {
+          throw new Error(`status-${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (!Array.isArray(payload)) {
+          throw new Error("invalid-payload");
+        }
+
+        const normalized = payload
+          .map((item) => {
+            const rawCategory =
+              typeof item?.category === "string"
+                ? item.category.trim().toLowerCase()
+                : "";
+            const categoryKey =
+              API_TO_UI_CATEGORY[rawCategory] ||
+              (validCategoryKeys.has(rawCategory) ? rawCategory : null);
+            const rawDistance = Number(item?.distance_km ?? item?.distanceKm);
+            const lat = Number(item?.lat);
+            const lng = Number(item?.lng);
+            if (
+              !categoryKey ||
+              !Number.isFinite(rawDistance) ||
+              !Number.isFinite(lat) ||
+              !Number.isFinite(lng)
+            ) {
+              return null;
+            }
+            return {
+              id: item.id,
+              title: item.title,
+              meta: item.meta,
+              location: item.location,
+              image: item.image,
+              lat,
+              lng,
+              distanceKm: Math.round(rawDistance),
+              categoryKey
+            };
+          })
+          .filter(Boolean);
+
+        setApiItems(normalized);
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          return;
+        }
+        setApiItems([]);
+        setApiError("Não foi possível carregar os lugares próximos agora.");
+      } finally {
+        setIsLoadingPlaces(false);
+      }
+    };
+
+    loadItems();
+
+    return () => {
+      controller.abort();
+    };
+  }, [distance, reloadToken, userCoords, validCategoryKeys]);
 
   const filteredByCategory = useMemo(
-    () => ({
-      tours: filteredTours,
-      hotels: filteredHotels,
-      parks: filteredParks,
-      waterfalls: filteredWaterfalls,
-      beaches: filteredBeaches,
-      viewpoints: filteredViewpoints,
-      trails: filteredTrails,
-      restaurants: filteredRestaurants,
-      cafes: filteredCafes,
-      bars: filteredBars,
-      culture: filteredCulture
-    }),
-    [
-      filteredBars,
-      filteredCafes,
-      filteredCulture,
-      filteredHotels,
-      filteredParks,
-      filteredWaterfalls,
-      filteredBeaches,
-      filteredViewpoints,
-      filteredTrails,
-      filteredRestaurants,
-      filteredTours
-    ]
+    () =>
+      apiItems.reduce(
+        (acc, item) => {
+          if (!acc[item.categoryKey]) {
+            acc[item.categoryKey] = [];
+          }
+          acc[item.categoryKey].push(item);
+          return acc;
+        },
+        categoryKeys.reduce((seed, key) => {
+          seed[key] = [];
+          return seed;
+        }, {})
+      ),
+    [apiItems, categoryKeys]
   );
 
   const activeItems = useMemo(() => {
@@ -569,7 +613,7 @@ export default function HomeV2() {
                   </article>
                 ))}
               </div>
-            ) : isLocating ? (
+            ) : isLocating || isLoadingPlaces ? (
               <div className="alert border border-base-300 bg-base-100 shadow-sm">
                 <SpinnerGap size={24} className="animate-spin" />
                 <div>
@@ -584,6 +628,23 @@ export default function HomeV2() {
                   <p className="text-sm">{geoError}</p>
                   <div className="card-actions">
                     <button type="button" className="btn btn-primary" onClick={requestLocation}>
+                      <MapPinLine size={16} />
+                      Tentar novamente
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : apiError ? (
+              <div className="card border border-base-300 bg-base-100 shadow-sm">
+                <div className="card-body">
+                  <h3 className="card-title">Não conseguimos carregar os lugares próximos</h3>
+                  <p className="text-sm">{apiError}</p>
+                  <div className="card-actions">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => setReloadToken((prev) => prev + 1)}
+                    >
                       <MapPinLine size={16} />
                       Tentar novamente
                     </button>
