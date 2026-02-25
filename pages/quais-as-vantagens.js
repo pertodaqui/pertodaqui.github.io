@@ -22,18 +22,10 @@ export default function QuaisAsVantagensPage() {
       <StaticPageLayout>
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
-            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
-              <div>
-                <div className="badge badge-primary badge-outline">Vantagens</div>
-                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Por que estar no PertoDaqui</h1>
-                <p className="mt-4 text-base-content/75">
-                  Sua empresa aparece para pessoas próximas e com intenção de decisão.
-                  Isso aumenta eficiência de aquisição e presença de marca.
-                </p>
-              </div>
-              <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/illustrations/growth.svg" alt="Ilustração de evolução de resultados" className="h-full w-full object-cover" />
-              </figure>
+            <div className="w-full p-6 md:p-8">
+              <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
+                Por que estar no PertoDaqui
+              </h1>
             </div>
           </section>
 

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const getCoordKey = (item) => `${item.lat},${item.lng}`;
+const WEATHER_BATCH_SIZE = 2;
+const WEATHER_IDLE_DELAY_MS = 3000;
 
 export function useWeatherByItems(activeItems) {
   const [weatherByCoord, setWeatherByCoord] = useState({});
@@ -11,6 +13,7 @@ export function useWeatherByItems(activeItems) {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+    let idleHandle = null;
 
     const pending = activeItems
       .filter((item) => item.lat != null && item.lng != null)
@@ -78,48 +81,75 @@ export function useWeatherByItems(activeItems) {
       }
     };
 
-    Promise.all(pending.map(fetchWeather))
-      .then((results) => {
-        if (!isMounted) {
+    const applyResults = (results) => {
+      const next = {};
+      const nextForecast = {};
+      const nextStatus = {};
+      results.forEach((result) => {
+        if (!result) return;
+        if (result.error) {
+          nextStatus[result.key] = "error";
+          weatherCacheRef.current[result.key] = { temp: null, forecast: [] };
           return;
         }
-        const next = {};
-        const nextForecast = {};
-        const nextStatus = {};
-        results.forEach((result) => {
-          if (!result) return;
-          if (result.error) {
-            nextStatus[result.key] = "error";
-            weatherCacheRef.current[result.key] = { temp: null, forecast: [] };
-            return;
-          }
-          if (typeof result.temp === "number") {
-            next[result.key] = result.temp;
-          }
-          if (Array.isArray(result.forecast)) {
-            nextForecast[result.key] = result.forecast;
-          }
-          nextStatus[result.key] = result.status || "ok";
-          weatherCacheRef.current[result.key] = {
-            temp: result.temp,
-            forecast: result.forecast
-          };
-        });
-        if (Object.keys(next).length > 0) {
-          setWeatherByCoord((prev) => ({ ...prev, ...next }));
+        if (typeof result.temp === "number") {
+          next[result.key] = result.temp;
         }
-        if (Object.keys(nextForecast).length > 0) {
-          setForecastByCoord((prev) => ({ ...prev, ...nextForecast }));
+        if (Array.isArray(result.forecast)) {
+          nextForecast[result.key] = result.forecast;
         }
-        if (Object.keys(nextStatus).length > 0) {
-          setWeatherStatusByCoord((prev) => ({ ...prev, ...nextStatus }));
+        nextStatus[result.key] = result.status || "ok";
+        weatherCacheRef.current[result.key] = {
+          temp: result.temp,
+          forecast: result.forecast
+        };
+      });
+      if (Object.keys(next).length > 0) {
+        setWeatherByCoord((prev) => ({ ...prev, ...next }));
+      }
+      if (Object.keys(nextForecast).length > 0) {
+        setForecastByCoord((prev) => ({ ...prev, ...nextForecast }));
+      }
+      if (Object.keys(nextStatus).length > 0) {
+        setWeatherStatusByCoord((prev) => ({ ...prev, ...nextStatus }));
+      }
+    };
+
+    const runBatchedFetch = async () => {
+      try {
+        for (let index = 0; index < pending.length; index += WEATHER_BATCH_SIZE) {
+          if (!isMounted || controller.signal.aborted) return;
+          const batch = pending.slice(index, index + WEATHER_BATCH_SIZE);
+          const results = await Promise.all(batch.map(fetchWeather));
+          if (!isMounted || controller.signal.aborted) return;
+          applyResults(results);
         }
-      })
-      .catch(() => {});
+      } catch {
+        // Ignore fetch failures and keep UI interactive.
+      }
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(
+        () => {
+          runBatchedFetch();
+        },
+        { timeout: WEATHER_IDLE_DELAY_MS }
+      );
+    } else {
+      idleHandle = window.setTimeout(runBatchedFetch, WEATHER_IDLE_DELAY_MS);
+    }
 
     return () => {
       isMounted = false;
       controller.abort();
+      if (idleHandle != null) {
+        if (typeof window !== "undefined" && "cancelIdleCallback" in window) {
+          window.cancelIdleCallback(idleHandle);
+        } else {
+          clearTimeout(idleHandle);
+        }
+      }
     };
   }, [activeItems]);
 

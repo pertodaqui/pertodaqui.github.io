@@ -25,7 +25,6 @@ export default function StaticPageLayout({ children }) {
       return next;
     });
   };
-
   return (
     <div data-theme={theme} className="min-h-screen bg-base-200 text-base-content flex flex-col">
       <header
@@ -34,7 +33,7 @@ export default function StaticPageLayout({ children }) {
       >
         <div className="navbar mx-auto w-full max-w-7xl px-4 md:px-8" style={{ minHeight: "108px" }}>
           <div className="navbar-start">
-            <a href="/" className="btn btn-ghost px-0 hover:bg-transparent h-full min-h-0 flex items-center" aria-label="Ir para a página inicial">
+            <a href="/" className="px-0 h-full min-h-0 inline-flex items-center hover:bg-transparent" aria-label="Ir para a página inicial">
               <img
                 src={theme === "night" ? "/logo-dark.svg" : "/logo.svg"}
                 alt="PertoDaqui"
@@ -64,7 +63,7 @@ export default function StaticPageLayout({ children }) {
         {children}
       </main>
 
-      <footer className="w-full border-t border-base-300 bg-base-100 py-6">
+      <footer className="v2-site-footer w-full border-t border-base-300 bg-base-100 py-6">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 v2-footer-inner">
           <aside>
             <p className="font-semibold">PertoDaqui © 2026</p>
@@ -75,18 +74,18 @@ export default function StaticPageLayout({ children }) {
           <div className="v2-footer-columns text-sm">
             <div className="v2-footer-col">
               <strong className="v2-footer-col-title">SITE</strong>
-              <a href="/sobre-nos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/sobre-nos/"); }}>Sobre nós</a>
-              <a href="/parceiros/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/parceiros/"); }}>Parceiros</a>
+              <a href="/sobre-nos/" className="link link-hover">Sobre nós</a>
+              <a href="/parceiros/" className="link link-hover">Parceiros</a>
             </div>
             <div className="v2-footer-col">
               <strong className="v2-footer-col-title">Para empresas</strong>
-              <a href="/quais-as-vantagens/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/quais-as-vantagens/"); }}>Quais as vantagens</a>
-              <a href="/como-aparecer/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/como-aparecer/"); }}>Como aparecer</a>
+              <a href="/quais-as-vantagens/" className="link link-hover">Quais as vantagens</a>
+              <a href="/como-aparecer/" className="link link-hover">Como aparecer</a>
             </div>
             <div className="v2-footer-col">
               <strong className="v2-footer-col-title">Ajuda</strong>
-              <a href="/privacidade/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/privacidade/"); }}>Política de privacidade</a>
-              <a href="/termos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/termos/"); }}>Termos de uso</a>
+              <a href="/privacidade/" className="link link-hover">Política de privacidade</a>
+              <a href="/termos/" className="link link-hover">Termos de uso</a>
               <a href="mailto:contato@pertodaqui.app" className="link link-hover">Contato</a>
             </div>
           </div>

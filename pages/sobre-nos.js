@@ -23,14 +23,9 @@ export default function SobreNosPage() {
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
             <div className="w-full p-6 md:p-8">
-              <div>
-                <div className="badge badge-primary badge-outline">Sobre nós</div>
-                <h1 className="mt-3 text-4xl font-bold md:text-5xl">Descobertas locais, sem perder tempo</h1>
-                <p className="mt-4 text-base-content/75">
-                  O PertoDaqui organiza lugares e atividades por distância, contexto e intenção.
-                  A proposta e simples: transformar a vontade de sair da rotina em planos reais.
-                </p>
-              </div>
+              <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
+                Descobertas locais, sem perder tempo
+              </h1>
             </div>
           </section>
 

@@ -1,5 +1,14 @@
 import Head from "next/head";
-import { Cookie, Database, LockKey, ShieldCheck, UserCircleGear } from "@phosphor-icons/react";
+import {
+  Cookie,
+  Database,
+  LockKey,
+  ShieldCheck,
+  UserCircleGear,
+  ClockCounterClockwise,
+  GlobeHemisphereWest,
+  Handshake
+} from "@phosphor-icons/react";
 import StaticPageLayout from "../components/StaticPageLayout";
 
 export default function PrivacidadePage() {
@@ -22,59 +31,73 @@ export default function PrivacidadePage() {
       <StaticPageLayout>
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
-            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
-              <div>
-                <div className="badge badge-primary badge-outline">Privacidade</div>
-                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Política de Privacidade</h1>
-                <p className="mt-2 text-sm opacity-70">Última atualização: 2026</p>
-                <p className="mt-4 text-base-content/75">
-                  Este documento explica como tratamos dados relacionados ao uso da plataforma.
-                </p>
-              </div>
-              <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/illustrations/legal.svg" alt="Ilustração de privacidade e proteção de dados" className="h-full w-full object-cover" />
-              </figure>
+            <div className="w-full p-6 md:p-8">
+              <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
+                Política de Privacidade
+              </h1>
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
                 <h2 className="card-title text-lg"><Database size={22} className="text-primary" /> Dados que coletamos</h2>
                 <ul className="list-disc space-y-1 pl-6 text-sm text-base-content/80">
-                  <li>Localização aproximada, mediante permissão do navegador.</li>
-                  <li>Preferências de filtros, distância e categorias selecionadas.</li>
-                  <li>Dados técnicos para estabilidade do serviço.</li>
-                  <li>Dados climáticos consultados por coordenada.</li>
+                  <li>Dados de uso do produto, como filtros, raio e categorias selecionadas.</li>
+                  <li>Localizacao aproximada, apenas com permissao do navegador.</li>
+                  <li>Dados tecnicos: tipo de dispositivo, navegador e logs de erro.</li>
+                  <li>Dados de contexto, como clima por coordenada para enriquecer sugestoes.</li>
                 </ul>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><Cookie size={22} className="text-primary" /> Como usamos os dados</h2>
+                <h2 className="card-title text-lg"><Cookie size={22} className="text-primary" /> Finalidade do tratamento</h2>
                 <ul className="list-disc space-y-1 pl-6 text-sm text-base-content/80">
-                  <li>Exibir recomendações próximas de você.</li>
-                  <li>Ordenar resultados por distância e preferências.</li>
-                  <li>Mostrar contexto climático para decisão.</li>
-                  <li>Melhorar desempenho, segurança e experiência.</li>
+                  <li>Entregar recomendacoes locais com melhor relevancia.</li>
+                  <li>Ordenar resultados por distancia e preferencia.</li>
+                  <li>Aprimorar desempenho, seguranca e estabilidade da plataforma.</li>
+                  <li>Detectar abuso, indisponibilidades e tentativas de uso indevido.</li>
                 </ul>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><LockKey size={22} className="text-primary" /> Compartilhamento e retenção</h2>
+                <h2 className="card-title text-lg"><GlobeHemisphereWest size={22} className="text-primary" /> Base legal e consentimento</h2>
                 <p className="text-sm text-base-content/80">
-                  Não vendemos dados pessoais. Integrações com parceiros técnicos ocorrem apenas
-                  para viabilizar funcionalidades. Parte das preferências pode ficar no navegador.
+                  O tratamento ocorre com base em consentimento (ex.: localizacao), execucao de
+                  funcionalidades solicitadas pelo usuario e interesse legitimo para seguranca e
+                  melhoria do servico. Permissoes podem ser revogadas a qualquer momento no navegador.
                 </p>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><UserCircleGear size={22} className="text-primary" /> Seus direitos</h2>
+                <h2 className="card-title text-lg"><ClockCounterClockwise size={22} className="text-primary" /> Retencao e descarte</h2>
                 <p className="text-sm text-base-content/80">
-                  Você pode solicitar informações sobre tratamento, correção e exclusão quando
-                  aplicável, além de revogar permissões de localização no seu dispositivo.
+                  Mantemos dados apenas pelo tempo necessario para cumprir as finalidades descritas
+                  nesta politica, requisitos legais e prevencao de fraude. Apos esse periodo, os
+                  dados sao excluidos ou anonimizados.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Handshake size={22} className="text-primary" /> Compartilhamento com terceiros</h2>
+                <p className="text-sm text-base-content/80">
+                  Nao vendemos dados pessoais. Compartilhamentos sao limitados a fornecedores
+                  estritamente necessarios para operacao tecnica da plataforma (ex.: servicos de
+                  infraestrutura e APIs de apoio), observando medidas de seguranca.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><UserCircleGear size={22} className="text-primary" /> Direitos do titular</h2>
+                <p className="text-sm text-base-content/80">
+                  Voce pode solicitar confirmacao de tratamento, acesso, correcao, anonimização,
+                  portabilidade quando aplicavel e exclusao de dados pessoais, alem de se opor a
+                  tratamentos especificos, nos limites legais.
                 </p>
               </div>
             </article>
@@ -83,15 +106,23 @@ export default function PrivacidadePage() {
           <section className="rounded-box bg-transparent p-6 md:p-8">
             <h2 className="flex items-center gap-2 text-2xl font-semibold">
               <ShieldCheck size={24} className="text-primary" />
-              Contato
+              Seguranca e contato
             </h2>
-            <p className="mt-3 text-base-content/80">
-              Para dúvidas sobre privacidade:{" "}
-              <a href="mailto:contato@pertodaqui.app" className="link link-primary">
-                contato@pertodaqui.app
-              </a>
-              .
-            </p>
+            <div className="mt-3 space-y-3 text-base-content/80">
+              <p>
+                Adotamos medidas tecnicas e organizacionais para reduzir risco de acesso nao
+                autorizado, perda e alteracao indevida de dados.
+              </p>
+              <p>
+                Para solicitacoes relacionadas a privacidade e protecao de dados, envie email para{" "}
+                <a href="mailto:contato@pertodaqui.app" className="link link-primary">
+                  contato@pertodaqui.app
+                </a>.
+              </p>
+              <p className="text-sm opacity-80">
+                Esta politica pode ser atualizada periodicamente. Recomendamos revisao regular.
+              </p>
+            </div>
           </section>
         </div>
       </StaticPageLayout>

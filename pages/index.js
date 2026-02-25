@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bed,
@@ -118,7 +117,6 @@ const categories = [
 ];
 
 export default function HomeV2() {
-  const router = useRouter();
   const categoryKeys = useMemo(() => categories.map((category) => category.key), []);
   const [distance, setDistance] = useState(80);
   const [userCoords, setUserCoords] = useState(null);
@@ -132,7 +130,6 @@ export default function HomeV2() {
   const [reloadToken, setReloadToken] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [theme, setTheme] = useState("winter");
-  const [openTempKey, setOpenTempKey] = useState(null);
   const hasSelectedCategories = selectedCategories.length > 0;
   const validCategoryKeys = useMemo(() => new Set(categoryKeys), [categoryKeys]);
 
@@ -293,30 +290,10 @@ export default function HomeV2() {
     [activeItems, currentPage]
   );
 
-  const { weatherByCoord, weatherStatusByCoord, forecastByCoord, getCoordKey } =
-    useWeatherByItems(activeItems);
+  const { weatherByCoord, weatherStatusByCoord, getCoordKey } =
+    useWeatherByItems(paginatedItems);
 
-  useEffect(() => {
-    if (!openTempKey) {
-      return;
-    }
-    const handleOutsideClick = (event) => {
-      const wrapper = event.target.closest("[data-temp-key]");
-      if (!wrapper || wrapper.dataset.tempKey !== openTempKey) {
-        setOpenTempKey(null);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [openTempKey]);
-
-  useEffect(() => {
-    if (!hasSelectedCategories) {
-      setOpenTempKey(null);
-    }
-  }, [hasSelectedCategories]);
+  // Avoid a global mousedown listener on home; it can interfere with link clicks.
 
   const toggleCategory = (categoryKey) => {
     setSelectedCategories((prev) => toggleCategorySelection(prev, categoryKey));
@@ -342,33 +319,10 @@ export default function HomeV2() {
   }, [distance, selectedCategories, userCoords]);
 
   useEffect(() => {
-    if (!router.isReady) return;
-    const pageFromQuery = Number(router.query.page);
-    if (Number.isInteger(pageFromQuery) && pageFromQuery > 0) {
-      setCurrentPage(pageFromQuery);
-    } else {
-      setCurrentPage(1);
-    }
-  }, [router.isReady, router.query.page]);
-
-  useEffect(() => {
-    if (!router.isReady) return;
     if (currentPage > totalPages) {
       setCurrentPage(totalPages);
-      return;
     }
-    const nextQuery = { ...router.query };
-    if (currentPage > 1) {
-      nextQuery.page = String(currentPage);
-    } else {
-      delete nextQuery.page;
-    }
-    router.replace(
-      { pathname: router.pathname, query: nextQuery },
-      undefined,
-      { shallow: true, scroll: false }
-    );
-  }, [currentPage, totalPages, router]);
+  }, [currentPage, totalPages]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -411,7 +365,7 @@ export default function HomeV2() {
         >
           <div className="navbar mx-auto w-full max-w-7xl px-4 md:px-8" style={{ minHeight: "108px" }}>
             <div className="navbar-start">
-              <a href="/" className="btn btn-ghost px-0 hover:bg-transparent h-full min-h-0 flex items-center">
+              <a href="/" className="px-0 h-full min-h-0 inline-flex items-center hover:bg-transparent">
                 <img
                   src={theme === "night" ? "/logo-dark.svg" : "/logo.svg"}
                   alt="PertoDaqui"
@@ -486,7 +440,6 @@ export default function HomeV2() {
                     type="button"
                     className="btn btn-sm btn-outline"
                     onClick={() => {
-                      setOpenTempKey(null);
                       setSelectedCategories((prev) => toggleAllCategories(prev, categoryKeys));
                     }}
                   >
@@ -564,48 +517,22 @@ export default function HomeV2() {
                           >
                             <MapPinLine size={16} weight="bold" />
                           </a>
-                          <div className="relative" data-temp-key={getCoordKey(item)}>
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-ghost"
-                              title={
-                                weatherStatusByCoord[getCoordKey(item)] === "error"
-                                  ? "Temperatura indisponível no momento"
-                                  : "Temperatura atual"
-                              }
-                              onClick={() => {
-                                const key = getCoordKey(item);
-                                setOpenTempKey((prev) => (prev === key ? null : key));
-                              }}
-                            >
-                              <Thermometer size={16} />
-                              <span>
-                                {weatherStatusByCoord[getCoordKey(item)] === "loading"
-                                  ? "..."
-                                  : weatherStatusByCoord[getCoordKey(item)] === "error"
-                                    ? "N/D"
-                                    : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
-                              </span>
-                            </button>
-                            {openTempKey === getCoordKey(item) && (
-                              <div className="absolute right-0 top-full z-20 mt-2 min-w-52 rounded-box border border-base-300 bg-base-100 p-3 shadow-xl">
-                                <strong className="block text-sm">Próximos 5 dias</strong>
-                                <div className="mt-2 space-y-1 text-xs">
-                                  {(forecastByCoord[getCoordKey(item)] || []).map((day) => (
-                                    <div key={`${getCoordKey(item)}-${day.date}`} className="flex items-center justify-between gap-3">
-                                      <span>
-                                        {new Date(day.date).toLocaleDateString("pt-BR", {
-                                          weekday: "short",
-                                          day: "2-digit",
-                                          month: "2-digit"
-                                        })}
-                                      </span>
-                                      <span>{day.min ?? "--"}°C / {day.max ?? "--"}°C</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                          <div
+                            className="btn btn-sm btn-ghost"
+                            title={
+                              weatherStatusByCoord[getCoordKey(item)] === "error"
+                                ? "Temperatura indisponível no momento"
+                                : "Temperatura atual"
+                            }
+                          >
+                            <Thermometer size={16} />
+                            <span>
+                              {weatherStatusByCoord[getCoordKey(item)] === "loading"
+                                ? "..."
+                                : weatherStatusByCoord[getCoordKey(item)] === "error"
+                                  ? "N/D"
+                                  : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -714,18 +641,18 @@ export default function HomeV2() {
             <div className="v2-footer-columns text-sm">
               <div className="v2-footer-col">
                 <strong className="v2-footer-col-title">SITE</strong>
-                <a href="/sobre-nos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/sobre-nos/"); }}>Sobre nós</a>
-                <a href="/parceiros/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/parceiros/"); }}>Parceiros</a>
+                <a href="/sobre-nos/" className="link link-hover">Sobre nós</a>
+                <a href="/parceiros/" className="link link-hover">Parceiros</a>
               </div>
               <div className="v2-footer-col">
                 <strong className="v2-footer-col-title">Para empresas</strong>
-                <a href="/quais-as-vantagens/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/quais-as-vantagens/"); }}>Quais as vantagens</a>
-                <a href="/como-aparecer/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/como-aparecer/"); }}>Como aparecer</a>
+                <a href="/quais-as-vantagens/" className="link link-hover">Quais as vantagens</a>
+                <a href="/como-aparecer/" className="link link-hover">Como aparecer</a>
               </div>
               <div className="v2-footer-col">
                 <strong className="v2-footer-col-title">Ajuda</strong>
-                <a href="/privacidade/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/privacidade/"); }}>Política de privacidade</a>
-                <a href="/termos/" className="link link-hover" onClick={(e) => { e.preventDefault(); window.location.assign("/termos/"); }}>Termos de uso</a>
+                <a href="/privacidade/" className="link link-hover">Política de privacidade</a>
+                <a href="/termos/" className="link link-hover">Termos de uso</a>
                 <a href="mailto:contato@pertodaqui.app" className="link link-hover">Contato</a>
               </div>
             </div>

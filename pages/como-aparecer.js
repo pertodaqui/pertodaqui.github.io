@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ArrowCircleRight, ChartLineUp, Cpu, MapPin, Megaphone } from "@phosphor-icons/react";
+import { ChartLineUp, Cpu, MapPin, Megaphone } from "@phosphor-icons/react";
 import StaticPageLayout from "../components/StaticPageLayout";
 
 export default function ComoAparecerPage() {
@@ -22,30 +22,17 @@ export default function ComoAparecerPage() {
       <StaticPageLayout>
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
-            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
-              <div>
-                <div className="badge badge-primary badge-outline">Para empresas</div>
-                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Como aparecer no PertoDaqui</h1>
-                <p className="mt-4 text-base-content/75">
-                  Sua marca passa a ser descoberta por usuários que já estão no contexto de decisão.
-                  Menos mídia desperdiçada, mais oportunidade local.
-                </p>
-                <a href="mailto:contato@pertodaqui.app" className="btn btn-primary mt-5">
-                  Falar com a equipe
-                  <ArrowCircleRight size={18} />
-                </a>
-              </div>
-              <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/illustrations/growth.svg" alt="Ilustração de crescimento de presença local" className="h-full w-full object-cover" />
-              </figure>
+            <div className="w-full p-6 md:p-8">
+              <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
+                Como aparecer no PertoDaqui
+              </h1>
             </div>
           </section>
 
           <section className="howto-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <MapPin size={24} className="text-primary" />
-                <h2 className="card-title text-lg">1. Cadastre seu negócio</h2>
+                <h2 className="card-title text-lg"><MapPin size={24} className="text-primary" /> Cadastre seu negócio</h2>
                 <p className="text-sm text-base-content/75">
                   Compartilhe informações essenciais para aparecer com qualidade nas listagens.
                 </p>
@@ -53,8 +40,7 @@ export default function ComoAparecerPage() {
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <Megaphone size={24} className="text-primary" />
-                <h2 className="card-title text-lg">2. Ganhe visibilidade</h2>
+                <h2 className="card-title text-lg"><Megaphone size={24} className="text-primary" /> Ganhe visibilidade</h2>
                 <p className="text-sm text-base-content/75">
                   Seu ponto entra nas buscas por categoria, distância e perfil de interesse.
                 </p>
@@ -62,8 +48,7 @@ export default function ComoAparecerPage() {
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <ChartLineUp size={24} className="text-primary" />
-                <h2 className="card-title text-lg">3. Evolua com dados</h2>
+                <h2 className="card-title text-lg"><ChartLineUp size={24} className="text-primary" /> Evolua com dados</h2>
                 <p className="text-sm text-base-content/75">
                   A presença recorrente aumenta reconhecimento e melhora conversão local.
                 </p>

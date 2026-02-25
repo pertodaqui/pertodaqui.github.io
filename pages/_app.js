@@ -96,9 +96,9 @@ export default function App({ Component, pageProps }) {
       </Head>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-4PK6JRYRHV"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
-      <Script id="ga-gtag" strategy="afterInteractive">
+      <Script id="ga-gtag" strategy="lazyOnload">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
 gtag('js', new Date());

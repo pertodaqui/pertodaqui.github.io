@@ -1,5 +1,14 @@
 import Head from "next/head";
-import { FileText, Gavel, Lifebuoy, LockKeyOpen, ShieldWarning, Wrench } from "@phosphor-icons/react";
+import {
+  FileText,
+  Gavel,
+  Lifebuoy,
+  LockKeyOpen,
+  ShieldWarning,
+  Wrench,
+  Scales,
+  UserList
+} from "@phosphor-icons/react";
 import StaticPageLayout from "../components/StaticPageLayout";
 
 export default function TermosPage() {
@@ -22,77 +31,92 @@ export default function TermosPage() {
       <StaticPageLayout>
         <div className="space-y-6">
           <section className="overflow-hidden bg-transparent">
-            <div className="grid w-full grid-cols-1 gap-8 p-6 md:grid-cols-2 md:p-8">
-              <div>
-                <div className="badge badge-primary badge-outline">Termos</div>
-                <h1 className="mt-3 text-3xl font-bold md:text-4xl">Termos de Uso</h1>
-                <p className="mt-2 text-sm opacity-70">Última atualização: 2026</p>
-                <p className="mt-4 text-base-content/75">
-                  Ao acessar o PertoDaqui, você concorda com as condições abaixo.
-                </p>
-              </div>
-              <figure className="overflow-hidden rounded-box border border-base-300">
-                <img src="/illustrations/legal.svg" alt="Ilustração de termos e condições" className="h-full w-full object-cover" />
-              </figure>
+            <div className="w-full p-6 md:p-8">
+              <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
+                Termos de Uso
+              </h1>
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><FileText size={22} className="text-primary" /> 1. Sobre o serviço</h2>
+                <h2 className="card-title text-lg"><FileText size={22} className="text-primary" /> Sobre o serviço</h2>
                 <p className="text-sm text-base-content/80">
-                  O PertoDaqui ajuda usuários a descobrir atividades e estabelecimentos próximos
-                  com base em localização, distância e filtros.
+                  O PertoDaqui organiza sugestoes de lugares e atividades com base em localizacao,
+                  distancia e filtros de preferencia. A plataforma pode evoluir funcionalidades,
+                  interfaces e integracoes sem aviso previo.
                 </p>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><ShieldWarning size={22} className="text-primary" /> 2. Uso aceitável</h2>
+                <h2 className="card-title text-lg"><UserList size={22} className="text-primary" /> Elegibilidade e conduta</h2>
                 <ul className="list-disc space-y-1 pl-6 text-sm text-base-content/80">
-                  <li>Não usar a plataforma para atividades ilegais.</li>
-                  <li>Não tentar burlar segurança e limitações técnicas.</li>
-                  <li>Não extrair conteúdo em massa sem autorização.</li>
+                  <li>Voce deve usar o servico em conformidade com a legislacao aplicavel.</li>
+                  <li>E proibido uso para fraude, abuso, assedio ou atividades ilegais.</li>
+                  <li>Nao e permitido tentar contornar seguranca ou limites tecnicos.</li>
+                  <li>Nao e permitido extrair, copiar ou redistribuir dados em massa sem autorizacao.</li>
                 </ul>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><Wrench size={22} className="text-primary" /> 3. Conteúdo e disponibilidade</h2>
+                <h2 className="card-title text-lg"><Wrench size={22} className="text-primary" /> Disponibilidade e alteracoes</h2>
                 <p className="text-sm text-base-content/80">
-                  Buscamos manter dados atualizados, mas não garantimos precisão absoluta ou
-                  disponibilidade contínua.
+                  Buscamos manter o servico disponivel e dados atualizados, mas pode haver
+                  interrupcoes, indisponibilidades temporarias, mudancas de interface e variacoes
+                  de conteudo sem garantia de continuidade ininterrupta.
                 </p>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><LockKeyOpen size={22} className="text-primary" /> 4. Limitação de responsabilidade</h2>
+                <h2 className="card-title text-lg"><ShieldWarning size={22} className="text-primary" /> Conteudo de terceiros</h2>
                 <p className="text-sm text-base-content/80">
-                  O uso do serviço é por conta e risco do usuário. Decisões baseadas nas informações
-                  exibidas são de responsabilidade do próprio usuário.
+                  Parte das informacoes pode vir de fontes externas e parceiros. O PertoDaqui nao
+                  controla integralmente dados de terceiros e nao garante exatidao absoluta de
+                  horarios, precos, disponibilidade, regras comerciais ou condicoes locais.
                 </p>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><Gavel size={22} className="text-primary" /> 5. Propriedade intelectual</h2>
+                <h2 className="card-title text-lg"><Gavel size={22} className="text-primary" /> Propriedade intelectual</h2>
                 <p className="text-sm text-base-content/80">
-                  Marca, interface e elementos originais do PertoDaqui são protegidos. Reprodução
-                  não autorizada é proibida.
+                  Marca, codigo, interface, identidade visual e conteudos originais do PertoDaqui
+                  sao protegidos por legislacao de propriedade intelectual. Reproducao, engenharia
+                  reversa ou uso comercial sem autorizacao expressa e proibido.
                 </p>
               </div>
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
-                <h2 className="card-title text-lg"><Lifebuoy size={22} className="text-primary" /> 6. Alterações e contato</h2>
+                <h2 className="card-title text-lg"><LockKeyOpen size={22} className="text-primary" /> Limitacao de responsabilidade</h2>
                 <p className="text-sm text-base-content/80">
-                  Podemos atualizar estes termos periodicamente. Dúvidas:{" "}
+                  O uso da plataforma ocorre por conta e risco do usuario. O PertoDaqui nao se
+                  responsabiliza por perdas indiretas, lucros cessantes ou danos decorrentes de
+                  decisoes tomadas com base nas informacoes exibidas.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Scales size={22} className="text-primary" /> Suspensao e encerramento</h2>
+                <p className="text-sm text-base-content/80">
+                  Podemos restringir ou suspender acesso em caso de violacao destes termos, uso
+                  abusivo da plataforma, risco tecnico ou obrigacao legal.
+                </p>
+              </div>
+            </article>
+            <article className="rounded-box bg-transparent">
+              <div className="card-body">
+                <h2 className="card-title text-lg"><Lifebuoy size={22} className="text-primary" /> Atualizacoes e contato</h2>
+                <p className="text-sm text-base-content/80">
+                  Estes termos podem ser atualizados periodicamente. Em caso de duvidas, contato em{" "}
                   <a href="mailto:contato@pertodaqui.app" className="link link-primary">
                     contato@pertodaqui.app
-                  </a>
-                  .
+                  </a>.
                 </p>
               </div>
             </article>
