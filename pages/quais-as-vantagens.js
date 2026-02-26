@@ -24,7 +24,7 @@ export default function QuaisAsVantagensPage() {
           <section className="overflow-hidden bg-transparent">
             <div className="w-full p-6 md:p-8">
               <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
-                Por que estar no PertoDaqui
+                As Vantagens
               </h1>
             </div>
           </section>

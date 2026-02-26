@@ -16,7 +16,7 @@ import {
   PlusCircle,
   Thermometer,
   Tree,
-  List,
+  SlidersIcon,
   Moon,
   Sun,
   X
@@ -29,6 +29,7 @@ import {
   toggleCategorySelection
 } from "../utils/listingHelpers";
 import { formatLocation, getMapsUrl } from "../utils/locationHelpers";
+import { toTitleCase } from "../utils/textHelpers";
 import { useWeatherByItems } from "../utils/useWeatherByItems";
 
 const QUICK_DISTANCES = [1, 5, 10, 25];
@@ -375,24 +376,31 @@ export default function HomeV2() {
               </a>
             </div>
             <div className="navbar-end gap-2">
-              <button
-                type="button"
-                className="btn btn-ghost btn-circle"
-                onClick={toggleTheme}
-                aria-label={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
-                title={theme === "winter" ? "Modo escuro" : "Modo claro"}
+              <div
+                className="tooltip tooltip-bottom"
+                data-tip={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
               >
-                {theme === "winter" ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-circle"
-                onClick={() => setIsFilterOpen(true)}
-                aria-label="Abrir filtros"
-                title="Abrir filtros"
-              >
-                <List size={20} />
-              </button>
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-circle"
+                  onClick={toggleTheme}
+                  aria-label={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
+                  title={theme === "winter" ? "Modo escuro" : "Modo claro"}
+                >
+                  {theme === "winter" ? <Moon size={20} /> : <Sun size={20} />}
+                </button>
+              </div>
+              <div className="tooltip tooltip-bottom" data-tip="Abrir filtros">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-circle"
+                  onClick={() => setIsFilterOpen(true)}
+                  aria-label="Abrir filtros"
+                  title="Abrir filtros"
+                >
+                  <SlidersIcon size={22} />
+                </button>
+              </div>
             </div>
           </div>
         </header>
@@ -498,7 +506,7 @@ export default function HomeV2() {
                     </figure>
                     <div className="card-body gap-3 p-4 v2-card-body">
                       <div>
-                        <h2 className="card-title text-base leading-tight">{item.title}</h2>
+                        <h2 className="card-title text-base leading-tight">{toTitleCase(item.title)}</h2>
                         <p className="mt-1 text-sm text-base-content/70">{item.meta}</p>
                       </div>
                       <div className="text-xs font-medium text-base-content/60 v2-card-location">{formatLocation(item.location)}</div>
@@ -507,32 +515,43 @@ export default function HomeV2() {
                           <strong>{item.distanceKm} km</strong>
                         </span>
                         <div className="flex items-center gap-2">
-                          <a
-                            className="btn btn-sm btn-primary btn-square"
-                            href={getMapsUrl(item)}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label="Iniciar rota"
-                            title="Iniciar rota"
-                          >
-                            <MapPinLine size={16} weight="bold" />
-                          </a>
+                          <div className="tooltip tooltip-left" data-tip="Iniciar rota">
+                            <a
+                              className="btn btn-sm btn-primary btn-square"
+                              href={getMapsUrl(item)}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label="Iniciar rota"
+                              title="Iniciar rota"
+                            >
+                              <MapPinLine size={16} weight="bold" />
+                            </a>
+                          </div>
                           <div
-                            className="btn btn-sm btn-ghost"
-                            title={
+                            className="tooltip tooltip-left"
+                            data-tip={
                               weatherStatusByCoord[getCoordKey(item)] === "error"
                                 ? "Temperatura indisponível no momento"
                                 : "Temperatura atual"
                             }
                           >
-                            <Thermometer size={16} />
-                            <span>
-                              {weatherStatusByCoord[getCoordKey(item)] === "loading"
-                                ? "..."
-                                : weatherStatusByCoord[getCoordKey(item)] === "error"
-                                  ? "N/D"
-                                  : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
-                            </span>
+                            <div
+                              className="btn btn-sm btn-ghost"
+                              title={
+                                weatherStatusByCoord[getCoordKey(item)] === "error"
+                                  ? "Temperatura indisponível no momento"
+                                  : "Temperatura atual"
+                              }
+                            >
+                              <Thermometer size={16} />
+                              <span>
+                                {weatherStatusByCoord[getCoordKey(item)] === "loading"
+                                  ? "..."
+                                  : weatherStatusByCoord[getCoordKey(item)] === "error"
+                                    ? "N/D"
+                                    : `${weatherByCoord[getCoordKey(item)] ?? "--"}°C`}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>

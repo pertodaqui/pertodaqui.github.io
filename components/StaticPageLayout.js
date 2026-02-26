@@ -43,15 +43,20 @@ export default function StaticPageLayout({ children }) {
             </a>
           </div>
           <div className="navbar-end gap-2">
-            <button
-              type="button"
-              className="btn btn-ghost btn-circle"
-              onClick={toggleTheme}
-              aria-label={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
-              title={theme === "winter" ? "Modo escuro" : "Modo claro"}
+            <div
+              className="tooltip tooltip-bottom"
+              data-tip={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
             >
-              {theme === "winter" ? <Moon size={20} /> : <Sun size={20} />}
-            </button>
+              <button
+                type="button"
+                className="btn btn-ghost btn-circle"
+                onClick={toggleTheme}
+                aria-label={theme === "winter" ? "Ativar modo escuro" : "Ativar modo claro"}
+                title={theme === "winter" ? "Modo escuro" : "Modo claro"}
+              >
+                {theme === "winter" ? <Moon size={20} /> : <Sun size={20} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>

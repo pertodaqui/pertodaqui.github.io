@@ -32,8 +32,11 @@ export default function ParceirosPage() {
           <section className="partners-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title">
+
                 <SuitcaseRolling size={24} className="text-primary" />
-                <h2 className="card-title">Booking</h2>
+    Booking</h2>
                 <p className="text-sm text-base-content/75">
                   Apoia a camada de hospedagem com opções práticas para prolongar o passeio.
                 </p>
@@ -42,8 +45,11 @@ export default function ParceirosPage() {
 
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title"> 
+
                 <GlobeHemisphereWest size={24} className="text-primary" />
-                <h2 className="card-title">Viator</h2>
+    Viator</h2>
                 <p className="text-sm text-base-content/75">
                   Amplia o catálogo de experiências e passeios com maior cobertura de atividades.
                 </p>
@@ -52,9 +58,13 @@ export default function ParceirosPage() {
 
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title">
+   
                 <CloudSun size={24} className="text-primary" />
-                <h2 className="card-title">Fornecedor de temperatura</h2>
+    Open-meteo</h2>
                 <p className="text-sm text-base-content/75">
+
                   Entrega contexto climático para escolhas mais assertivas no dia a dia.
                 </p>
               </div>

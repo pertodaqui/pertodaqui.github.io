@@ -10,3 +10,16 @@ export function getRandomSubtitle() {
   const randomIndex = Math.floor(Math.random() * HERO_SUBTITLES.length);
   return HERO_SUBTITLES[randomIndex];
 }
+
+export function toTitleCase(value) {
+  if (typeof value !== "string") return "";
+  return value
+    .toLocaleLowerCase("pt-BR")
+    .split(/(\s+|-)/)
+    .map((part) => {
+      if (/^\s+$/.test(part) || part === "-") return part;
+      const [first = "", ...rest] = Array.from(part);
+      return first ? `${first.toLocaleUpperCase("pt-BR")}${rest.join("")}` : part;
+    })
+    .join("");
+}

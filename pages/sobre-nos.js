@@ -24,7 +24,7 @@ export default function SobreNosPage() {
           <section className="overflow-hidden bg-transparent">
             <div className="w-full p-6 md:p-8">
               <h1 className="font-bold" style={{ fontSize: "clamp(1.6rem, 4.8vw, 4.4rem)", lineHeight: 0.9 }}>
-                Descobertas locais, sem perder tempo
+                Descobertas locais
               </h1>
             </div>
           </section>
@@ -32,8 +32,12 @@ export default function SobreNosPage() {
           <section className="about-pillars-grid grid grid-cols-1 gap-4 md:grid-cols-3">
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title text-lg">
+
                 <MapPinArea size={24} className="text-primary" />
-                <h2 className="card-title text-lg">Foco no que está perto</h2>
+                  Foco no que está perto
+                </h2>
                 <p className="text-sm text-base-content/75">
                   Menos busca infinita, mais opções possíveis para agora, hoje ou neste fim de semana.
                 </p>
@@ -41,8 +45,11 @@ export default function SobreNosPage() {
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title text-lg">
+
                 <Compass size={24} className="text-primary" />
-                <h2 className="card-title text-lg">Decisão rápida</h2>
+    Decisão rápida</h2>
                 <p className="text-sm text-base-content/75">
                   Filtros claros, rota imediata e leitura simples para decidir em poucos cliques.
                 </p>
@@ -50,8 +57,11 @@ export default function SobreNosPage() {
             </article>
             <article className="rounded-box bg-transparent">
               <div className="card-body">
+
+                <h2 className="card-title text-lg">
+    
                 <Lightning size={24} className="text-primary" />
-                <h2 className="card-title text-lg">Contexto inteligente</h2>
+    Contexto inteligente</h2>
                 <p className="text-sm text-base-content/75">
                   Distância real e clima no local para priorizar o que faz sentido no momento.
                 </p>
